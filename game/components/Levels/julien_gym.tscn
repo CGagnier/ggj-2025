@@ -1,0 +1,79 @@
+[gd_scene load_steps=7 format=3 uid="uid://m3w4to81hs3r"]
+
+[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="1_5gt0j"]
+[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="2_06o78"]
+[ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="3_kjg5m"]
+
+[sub_resource type="Resource" id="Resource_jfwpl"]
+script = ExtResource("3_kjg5m")
+speed = 40.0
+gravity_scale = 0.0
+timeToDestroy = 3.0
+lock_rotation = true
+metadata/_custom_type_script = ExtResource("3_kjg5m")
+
+[sub_resource type="Resource" id="Resource_kjg5m"]
+script = ExtResource("3_kjg5m")
+speed = 40.0
+gravity_scale = 0.0
+timeToDestroy = 0.0
+lock_rotation = true
+metadata/_custom_type_script = ExtResource("3_kjg5m")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_06o78"]
+size = Vector2(20, 1153)
+
+[node name="JulienGym" type="Node2D"]
+
+[node name="CharacterBody2D" parent="." instance=ExtResource("2_06o78")]
+position = Vector2(489, 574)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(455, 466)
+
+[node name="Canon" parent="." instance=ExtResource("1_5gt0j")]
+position = Vector2(414, 616)
+ProjectileStats = Array[ExtResource("3_kjg5m")]([SubResource("Resource_jfwpl")])
+
+[node name="Canon2" parent="." instance=ExtResource("1_5gt0j")]
+position = Vector2(557, 616)
+scale = Vector2(-1, 1)
+ProjectileStats = Array[ExtResource("3_kjg5m")]([SubResource("Resource_kjg5m")])
+
+[node name="walls" type="Node" parent="."]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D"]
+position = Vector2(0, 313.5)
+shape = SubResource("RectangleShape2D_06o78")
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="walls"]
+position = Vector2(146, 544)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D5"]
+position = Vector2(0, 313.5)
+shape = SubResource("RectangleShape2D_06o78")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="walls"]
+position = Vector2(1144, 204)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D2"]
+position = Vector2(0, 118.5)
+shape = SubResource("RectangleShape2D_06o78")
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="walls"]
+position = Vector2(435, 11)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D3"]
+position = Vector2(9.53674e-07, -134.5)
+shape = SubResource("RectangleShape2D_06o78")
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="walls"]
+position = Vector2(439, 637)
+rotation = 1.5708
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D4"]
+position = Vector2(9.53674e-07, -134.5)
+shape = SubResource("RectangleShape2D_06o78")

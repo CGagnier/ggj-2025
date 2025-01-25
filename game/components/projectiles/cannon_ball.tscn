@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://b21cgmyqi61n0"]
+
+[ext_resource type="Texture2D" uid="uid://dqfc7x7iurb2u" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Cannon Ball.png" id="1_illji"]
+[ext_resource type="Script" uid="uid://dygii1x8yvvk" path="res://components/projectiles/cannon_ball.gd" id="1_rxsjn"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jfwpl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_illji")
+}],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_p5p5f"]
+radius = 5.0
+
+[node name="cannon_ball" type="RigidBody2D"]
+mass = 0.1
+lock_rotation = true
+script = ExtResource("1_rxsjn")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(-7, -5)
+sprite_frames = SubResource("SpriteFrames_jfwpl")
+animation = &"Idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_p5p5f")
