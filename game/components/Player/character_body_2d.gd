@@ -8,7 +8,6 @@ var max_scale = Vector2(4,4)
 
 @export var projectile: PackedScene
 var current_projectile: Bubble
-var current_scale = Vector2(1,1)
 
 @onready var animted_sprite = $AnimatedSprite2D
 
@@ -24,7 +23,6 @@ func _physics_process(delta: float) -> void:
 	if Input.is_action_pressed("blow"):
 		if current_projectile and current_projectile.global_scale < max_scale: 
 			current_projectile.global_scale *= 1.05
-			current_scale *= 1.05
 		
 	if Input.is_action_just_released("blow"):
 		print("and go")
@@ -57,4 +55,4 @@ func _create_bubble() -> void:
 func _let_go() -> void:
 	if current_projectile:
 		current_projectile.reparent(get_parent())
-		current_projectile.release(current_projectile.global_scale)
+		current_projectile.release()
