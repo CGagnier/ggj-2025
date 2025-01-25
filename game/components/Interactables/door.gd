@@ -1,8 +1,9 @@
 extends AnimatedSprite2D
 
 @export var is_exit = false
-var can_open = true
+@export var can_open = true
 var has_exited = false
+var is_open = false
 
 #const PLAYER_SCENE = preload("res://components/Player/player.tscn")
 @export var PLAYER_SCENE: PackedScene
@@ -10,7 +11,8 @@ var has_exited = false
 signal level_over
 
 func _ready():
-	get_tree().create_timer(1).timeout.connect(open)
+	if can_open:
+		get_tree().create_timer(1).timeout.connect(open)
 	animation_finished.connect(anim_finished)
 	
 func open():
@@ -22,15 +24,17 @@ func close():
 	play()
 	
 func anim_finished():
-	if animation == "open" and not is_exit:
-		var player = PLAYER_SCENE.instantiate()
-		get_tree().root.add_child(player)
-		player.global_position = global_position
-		get_tree().create_timer(1).timeout.connect(close)
+	if animation == "open":
+		if not is_exit:
+			var player = PLAYER_SCENE.instantiate()
+			get_tree().root.add_child(player)
+			player.global_position = global_position
+			get_tree().create_timer(1).timeout.connect(close)
+		else:
+			is_open = true
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if is_exit and not has_exited:
-		print('Exit!')
+	if is_open and is_exit and not has_exited:
 		#if body is player
 		has_exited = true
 		body.queue_free()
