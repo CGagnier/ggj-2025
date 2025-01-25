@@ -1,9 +1,10 @@
-[gd_scene load_steps=15 format=3 uid="uid://yqmpe7c351s5"]
+[gd_scene load_steps=17 format=3 uid="uid://yqmpe7c351s5"]
 
 [ext_resource type="Texture2D" uid="uid://lv0bwonsc48a" path="res://assets/Kings and Pigs/Sprites/11-Door/Idle.png" id="1_bwysc"]
 [ext_resource type="Texture2D" uid="uid://63ns6gtts34x" path="res://assets/Kings and Pigs/Sprites/11-Door/Closiong (46x56).png" id="1_tsqb8"]
 [ext_resource type="Texture2D" uid="uid://bagjx0klqdj7w" path="res://assets/Kings and Pigs/Sprites/11-Door/Opening (46x56).png" id="3_3su2g"]
 [ext_resource type="Script" uid="uid://soqdofyd2gxb" path="res://components/Interactables/door.gd" id="4_3su2g"]
+[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="5_lqepo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lqepo"]
 atlas = ExtResource("1_tsqb8")
@@ -55,7 +56,7 @@ animations = [{
 }],
 "loop": false,
 "name": &"close",
-"speed": 5.0
+"speed": 15.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -83,11 +84,26 @@ animations = [{
 }],
 "loop": false,
 "name": &"open",
-"speed": 5.0
+"speed": 15.0
 }]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3su2g"]
+size = Vector2(27, 33)
 
 [node name="Door" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_tsqb8")
-animation = &"open"
+animation = &"close"
 autoplay = "default"
 script = ExtResource("4_3su2g")
+PLAYER_SCENE = ExtResource("5_lqepo")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(0, 2)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, 9.5)
+shape = SubResource("RectangleShape2D_3su2g")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
