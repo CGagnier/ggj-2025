@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_e3e6p"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_btb7y"]
-[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="3_nqk8c"]
+[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/player/player.tscn" id="3_nqk8c"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -23,5 +23,4 @@ position = Vector2(86, 293)
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("3_nqk8c")]
 position = Vector2(224, 304)
-collision_layer = 2
 collision_mask = 5

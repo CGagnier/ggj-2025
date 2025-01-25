@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=4 uid="uid://jmfximqcgfek"]
+[gd_scene load_steps=8 format=4 uid="uid://jmfximqcgfek"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_4n7ef"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="3_85ou3"]
 [ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="3_oncqk"]
 [ext_resource type="PackedScene" uid="uid://dkxwdswxo0la4" path="res://components/Enemy/spikes.tscn" id="4_gtapc"]
+[ext_resource type="PackedScene" uid="uid://bgms46rid1dx0" path="res://components/Enemy/saw_with_chain.tscn" id="4_mujus"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_85ou3"]
 
@@ -31,6 +32,9 @@ position = Vector2(86, 293)
 position = Vector2(558, 293)
 flip_h = true
 is_exit = true
+
+[node name="SawWithChain" parent="." instance=ExtResource("4_mujus")]
+position = Vector2(140, 55)
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 position = Vector2(239, 42)
