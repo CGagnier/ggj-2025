@@ -1,0 +1,37 @@
+[gd_scene load_steps=6 format=3 uid="uid://dkxwdswxo0la4"]
+
+[ext_resource type="Script" uid="uid://b7u7bky6vit8q" path="res://components/Enemy/obstacle.gd" id="1_ga4m2"]
+[ext_resource type="Texture2D" uid="uid://dpi8y57xhkj7o" path="res://assets/Pixel Adventure/spikes_Idle.png" id="2_yvhx4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gtapc"]
+atlas = ExtResource("2_yvhx4")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mujus"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gtapc")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oncqk"]
+size = Vector2(15, 6)
+
+[node name="Spikes" type="Area2D"]
+collision_layer = 0
+collision_mask = 10
+script = ExtResource("1_ga4m2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_mujus")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -3)
+shape = SubResource("RectangleShape2D_oncqk")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

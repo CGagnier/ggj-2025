@@ -35,7 +35,7 @@ func _enter_state(new_state):
 	if new_state == state.landing:
 		animated_sprite.play("landing")
 	if new_state == state.die:
-		_dying()
+		animated_sprite.play("die")
 
 # The good, the bad and the ugly
 func _try_change_state(new_state):
@@ -66,7 +66,7 @@ func _leave_state(old_state):
 func _process_falling():
 	if is_on_floor():
 		if will_die:
-			_enter_state(state.die)
+			_dying()
 		else:
 			_enter_state(state.landing)
 	
@@ -93,7 +93,8 @@ func _physics_process(delta: float) -> void:
 		if velocity.y > 2000:
 			will_die = true
 		# Not falling in the context of a jump
-		_try_change_state(state.falling)
+		if alive:
+			_try_change_state(state.falling)
 	
 	if alive:
 		# Handle jump.
@@ -130,8 +131,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		died.emit()
 
 func _dying() -> void:
+	_enter_state(state.die)
 	alive = false
 	shooter.queue_free()
-	animated_sprite.play("die")
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)

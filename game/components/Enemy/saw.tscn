@@ -1,0 +1,87 @@
+[gd_scene load_steps=13 format=3 uid="uid://cdm76elufo5r"]
+
+[ext_resource type="Script" uid="uid://b7u7bky6vit8q" path="res://components/Enemy/obstacle.gd" id="1_4q2bq"]
+[ext_resource type="Texture2D" uid="uid://dme7lkj7qduva" path="res://assets/Pixel Adventure/Saw/On (38x38).png" id="2_cgkwy"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mujus"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(0, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v7gal"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(38, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hdjlf"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(76, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_04pcc"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(114, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpywj"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(152, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfdn7"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(190, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kabjs"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(228, 0, 38, 38)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0l86e"]
+atlas = ExtResource("2_cgkwy")
+region = Rect2(266, 0, 38, 38)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qclrt"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mujus")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v7gal")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hdjlf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_04pcc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lpywj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfdn7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kabjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0l86e")
+}],
+"loop": true,
+"name": &"spin",
+"speed": 30.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gtapc"]
+radius = 18.0
+
+[node name="Saw" type="Area2D"]
+collision_layer = 0
+collision_mask = 10
+script = ExtResource("1_4q2bq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_qclrt")
+animation = &"spin"
+autoplay = "spin"
+frame_progress = 0.0228593
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_gtapc")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

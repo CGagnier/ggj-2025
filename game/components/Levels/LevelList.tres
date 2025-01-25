@@ -1,9 +1,9 @@
 [gd_resource type="Resource" script_class="LevelList" load_steps=5 format=3 uid="uid://caphyx5oq4h4f"]
 
 [ext_resource type="PackedScene" uid="uid://jmfximqcgfek" path="res://components/Levels/GymLevel.tscn" id="1_ht8nd"]
-[ext_resource type="Script" path="res://components/Levels/level_list.gd" id="1_n4508"]
+[ext_resource type="Script" uid="uid://chd48lfhqi25b" path="res://components/Levels/level_list.gd" id="1_n4508"]
 [ext_resource type="PackedScene" uid="uid://crsf88e0kf7jp" path="res://components/Levels/Chrizlevel.tscn" id="2_tdpob"]
-[ext_resource type="PackedScene" path="res://components/Levels/TwoPigs.tscn" id="3_tdpob"]
+[ext_resource type="PackedScene" uid="uid://6qcm3xs30rvq" path="res://components/Levels/TwoPigs.tscn" id="3_tdpob"]
 
 [resource]
 script = ExtResource("1_n4508")

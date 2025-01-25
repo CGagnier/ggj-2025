@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=4 uid="uid://bktgnpvg3hq40"]
+[gd_scene load_steps=3 format=4 uid="uid://bktgnpvg3hq40"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_n7u5k"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_b2nmi"]
-[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="3_1ywg5"]
-[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/player/character_body_2d.gd" id="4_b2nmi"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -22,16 +20,3 @@ tile_set = ExtResource("1_n7u5k")
 [node name="Door" parent="." instance=ExtResource("2_b2nmi")]
 position = Vector2(86, 293)
 animation = &"open"
-
-[node name="DoorExit" parent="." instance=ExtResource("2_b2nmi")]
-position = Vector2(83, 100)
-animation = &"open"
-
-[node name="CharacterBody2D" parent="." instance=ExtResource("3_1ywg5")]
-position = Vector2(224, 304)
-scale = Vector2(1, 1)
-collision_mask = 5
-script = ExtResource("4_b2nmi")
-SPEED = null
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
