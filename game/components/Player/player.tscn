@@ -1,11 +1,8 @@
 [gd_scene load_steps=37 format=3 uid="uid://bhfifqorg0fi4"]
 
-[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/Player/character_body_2d.gd" id="1_ph1f6"]
-[ext_resource type="PackedScene" uid="uid://dxljrfefydguf" path="res://components/projectiles/bubble_shooter.tscn" id="3_46jg3"]
+[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/player/character_body_2d.gd" id="1_ph1f6"]
+[ext_resource type="PackedScene" path="res://components/projectiles/bubble_shooter.tscn" id="3_46jg3"]
 [ext_resource type="Texture2D" uid="uid://bwj4ssjob1kc0" path="res://assets/Kings and Pigs/Sprites/Pig-Sheet.png" id="3_mpawu"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_kfjf5"]
-radius = 10.198
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
 atlas = ExtResource("3_mpawu")
@@ -42,6 +39,10 @@ region = Rect2(160, 400, 80, 80)
 [sub_resource type="AtlasTexture" id="AtlasTexture_jq2sk"]
 atlas = ExtResource("3_mpawu")
 region = Rect2(240, 400, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ph1f6"]
+atlas = ExtResource("3_mpawu")
+region = Rect2(80, 160, 80, 80)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_kek77"]
 atlas = ExtResource("3_mpawu")
@@ -99,11 +100,7 @@ region = Rect2(800, 0, 80, 80)
 atlas = ExtResource("3_mpawu")
 region = Rect2(0, 160, 80, 80)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_d13ii"]
-atlas = ExtResource("3_mpawu")
-region = Rect2(80, 160, 80, 80)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_1u8w0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa6cj"]
 atlas = ExtResource("3_mpawu")
 region = Rect2(160, 160, 80, 80)
 
@@ -172,6 +169,14 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_ph1f6")
+}],
+"loop": true,
+"name": &"falling",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_kek77")
 }, {
 "duration": 1.0,
@@ -222,15 +227,17 @@ animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_ryguw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_d13ii")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_1u8w0")
 }],
 "loop": false,
 "name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa6cj")
+}],
+"loop": false,
+"name": &"landing",
 "speed": 5.0
 }, {
 "frames": [{
@@ -257,17 +264,23 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ph1f6"]
+size = Vector2(12, 15)
+
 [node name="CharacterBody2D" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 17
 script = ExtResource("1_ph1f6")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_kfjf5")
-
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_seu75")
-animation = &"idle"
-frame_progress = 0.422749
+animation = &"run"
+frame_progress = 0.774801
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_ph1f6")
 
 [node name="Shooter" parent="." instance=ExtResource("3_46jg3")]
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
