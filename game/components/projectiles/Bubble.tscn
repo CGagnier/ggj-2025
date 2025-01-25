@@ -31,10 +31,10 @@ position = Vector2(-18, -18)
 scale = Vector2(0.793521, 0.793521)
 collision_layer = 0
 collision_mask = 2
-monitoring = false
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPad"]
 position = Vector2(22.6837, 12.0558)
 shape = SubResource("RectangleShape2D_2rhu5")
 
 [connection signal="body_entered" from="JumpPad" to="." method="_on_jump_pad_body_entered"]
+[connection signal="body_exited" from="JumpPad" to="." method="_on_jump_pad_body_exited"]
