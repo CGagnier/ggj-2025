@@ -1,29 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://dr7ofg84ogi3m"]
+[gd_scene load_steps=3 format=3 uid="uid://dr7ofg84ogi3m"]
 
-[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/Player/character_body_2d.gd" id="1_rvxml"]
-[ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="2_ts82d"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_67ejg"]
-size = Vector2(60, 60)
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_kfjf5"]
-radius = 24.0208
+[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/player/player.tscn" id="1_ig7tw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vb4hs"]
 size = Vector2(20, 1153)
 
 [node name="Node2D" type="Node2D"]
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+[node name="CharacterBody2D" parent="." instance=ExtResource("1_ig7tw")]
 position = Vector2(100, 168)
-script = ExtResource("1_rvxml")
-projectile = ExtResource("2_ts82d")
-
-[node name="Sprite2D" type="Sprite2D" parent="CharacterBody2D"]
-texture = SubResource("PlaceholderTexture2D_67ejg")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-shape = SubResource("CircleShape2D_kfjf5")
 
 [node name="Projectiles" type="Node" parent="."]
 
@@ -51,7 +36,7 @@ position = Vector2(9.53674e-07, -134.5)
 shape = SubResource("RectangleShape2D_vb4hs")
 
 [node name="StaticBody2D4" type="StaticBody2D" parent="walls"]
-position = Vector2(439, 637)
+position = Vector2(439, 366)
 rotation = 1.5708
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="walls/StaticBody2D4"]
