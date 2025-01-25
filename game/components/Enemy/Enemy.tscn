@@ -161,7 +161,7 @@ collision_mask = 3
 sprite_frames = SubResource("SpriteFrames_3ojgh")
 animation = &"walk"
 autoplay = "idle"
-frame_progress = 0.760785
+frame_progress = 0.744859
 centered = false
 offset = Vector2(-32, -32)
 

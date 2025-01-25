@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=4 uid="uid://jmfximqcgfek"]
+[gd_scene load_steps=7 format=4 uid="uid://jmfximqcgfek"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_4n7ef"]
-[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="2_lmx1q"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="3_85ou3"]
+[ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="3_oncqk"]
+[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="4_oncqk"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_85ou3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gtapc"]
+size = Vector2(21, 16)
 
 [node name="Node2D" type="Node2D"]
 
@@ -21,7 +27,30 @@ tile_set = ExtResource("1_4n7ef")
 [node name="Door" parent="." instance=ExtResource("3_85ou3")]
 position = Vector2(86, 293)
 
-[node name="CharacterBody2D" parent="." instance=ExtResource("2_lmx1q")]
-position = Vector2(224, 304)
-collision_layer = 2
-collision_mask = 5
+[node name="CharacterBody2D" parent="." instance=ExtResource("4_oncqk")]
+position = Vector2(197, 229)
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(239, 42)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("CircleShape2D_85ou3")
+
+[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="StaticBody2D"]
+node_a = NodePath("..")
+node_b = NodePath("../../RigidBody2D")
+bias = 0.9
+length = 30.0
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(239, 93)
+mass = 0.4
+contact_monitor = true
+constant_force = Vector2(4, 20)
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+texture = ExtResource("3_oncqk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_gtapc")

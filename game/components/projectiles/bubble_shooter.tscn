@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxljrfefydguf"]
+
+[ext_resource type="Script" uid="uid://dvcokb01jkpuk" path="res://components/projectiles/bubble_shooter.gd" id="1_oy2e8"]
+[ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="2_bl0qu"]
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_oy2e8")
+ProjectileScene = ExtResource("2_bl0qu")

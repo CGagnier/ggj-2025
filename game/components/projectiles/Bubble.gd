@@ -5,10 +5,11 @@ class_name Bubble
 @export var speed = 2
 
 var launched = false
+var dir = Vector2.RIGHT
 
 func _physics_process(delta: float) -> void:
 	if launched:
-		var collision = move_and_collide(Vector2(1,0) *  speed)
+		var collision = move_and_collide(dir *  speed)
 		if collision:
 			if collision.get_collider() is Bubble:
 				var scene:PackedScene = load(scene_file_path)
@@ -33,13 +34,15 @@ func _physics_process(delta: float) -> void:
 				collision_tween.set_parallel()
 				collision_tween.tween_property(new_instance, "global_position", target_position, 0.4).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_ELASTIC)
 				collision_tween.tween_property(new_instance, "scale", Vector2(1,1) * total_length, 0.3).set_trans(Tween.TRANS_ELASTIC)
+			else:
+				speed = -speed
 				
 func release() -> void:
 	launched = true
+	print(dir)
 	$JumpPad.monitoring = true
 
 func _on_jump_pad_body_entered(body: Node2D) -> void:
-	print(body)
 	if body.velocity.y > 0:
 		speed = 0
 		var tween = get_tree().create_tween()
