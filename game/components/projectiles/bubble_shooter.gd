@@ -7,6 +7,8 @@ extends Node2D
 
 var current_projectile: Node2D = null
 
+
+
 var shoot_dirs = ["shoot_left", "shoot_up", "shoot_right", "shoot_down"]
 
 var input_to_dir: Dictionary[String, Vector2] = {

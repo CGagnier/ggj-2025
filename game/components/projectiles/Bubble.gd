@@ -39,7 +39,6 @@ func _physics_process(delta: float) -> void:
 				
 func release() -> void:
 	launched = true
-	print(dir)
 	$JumpPad.monitoring = true
 
 func _on_jump_pad_body_entered(body: Node2D) -> void:
