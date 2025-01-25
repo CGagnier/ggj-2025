@@ -10,6 +10,11 @@ var max_scale = Vector2(4,4)
 var current_projectile: Bubble
 var current_scale = Vector2(1,1)
 
+@onready var animted_sprite = $AnimatedSprite2D
+
+func _ready() -> void:
+	animted_sprite.play("idle")
+
 func _physics_process(delta: float) -> void:
 	
 	if Input.is_action_just_pressed("blow"):
