@@ -2,7 +2,7 @@
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_n7u5k"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_b2nmi"]
-[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/player/player.tscn" id="3_1ywg5"]
+[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="3_1ywg5"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -20,12 +20,15 @@ tile_set = ExtResource("1_n7u5k")
 
 [node name="Door" parent="." instance=ExtResource("2_b2nmi")]
 position = Vector2(86, 293)
+animation = &"open"
 
 [node name="DoorExit" parent="." instance=ExtResource("2_b2nmi")]
 position = Vector2(83, 100)
+animation = &"open"
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("3_1ywg5")]
 position = Vector2(224, 304)
+scale = Vector2(1, 1)
 collision_mask = 5
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]

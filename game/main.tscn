@@ -9,6 +9,7 @@ size = Vector2(20, 1153)
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_ig7tw")]
 position = Vector2(100, 168)
+scale = Vector2(1, 1)
 
 [node name="Projectiles" type="Node" parent="."]
 

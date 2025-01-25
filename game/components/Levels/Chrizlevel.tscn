@@ -26,6 +26,7 @@ position = Vector2(83, 100)
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("3_wmygi")]
 position = Vector2(224, 304)
+scale = Vector2(1, 1)
 collision_mask = 5
 
 [node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]

@@ -26,10 +26,7 @@ func close():
 func anim_finished():
 	if animation == "open":
 		if not is_exit:
-			var player = PLAYER_SCENE.instantiate()
-			get_tree().root.add_child(player)
-			player.global_position = global_position
-			get_tree().create_timer(1).timeout.connect(close)
+			spawn()
 		else:
 			is_open = true
 
@@ -39,3 +36,10 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		has_exited = true
 		body.queue_free()
 		LevelManager.go_to_next_level.call_deferred()
+
+func spawn() -> void:
+	var player: Player = PLAYER_SCENE.instantiate()
+	get_tree().root.add_child(player)
+	player.global_position = global_position
+	player.connect("died",spawn)
+	get_tree().create_timer(1).timeout.connect(close)
