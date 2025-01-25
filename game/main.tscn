@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dr7ofg84ogi3m"]
 
-[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/player/character_body_2d.gd" id="1_rvxml"]
+[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/Player/character_body_2d.gd" id="1_rvxml"]
 [ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="2_ts82d"]
 
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_67ejg"]
