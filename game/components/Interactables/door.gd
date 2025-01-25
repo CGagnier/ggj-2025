@@ -16,12 +16,10 @@ func _ready():
 	animation_finished.connect(anim_finished)
 	
 func open():
-	animation = "open"
-	play()
+	play("open")
 	
 func close():
-	animation = "close"
-	play()
+	play("close")
 	
 func anim_finished():
 	if animation == "open":
@@ -41,5 +39,5 @@ func spawn() -> void:
 	var player: Player = PLAYER_SCENE.instantiate()
 	get_tree().root.add_child(player)
 	player.global_position = global_position
-	player.connect("died",spawn)
+	player.connect("died",open)
 	get_tree().create_timer(1).timeout.connect(close)

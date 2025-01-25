@@ -1,8 +1,7 @@
-[gd_scene load_steps=4 format=4 uid="uid://crsf88e0kf7jp"]
+[gd_scene load_steps=3 format=4 uid="uid://crsf88e0kf7jp"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_heexr"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_4eexc"]
-[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="3_wmygi"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -23,13 +22,3 @@ position = Vector2(86, 293)
 
 [node name="DoorExit" parent="." instance=ExtResource("2_4eexc")]
 position = Vector2(83, 100)
-
-[node name="CharacterBody2D" parent="." instance=ExtResource("3_wmygi")]
-position = Vector2(224, 304)
-scale = Vector2(1, 1)
-collision_mask = 5
-
-[node name="Camera2D" type="Camera2D" parent="CharacterBody2D"]
-position_smoothing_enabled = true
-position_smoothing_speed = 2.0
-drag_vertical_enabled = true

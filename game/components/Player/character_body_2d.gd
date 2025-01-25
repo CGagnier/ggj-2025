@@ -14,6 +14,7 @@ enum state {idle, run, jump, falling, landing, hit, die}
 var current_state = null
 
 @onready var animated_sprite = $AnimatedSprite2D
+@onready var shooter = $Shooter
 
 #region Statess
 func _enter_state(new_state):
@@ -113,7 +114,7 @@ func _physics_process(delta: float) -> void:
 				_try_change_state(state.run)
 			else:
 				_try_change_state(state.idle)
-			
+
 		_process_states()
 		move_and_slide()
 
@@ -127,4 +128,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 func _dying() -> void:
 	alive = false
+	shooter.queue_free()
 	animated_sprite.play("die")
+	var _tween = get_tree().create_tween()
+	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)
