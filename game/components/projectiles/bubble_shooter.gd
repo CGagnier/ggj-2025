@@ -7,8 +7,6 @@ extends Node2D
 
 var current_projectile: Node2D = null
 
-
-
 var shoot_dirs = ["shoot_left", "shoot_up", "shoot_right", "shoot_down"]
 
 var input_to_dir: Dictionary[String, Vector2] = {
@@ -51,6 +49,7 @@ func _let_go() -> void:
 	if current_projectile:
 		#todo: use current dir
 		current_projectile.dir = current_shoot_dir
+		current_projectile.inflate_percent = current_projectile.scale.length() / max_scale.length()
 		current_projectile.reparent(get_parent().get_parent())
 		current_projectile.release()
 		current_projectile = null
