@@ -97,7 +97,7 @@ func _delay_die() -> void:
 	if _should_die_after_delay or not _can_die: return #no-op if already scheduled to die
 	_speed_multiplier = 0
 	_should_die_after_delay = true
-	await get_tree().create_timer(.5).timeout
+	await get_tree().create_timer(disappear_time).timeout
 	
 	# Possible to be overriden by absorbing an entity
 	if _should_die_after_delay:

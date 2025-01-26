@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://bqfspwrggxekc" path="res://components/projectiles/Bubble.gd" id="1_07ejg"]
 [ext_resource type="Texture2D" uid="uid://xuldn814bgbq" path="res://components/projectiles/bubble.png" id="2_03aeg"]
 [ext_resource type="AudioStream" uid="uid://vvvshv7crppb" path="res://assets/Sounds/Boing.wav" id="3_03aeg"]
-[ext_resource type="PackedScene" uid="uid://bamt508k1od6e" path="res://components/projectiles/bubble_particules.tscn" id="4_64jfj"]
+[ext_resource type="PackedScene" path="res://components/projectiles/bubble_particules.tscn" id="4_64jfj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h17rn"]
 radius = 13.0
@@ -21,10 +21,8 @@ z_index = 1
 collision_layer = 8
 collision_mask = 29
 script = ExtResource("1_07ejg")
-sine_intensity = 10
 start_speed = 1.8
 final_speed = 2.0
-disappear_time = 2.0
 can_bounce_on_wall = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
