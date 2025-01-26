@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dxljrfefydguf" path="res://components/projectiles/bubble_shooter.tscn" id="3_46jg3"]
 [ext_resource type="Texture2D" uid="uid://bwj4ssjob1kc0" path="res://assets/Kings and Pigs/Sprites/Pig-Sheet.png" id="3_mpawu"]
 [ext_resource type="PackedScene" uid="uid://bu4muuwlf1gse" path="res://components/Player/bubble_indicator.tscn" id="4_hx8dc"]
-[ext_resource type="Script" uid="uid://dgst14xt4bq83" path="res://components/Player/player_camera.gd" id="5_o667d"]
+[ext_resource type="PackedScene" uid="uid://byk4tk4nfjdke" path="res://components/Player/player_camera.tscn" id="5_o667d"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
 atlas = ExtResource("3_mpawu")
@@ -303,12 +303,6 @@ position = Vector2(0, 5)
 shape = SubResource("RectangleShape2D_hx8dc")
 debug_color = Color(0.97845, 0, 0.396087, 0.42)
 
-[node name="PlayerCamera" type="Camera2D" parent="."]
-limit_left = 0
-limit_top = -500
-limit_right = 1000
-limit_bottom = 350
-editor_draw_limits = true
-script = ExtResource("5_o667d")
+[node name="PlayerCamera" parent="." instance=ExtResource("5_o667d")]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]
