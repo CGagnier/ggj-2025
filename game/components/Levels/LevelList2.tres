@@ -1,16 +1,9 @@
-[gd_resource type="Resource" script_class="LevelList" load_steps=9 format=3 uid="uid://lj2cpxb70bjx"]
+[gd_resource type="Resource" script_class="LevelList" load_steps=7 format=3 uid="uid://lj2cpxb70bjx"]
 
-[ext_resource type="PackedScene" uid="uid://c70rd2o0qifrn" path="res://components/Levels/complete/FinalLevel.tscn" id="1_b4rfn"]
 [ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="1_chrsp"]
 [ext_resource type="Script" uid="uid://chd48lfhqi25b" path="res://components/Levels/level_list.gd" id="2_1ueer"]
 [ext_resource type="PackedScene" uid="uid://c5i20161r656k" path="res://components/Levels/tests/ThatsCrateCanon.tscn" id="2_b4rfn"]
 [ext_resource type="PackedScene" uid="uid://n83nfsctgnnu" path="res://components/Levels/tests/GymLevel.tscn" id="2_e7iou"]
-
-[sub_resource type="Resource" id="Resource_srl04"]
-script = ExtResource("1_chrsp")
-name = "Charles-Olivier Péloquin"
-level = ExtResource("1_b4rfn")
-metadata/_custom_type_script = ExtResource("1_chrsp")
 
 [sub_resource type="Resource" id="Resource_fwqq5"]
 script = ExtResource("1_chrsp")
@@ -27,5 +20,4 @@ metadata/_custom_type_script = ExtResource("1_chrsp")
 [resource]
 script = ExtResource("2_1ueer")
 levels = Array[ExtResource("1_chrsp")]([SubResource("Resource_fwqq5"), SubResource("Resource_jstjl")])
-final_level = SubResource("Resource_srl04")
 metadata/_custom_type_script = ExtResource("2_1ueer")

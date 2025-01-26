@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://cxs76wj0ul56o"]
+
+[ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="1_xh8ea"]
+
+[node name="EnvironmentBubble" instance=ExtResource("1_xh8ea")]
+collision_mask = 28
+is_static = true

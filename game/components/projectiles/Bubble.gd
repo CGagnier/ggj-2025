@@ -33,6 +33,10 @@ var _should_die_after_delay = false
 @onready var raycast_down_left = $RaycastDownLeft
 @onready var raycast_down_right = $RaycastDownRight
 
+func _ready():
+	if is_static:
+		set_collision_mask_value(1, 0)
+
 func _physics_process(delta: float) -> void:
 	if should_bounce_player():
 		bounce_player()
@@ -55,8 +59,11 @@ func _physics_process(delta: float) -> void:
 				if not absorbed_entity:
 					_handle_interactable_collision.call_deferred(collided as Interactable)
 			else:
-				# re-enable to bounce
+				# re-enable to bounce, this code handles killing the bubble if it contacts something
 				#dir = dir.bounce(collision.get_normal())
+				
+				if is_static: return # Don't kill environment bubbles
+				
 				if collided is not Player:
 					if (collision.get_normal() * dir).length() > 0:
 						_delay_die()
@@ -134,6 +141,7 @@ func _handle_interactable_collision(interactable: Interactable):
 
 func _on_jump_pad_body_entered(body: Node2D) -> void:
 	if body is Player:
+		player = body as Player
 		_player_in_bubble = true
 
 func _on_jump_pad_body_exited(body: Node2D) -> void:
@@ -155,6 +163,8 @@ func _release_item():
 	
 func should_bounce_player():
 	if player and player.recent_velocity.y > _player_velocity_to_bounce and _player_in_bubble:
+		if is_static:
+			return true # Static bubbles always bounce
 		return raycast_down_left.is_colliding() and raycast_down_right.is_colliding()
 	
 	return false
@@ -168,11 +178,15 @@ func bounce_player():
 	#tween.tween_property(self, "scale", scale * Vector2(1, 0.9), 0.05).set_trans(Tween.TRANS_BOUNCE)
 	#tween.tween_property(self, "scale", base_scale, 0.05).set_trans(Tween.TRANS_CUBIC)
 	var start_position_y = $Sprite2D.position.y
-	tween.tween_property($Sprite2D, "position:y", start_position_y + 1, 0.05).set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property($Sprite2D, "position:y", start_position_y + 2, 0.05).set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property($Sprite2D, "position:y", 0, 0.05).set_trans(Tween.TRANS_BOUNCE)
+	tween.set_parallel()
 	var scale_modifier = scale.length()
 	var jump_force = -bounce_force * scale_modifier #todo: do * bounce dir
 	tween.tween_property(player, "velocity:y", jump_force, 0.01).set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_callback(queue_free)
+	
+	if not is_static:
+		tween.tween_callback(queue_free)
 
 func _notification(what):
 	match what:
@@ -182,6 +196,7 @@ func _notification(what):
 
 func _on_jump_pad_area_entered(area: Area2D) -> void:
 	if area.owner is Player:
+		player = area.owner
 		_player_in_bubble = true
 
 func _on_jump_pad_area_exited(area: Area2D) -> void:

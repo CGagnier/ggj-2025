@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=4 uid="uid://n83nfsctgnnu"]
+[gd_scene load_steps=6 format=4 uid="uid://n83nfsctgnnu"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_hg2y5"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_xok23"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="3_n2fsx"]
-[ext_resource type="PackedScene" path="res://components/Interactables/key.tscn" id="4_efoxy"]
+[ext_resource type="PackedScene" uid="uid://bsp3e6nv7y1s8" path="res://components/Interactables/key.tscn" id="4_efoxy"]
+[ext_resource type="PackedScene" uid="uid://cxs76wj0ul56o" path="res://components/Interactables/environment_bubble.tscn" id="5_xok23"]
 
 [node name="Node2D2" type="Node2D"]
 
@@ -36,3 +37,19 @@ position = Vector2(423, 308)
 
 [node name="Crate3" parent="." instance=ExtResource("3_n2fsx")]
 position = Vector2(423, 205)
+
+[node name="EnvironmentBubble" parent="." instance=ExtResource("5_xok23")]
+position = Vector2(589, 317)
+scale = Vector2(2.60805, 2.60805)
+
+[node name="EnvironmentBubble2" parent="." instance=ExtResource("5_xok23")]
+position = Vector2(151, 151)
+scale = Vector2(2.60805, 2.60805)
+
+[node name="EnvironmentBubble3" parent="." instance=ExtResource("5_xok23")]
+position = Vector2(327, 98)
+scale = Vector2(2.60805, 2.60805)
+
+[node name="EnvironmentBubble4" parent="." instance=ExtResource("5_xok23")]
+position = Vector2(229, 319)
+scale = Vector2(2.60805, 2.60805)

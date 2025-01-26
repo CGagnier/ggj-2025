@@ -142,13 +142,13 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite.animation == "landing":
 		_enter_state(state.idle)
 	if animated_sprite.animation == "die":
-		print("died animation completed")
 		died.emit()
 
 func _dying() -> void:
 	_enter_state(state.die)
 	alive = false
 	collisionshape.set_deferred("disabled", true)
+	$BubbleIndicator.hide()
 	if shooter:
 		shooter.queue_free()
 	var _tween = get_tree().create_tween()
