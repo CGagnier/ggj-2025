@@ -1,11 +1,14 @@
 extends Node2D
 
+signal bubble_popped
+
 @export var ProjectileScene: PackedScene
 @export var start_scale = Vector2(0.5, 0.5)
 @export var max_scale: Vector2 = Vector2(2,2)
 @export var growth_rate := 1.0
 @export var indicator: BubbleIndicator
-
+@export var time_before_bubble_pop := 0.5
+## How long you can hold a 'full' bubble before it pops
 @export var time_to_full_bubble := 1.0
 
 var _grow_time := 0.0
@@ -15,8 +18,9 @@ var current_projectile: Node2D = null
 const shoot_dirs = ["shoot_left", "shoot_up", "shoot_right", "shoot_down"]
 
 var last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
-
 var _current_bullets = 3
+var _time_with_full_bubble := 0.0
+var _can_create_bubble = true
 
 var num_bullets:
 	set(val):
@@ -86,17 +90,18 @@ func _physics_process(delta: float) -> void:
 			if current_projectile and _grow_time <= time_to_full_bubble:
 				current_projectile.global_scale = lerp(start_scale, max_scale, _grow_time / time_to_full_bubble)
 				#current_projectile.global_scale += Vector2.ONE * 0.01
-			
-			if current_projectile and current_projectile.scale < max_scale:
-				#current_projectile.global_scale *= (1 + growth_rate * delta)
 				break
+			
+			# Detect holding bubble too long
+			if current_projectile and _grow_time >= time_to_full_bubble:
+				_time_with_full_bubble += delta
+				if _time_with_full_bubble >= time_before_bubble_pop:
+					pop_bubble()
+					
 			
 			if not current_projectile and num_bullets > 0:
 				# Player holding down after projectiel died
 				_create_bubble()
-				
-			
-			
 	
 	for shoot_dir in shoot_dirs:
 		if input_to_dir.get(shoot_dir) == current_shoot_dir and Input.is_action_just_released(shoot_dir):
@@ -114,20 +119,32 @@ func _physics_process(delta: float) -> void:
 
 
 func _create_bubble() -> void:
-	var _new_bubble: Bubble = ProjectileScene.instantiate()
-	_new_bubble.scale = start_scale
-	current_projectile = _new_bubble
-	current_projectile.player = get_parent()
-	current_projectile.on_disappear.connect(func(): if indicator: num_bullets += 1, CONNECT_ONE_SHOT)
-	_grow_time = 0.0
-	add_child(current_projectile)
-	num_bullets -= 1
+	if _can_create_bubble:
+		var _new_bubble: Bubble = ProjectileScene.instantiate()
+		_new_bubble.scale = start_scale
+		current_projectile = _new_bubble
+		current_projectile.player = get_parent()
+		current_projectile.on_disappear.connect(func(): if indicator: num_bullets += 1, CONNECT_ONE_SHOT)
+		_grow_time = 0.0
+		add_child(current_projectile)
+		num_bullets -= 1
 
 func _let_go() -> void:
 	if current_projectile:
+		_time_with_full_bubble = 0.0
 		#todo: use current dir
 		current_projectile.dir = current_shoot_dir
 		current_projectile.inflate_percent = current_projectile.scale.length() / max_scale.length()
 		current_projectile.reparent(get_parent().get_parent())
 		current_projectile.release()
 		current_projectile = null
+
+func pop_bubble() -> void:
+	_time_with_full_bubble = 0.0
+	bubble_popped.emit()
+	_can_create_bubble = false
+	get_tree().create_timer(0.5).timeout.connect(func(): _can_create_bubble=true)
+	# todo: play pop animation
+	current_projectile.queue_free()
+	$PopAudioPlayer.play()
+	current_projectile = null

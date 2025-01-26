@@ -8,8 +8,9 @@ signal on_disappear
 @export var bounce_force = 250
 
 @export_category("Dynamic Bubbles")
-@export var start_speed = 5
-@export var final_speed = 4
+@export var start_speed := 5.0
+@export var final_speed := 4.0
+@export var disappear_time: = 1.5
 
 var speed = 2
 var launched = false
@@ -72,7 +73,7 @@ func _delay_die() -> void:
 	if _should_die_after_delay or not _can_die: return #no-op if already scheduled to die
 	_speed_multiplier = 0
 	_should_die_after_delay = true
-	await get_tree().create_timer(.5).timeout
+	await get_tree().create_timer(disappear_time).timeout
 	
 	# Possible to be overriden by absorbing an entity
 	if _should_die_after_delay:

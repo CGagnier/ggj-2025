@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://dgp8apr7bquat"]
+
+[ext_resource type="Texture2D" uid="uid://x5v5euaylli2" path="res://assets/Kings and Pigs/Sprites/13-Dialogue Boxes/WTF In (24x8).png" id="1_iol8l"]
+[ext_resource type="Texture2D" uid="uid://csem8u4fdehr4" path="res://assets/Kings and Pigs/Sprites/13-Dialogue Boxes/WTF Out (24x8).png" id="2_1sj4y"]
+[ext_resource type="Script" uid="uid://dhyawomeeh567" path="res://components/Player/expression.gd" id="3_1sj4y"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wg3m"]
+atlas = ExtResource("1_iol8l")
+region = Rect2(0, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psn2r"]
+atlas = ExtResource("1_iol8l")
+region = Rect2(34, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0ber"]
+atlas = ExtResource("1_iol8l")
+region = Rect2(68, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xiejr"]
+atlas = ExtResource("2_1sj4y")
+region = Rect2(0, 0, 34, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xv17k"]
+atlas = ExtResource("2_1sj4y")
+region = Rect2(34, 0, 34, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cytoq"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wg3m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psn2r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0ber")
+}],
+"loop": false,
+"name": &"wtf in",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xiejr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xv17k")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"wtf out",
+"speed": 5.0
+}]
+
+[node name="Expression" type="AnimatedSprite2D"]
+sprite_frames = SubResource("SpriteFrames_cytoq")
+animation = &"wtf out"
+autoplay = "wtf in"
+script = ExtResource("3_1sj4y")

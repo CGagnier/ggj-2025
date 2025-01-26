@@ -93,6 +93,7 @@ func _ready() -> void:
 	alive = true
 	will_die = false
 	_enter_state(state.idle)
+	$Shooter.bubble_popped.connect(_on_bubble_popped)
 
 func _physics_process(delta: float) -> void:
 
@@ -122,6 +123,8 @@ func _physics_process(delta: float) -> void:
 			velocity.x = direction * SPEED
 			# Face walking direction
 			animated_sprite.flip_h = direction > 0
+			var _mult = -1 if animated_sprite.flip_h else 1
+			$ExpressionHolder.scale.x = _mult
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
 
@@ -146,6 +149,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 
 func _dying() -> void:
 	_enter_state(state.die)
+	$ExpressionHolder/Expression.play_wtf()
 	alive = false
 	collisionshape.set_deferred("disabled", true)
 	$BubbleIndicator.hide()
@@ -153,3 +157,6 @@ func _dying() -> void:
 		shooter.queue_free()
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)
+
+func _on_bubble_popped():
+	$ExpressionHolder/Expression.play_wtf()

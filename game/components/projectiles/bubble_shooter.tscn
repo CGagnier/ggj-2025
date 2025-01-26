@@ -1,7 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://dxljrfefydguf"]
+[gd_scene load_steps=7 format=3 uid="uid://dxljrfefydguf"]
 
 [ext_resource type="Script" uid="uid://dvcokb01jkpuk" path="res://components/projectiles/bubble_shooter.gd" id="1_oy2e8"]
 [ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="2_bl0qu"]
+[ext_resource type="AudioStream" uid="uid://dpmvpeacdgttj" path="res://assets/Sounds/Pop1.wav" id="3_8u0md"]
+[ext_resource type="AudioStream" uid="uid://bs77hbmxr5c4b" path="res://assets/Sounds/Pop2.wav" id="4_6c2pl"]
+[ext_resource type="AudioStream" uid="uid://bu1phj6lwxuc0" path="res://assets/Sounds/Pop3.wav" id="5_aeswd"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c18lt"]
+random_pitch = 1.4
+random_volume_offset_db = 1.0
+streams_count = 3
+stream_0/stream = ExtResource("3_8u0md")
+stream_1/stream = ExtResource("4_6c2pl")
+stream_2/stream = ExtResource("5_aeswd")
 
 [node name="Node2D" type="Node2D"]
 z_index = 1
@@ -10,3 +21,7 @@ ProjectileScene = ExtResource("2_bl0qu")
 start_scale = Vector2(0.3, 0.3)
 max_scale = Vector2(1.6, 1.6)
 growth_rate = 0.8
+
+[node name="PopAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_c18lt")
+volume_db = 1.0
