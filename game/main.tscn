@@ -5,7 +5,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vb4hs"]
 size = Vector2(20, 1153)
 
-[node name="Node2D2" type="Node2D"]
+[node name="Node2D3" type="Node2D"]
 
 [node name="CharacterBody2D" parent="." instance=ExtResource("1_ig7tw")]
 position = Vector2(100, 168)
