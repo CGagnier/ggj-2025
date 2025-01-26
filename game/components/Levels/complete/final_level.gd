@@ -6,7 +6,8 @@ func _ready():
 
 func emit_particle():
 	var children = $Node.get_children()
-	var particle = children.pick_random()
-	if particle:
-		particle.emitting = true
+	if children.size():
+		var particle = children.pick_random()
+		if particle:
+			particle.emitting = true
 	

@@ -18,6 +18,7 @@ func _reset_camera_settings() -> void:
 
 func _ready() -> void:
 	_reset_camera_settings()
+	$MusicPlayer.play()
 
 func _process(delta: float) -> void:
 	#print("level_set", level_limit_set)
@@ -55,6 +56,7 @@ func go_to_next_level():
 	
 	if next_level_index >= LEVEL_LIST.levels.size():
 		_next_level = LEVEL_LIST.final_level 
+		$MusicPlayer.stop()
 	else:
 		_next_level = LEVEL_LIST.levels[next_level_index]
 		next_level_index += 1
