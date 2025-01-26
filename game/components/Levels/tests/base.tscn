@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=4 uid="uid://b37xqua46eo40"]
 
-[ext_resource type="TileSet" uid="uid://dn4fql7j0rrmu" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_2oos4"]
+[ext_resource type="TileSet" uid="uid://cuivxl7wqd17e" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_2oos4"]
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="2_vvfmk"]
 [ext_resource type="Texture2D" uid="uid://d1juygc65pu2d" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" id="3_jsb4v"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="8_k3jhx"]

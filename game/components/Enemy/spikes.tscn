@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://dkxwdswxo0la4"]
 
-[ext_resource type="Script" uid="uid://b7u7bky6vit8q" path="res://components/Enemy/obstacle.gd" id="1_ga4m2"]
+[ext_resource type="Script" path="res://components/Enemy/obstacle.gd" id="1_ga4m2"]
 [ext_resource type="Texture2D" uid="uid://dpi8y57xhkj7o" path="res://assets/Pixel Adventure/spikes_Idle.png" id="2_yvhx4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gtapc"]
