@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LevelStat" load_steps=3 format=3 uid="uid://de0w2t3og0dpc"]
+
+[ext_resource type="PackedScene" uid="uid://drn4ei2f655ht" path="res://components/Levels/complete/level_14.tscn" id="1_rmfha"]
+[ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="2_ljqlp"]
+
+[resource]
+script = ExtResource("2_ljqlp")
+name = "lvl15"
+level = ExtResource("1_rmfha")
+metadata/_custom_type_script = ExtResource("2_ljqlp")

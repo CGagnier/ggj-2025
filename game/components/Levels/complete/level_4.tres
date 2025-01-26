@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LevelStat" load_steps=3 format=3 uid="uid://co0u8uoayur4e"]
+
+[ext_resource type="PackedScene" uid="uid://cb502ro4yeeyy" path="res://components/Levels/complete/level_4.tscn" id="1_iy857"]
+[ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="2_ldo51"]
+
+[resource]
+script = ExtResource("2_ldo51")
+name = "lvl4"
+level = ExtResource("1_iy857")
+metadata/_custom_type_script = ExtResource("2_ldo51")

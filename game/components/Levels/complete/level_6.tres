@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LevelStat" load_steps=3 format=3 uid="uid://ywc08qng1xjq"]
+
+[ext_resource type="PackedScene" uid="uid://cgh0w3jqwvqv5" path="res://components/Levels/complete/level_6.tscn" id="1_dagks"]
+[ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="2_v7igi"]
+
+[resource]
+script = ExtResource("2_v7igi")
+name = "lvl6"
+level = ExtResource("1_dagks")
+metadata/_custom_type_script = ExtResource("2_v7igi")
