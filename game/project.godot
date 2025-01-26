@@ -110,6 +110,7 @@ reset={
 2d_physics/layer_4="Balloon"
 2d_physics/layer_5="Objects"
 2d_physics/layer_6="PlayerFeet"
+2d_physics/layer_7="MovingPlatform"
 
 [rendering]
 

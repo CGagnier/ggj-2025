@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://5medgt3sori1"]
+
+[ext_resource type="Script" uid="uid://cpkbk18ptbe2x" path="res://components/Enemy/platform_waypoint.gd" id="1_0aymr"]
+[ext_resource type="Texture2D" uid="uid://d1juygc65pu2d" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" id="1_ofvun"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0aymr"]
+size = Vector2(2, 2)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lu8jh"]
+atlas = ExtResource("1_ofvun")
+region = Rect2(65, 65, 9, 9)
+
+[node name="platform_waypoint" type="Area2D"]
+collision_layer = 64
+collision_mask = 64
+script = ExtResource("1_0aymr")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_0aymr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_lu8jh")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="area_exited" from="." to="." method="_on_area_exited"]

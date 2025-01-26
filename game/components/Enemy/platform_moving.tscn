@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=3 uid="uid://b3dq2j7wy4mdc"]
+
+[ext_resource type="Texture2D" uid="uid://bq8x2ib1twt5h" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Terrain (32x32).png" id="1_2awsj"]
+[ext_resource type="Script" uid="uid://cjbjg8wqxjre3" path="res://components/Enemy/platform_moving.gd" id="1_4rqya"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fx1r2"]
+atlas = ExtResource("1_2awsj")
+region = Rect2(247, 55, 9, 9)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx7p3"]
+size = Vector2(2, 2)
+
+[node name="platform_moving" type="Area2D"]
+collision_layer = 65
+collision_mask = 64
+script = ExtResource("1_4rqya")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("AtlasTexture_fx1r2")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_fx7p3")

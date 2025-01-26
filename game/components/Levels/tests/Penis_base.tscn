@@ -1,12 +1,13 @@
-[gd_scene load_steps=6 format=4 uid="uid://dinwtk0sodvp8"]
+[gd_scene load_steps=9 format=4 uid="uid://dinwtk0sodvp8"]
 
-[ext_resource type="TileSet" uid="uid://dn4fql7j0rrmu" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_mp2qf"]
+[ext_resource type="TileSet" uid="uid://cuivxl7wqd17e" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_mp2qf"]
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="2_mla6l"]
-[ext_resource type="Texture2D" uid="uid://d1juygc65pu2d" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" id="3_n8t6o"]
+[ext_resource type="PackedScene" uid="uid://c2skbxd4jl3jg" path="res://components/Enemy/platform_static.tscn" id="3_fx1r2"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="4_fx1r2"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_57t40"]
-size = Vector2(32, 5)
+[ext_resource type="PackedScene" uid="uid://5medgt3sori1" path="res://components/Enemy/platform_waypoint.tscn" id="5_mla6l"]
+[ext_resource type="PackedScene" uid="uid://b3dq2j7wy4mdc" path="res://components/Enemy/platform_moving.tscn" id="6_n8t6o"]
+[ext_resource type="PackedScene" path="res://components/Enemy/saw.tscn" id="7_fx1r2"]
+[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="7_fx7p3"]
 
 [node name="Main" type="Node2D"]
 
@@ -18,18 +19,8 @@ tile_set = ExtResource("1_mp2qf")
 tile_map_data = PackedByteArray("AAALAA4AAQAIAAYAAAALAA8AAQAIAAcAAAALABAAAQAIAAgAAAALABEAAQAIAAkAAAAMAA4AAQAJAAYAAAAMAA8AAQAJAAcAAAAMABAAAQAJAAgAAAAMABEAAQAJAAkAAAANAA4AAQAKAAYAAAANAA8AAQAKAAcAAAANABAAAQAKAAgAAAANABEAAQAKAAkAAAAOAA8AAQALAAcAAAAOABAAAQALAAgAAAAOABEAAQALAAkAAAALAAQAAQAIAAYAAAALAAUAAQAIAAcAAAALAAYAAQAIAAgAAAALAAcAAQAIAAkAAAAMAAQAAQAJAAYAAAAMAAUAAQAJAAcAAAAMAAYAAQAJAAgAAAAMAAcAAQAJAAkAAAANAAQAAQAKAAYAAAANAAUAAQAKAAcAAAANAAYAAQAKAAgAAAANAAcAAQAKAAkAAAAOAAUAAQALAAcAAAAOAAYAAQALAAgAAAAOAAcAAQALAAkAAAA=")
 tile_set = ExtResource("2_mla6l")
 
-[node name="StaticBody2D" type="StaticBody2D" parent="Decorations"]
+[node name="StaticBody2D" parent="Decorations" instance=ExtResource("3_fx1r2")]
 position = Vector2(528, 157)
-
-[node name="Sprite2D" type="Sprite2D" parent="Decorations/StaticBody2D"]
-texture = ExtResource("3_n8t6o")
-region_enabled = true
-region_rect = Rect2(160, 32, 32, 8)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Decorations/StaticBody2D"]
-position = Vector2(0, -1.5)
-shape = SubResource("RectangleShape2D_57t40")
-one_way_collision = true
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -39,3 +30,31 @@ tile_set = ExtResource("1_mp2qf")
 
 [node name="Door" parent="." instance=ExtResource("4_fx1r2")]
 position = Vector2(97, 291)
+
+[node name="platform_waypoint" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("5_mla6l")]
+position = Vector2(299, 287)
+delay = 0.5
+next_waypoint = NodePath("../platform_waypoint2")
+
+[node name="platform_waypoint2" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("5_mla6l")]
+position = Vector2(407, 287)
+delay = 0.5
+next_waypoint = NodePath("../platform_waypoint3")
+
+[node name="platform_waypoint3" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("5_mla6l")]
+position = Vector2(352, 202)
+delay = 0.5
+next_waypoint = NodePath("../platform_waypoint")
+
+[node name="platform_moving" parent="." node_paths=PackedStringArray("initial_waypoint") instance=ExtResource("6_n8t6o")]
+position = Vector2(333, 287)
+initial_waypoint = NodePath("../platform_waypoint2")
+
+[node name="Saw" parent="platform_moving" instance=ExtResource("7_fx1r2")]
+position = Vector2(0, 1)
+
+[node name="platform_static" parent="." instance=ExtResource("3_fx1r2")]
+position = Vector2(174, 151)
+
+[node name="Canon" parent="." instance=ExtResource("7_fx7p3")]
+position = Vector2(512, 142)
