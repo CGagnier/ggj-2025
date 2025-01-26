@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("2_lyqgj")
-name = "Use arrow keys to bubble"
+name = "Use arrow keys to create a bubble"
 level = ExtResource("1_llrqh")
 metadata/_custom_type_script = ExtResource("2_lyqgj")
