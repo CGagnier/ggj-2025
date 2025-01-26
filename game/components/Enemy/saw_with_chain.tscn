@@ -24,13 +24,15 @@ texture_mode = 1
 node_a = NodePath("..")
 node_b = NodePath("../../saw")
 bias = 0.9
-damping = 0.5
+rest_length = 20.0
+stiffness = 60.0
+damping = 0.9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="root"]
 shape = SubResource("CircleShape2D_ct5wd")
 
 [node name="saw" type="RigidBody2D" parent="."]
-position = Vector2(-1, 51)
+position = Vector2(32, 35)
 
 [node name="Saw" parent="saw" instance=ExtResource("1_ct5wd")]
 
