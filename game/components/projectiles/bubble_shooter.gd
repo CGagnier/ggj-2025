@@ -10,6 +10,9 @@ signal bubble_popped
 @export var time_before_bubble_pop := 0.5
 ## How long you can hold a 'full' bubble before it pops
 @export var time_to_full_bubble := 1.0
+
+var is_tweening = false
+var _tween = null
 #
 var _grow_time := 0.0
 
@@ -96,6 +99,13 @@ func _physics_process(delta: float) -> void:
 			
 			# Detect holding bubble too long
 			if current_projectile and _grow_time >= time_to_full_bubble:
+
+				if not is_tweening:
+					_tween = get_tree().create_tween().set_loops(2)
+					is_tweening = true
+					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.0, 0.15)
+					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.75, 0.15).from(0.0)
+					_tween.tween_callback(func(): _clear_tween())
 				_time_with_full_bubble += delta
 				if _time_with_full_bubble >= time_before_bubble_pop:
 					pop_bubble()
@@ -132,7 +142,15 @@ func _create_bubble() -> void:
 		add_child(current_projectile)
 		num_bullets -= 1
 
+func _clear_tween() -> void:
+	if _tween:
+		_tween.stop()
+	is_tweening = false
+	if current_projectile:
+		current_projectile.sprite.self_modulate.a = 0.75
+
 func _let_go() -> void:
+	_clear_tween()
 	if current_projectile:
 		_time_with_full_bubble = 0.0
 		#todo: use current dir

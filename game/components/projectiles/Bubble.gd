@@ -50,8 +50,10 @@ var _can_play_wall_sound = true
 @onready var sine_t := randf() * 10
 
 @onready var particles = $CPUParticles2D
+@onready var sprite = $Sprite2D
 
 func _ready():
+
 	if is_static:
 		set_collision_mask_value(1, 0)
 	#$HitWall.finished.connect(_on_hit_wall_played)
