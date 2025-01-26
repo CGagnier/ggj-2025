@@ -8,9 +8,42 @@ var overlay = preload("res://UI/overlay.tscn")
 var level_limit_set = false
 var limits = {"left": 0, "right": 0, "top": 0, "bottom": 0}
 
+func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("reset"):
+		print(get_tree())
+		print(get_parent().get_children())
+		
+		for node in get_parent().get_children():
+			print(node)
+			if node.name != "LevelManager": # Yikes TODO: Add class? 
+				#node.reload_current_scene()
+				node.queue_free()
+				_load_current_level(1)
+
+		print("Reset")
+
+## Level Index Modifier used to NOT increase 
+func _load_current_level(level_index_modifier=0) -> void:
+	
+	var _next_level
+	
+	_next_level = LEVEL_LIST.levels[next_level_index-level_index_modifier]
+	
+	var _next_level_scene = _next_level.level.instantiate()
+	_next_level_scene.name = _next_level.name
+
+	var _overlay: OverlayTitle = overlay.instantiate()
+	_overlay.title = _next_level.name
+
+	add_sibling(_next_level_scene)
+	_next_level_scene.add_child(_overlay)
+
+	level_limit_set = false
+	current_level = _next_level_scene
 
 func go_to_next_level():
 	var _next_level
+	
 	if next_level_index >= LEVEL_LIST.levels.size():
 		_next_level = LEVEL_LIST.final_level 
 	else:
