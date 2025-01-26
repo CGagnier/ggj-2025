@@ -1,5 +1,11 @@
-[gd_scene load_steps=2 format=3 uid="uid://p8dvd2wcovh1"]
+[gd_scene load_steps=3 format=3 uid="uid://8waoiumv86hk"]
 
 [ext_resource type="PackedScene" uid="uid://b37xqua46eo40" path="res://components/Levels/manager/base.tscn" id="1_sdyqj"]
+[ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_4k4cy"]
 
 [node name="Main" instance=ExtResource("1_sdyqj")]
+
+[node name="Door2" parent="." index="6" instance=ExtResource("2_4k4cy")]
+position = Vector2(463, 292)
+rotation = 0.179161
+is_exit = true
