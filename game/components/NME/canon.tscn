@@ -1,8 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cjijdjnr06w0p"]
+[gd_scene load_steps=14 format=3 uid="uid://cjijdjnr06w0p"]
 
 [ext_resource type="Script" uid="uid://bn2rph81je8hu" path="res://components/NME/canon.gd" id="1_hv5bc"]
 [ext_resource type="Texture2D" uid="uid://cehx641j6xsgu" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Idle.png" id="1_wemop"]
+[ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="2_gnty4"]
 [ext_resource type="Texture2D" uid="uid://b8d55vwrwjahy" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Shoot (44x28).png" id="2_hv5bc"]
+[ext_resource type="Resource" uid="uid://b1wgulw5o6ahv" path="res://components/projectiles/balls/Ball_Explodable.tres" id="3_072ar"]
 [ext_resource type="PackedScene" uid="uid://b21cgmyqi61n0" path="res://components/projectiles/cannon_ball.tscn" id="4_x55pw"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jfwpl"]
@@ -58,6 +60,7 @@ size = Vector2(19, 18)
 
 [node name="Canon" type="StaticBody2D"]
 script = ExtResource("1_hv5bc")
+ProjectileStats = Array[ExtResource("2_gnty4")]([ExtResource("3_072ar")])
 projectile_scene = ExtResource("4_x55pw")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

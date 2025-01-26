@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="BallStat" load_steps=2 format=3 uid="uid://bckgq7tqwbyn3"]
+
+[ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="1_jw68u"]
+
+[resource]
+script = ExtResource("1_jw68u")
+speed = 10.0
+gravity_scale = -0.5
+timeToDestroy = 4.0
+lock_rotation = true
+metadata/_custom_type_script = ExtResource("1_jw68u")

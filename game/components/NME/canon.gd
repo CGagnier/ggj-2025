@@ -1,11 +1,13 @@
 extends StaticBody2D
 
+class_name Canon
+
 # List of Projectiles
 @export var ProjectileStats: Array[BallStat]
 @export var projectile_scene: PackedScene
 
 # Rate of Fire  
-@export var RateOfFire = 3.0
+@export var RateOfFire:float = 3.0
 
 # Child nodes
 @onready var Cooldown: Timer = $CooldownTimer
