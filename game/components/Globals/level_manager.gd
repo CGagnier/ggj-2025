@@ -5,22 +5,24 @@ var next_level_index = 0
 const LEVEL_LIST = preload("res://components/Levels/complete/level_flow.tres")
 var overlay = preload("res://UI/overlay.tscn")
 
-var level_limit_set = false
+var level_limit_set
 var limits = {"left": 0, "right": 0, "top": 0, "bottom": 0}
+var position_smoothing_speed
+
+func _reset_camera_settings() -> void:
+	level_limit_set = false
+	position_smoothing_speed = 5.0 # Default
+
+func _ready() -> void:
+	_reset_camera_settings()
 
 func _process(delta: float) -> void:
+	#print("level_set", level_limit_set)
 	if Input.is_action_just_pressed("reset"):
-		print(get_tree())
-		print(get_parent().get_children())
-		
 		for node in get_parent().get_children():
-			print(node)
 			if node.name != "LevelManager": # Yikes TODO: Add class? 
-				#node.reload_current_scene()
 				node.queue_free()
 				_load_current_level(1)
-
-		print("Reset")
 
 ## Level Index Modifier used to NOT increase 
 func _load_current_level(level_index_modifier=0) -> void:
@@ -28,7 +30,7 @@ func _load_current_level(level_index_modifier=0) -> void:
 	var _next_level
 	
 	_next_level = LEVEL_LIST.levels[next_level_index-level_index_modifier]
-	
+	_reset_camera_settings()
 	var _next_level_scene = _next_level.level.instantiate()
 	_next_level_scene.name = _next_level.name
 
@@ -37,12 +39,11 @@ func _load_current_level(level_index_modifier=0) -> void:
 
 	add_sibling(_next_level_scene)
 	_next_level_scene.add_child(_overlay)
-
-	level_limit_set = false
 	current_level = _next_level_scene
 
 func go_to_next_level():
 	var _next_level
+	_reset_camera_settings()
 	
 	if next_level_index >= LEVEL_LIST.levels.size():
 		_next_level = LEVEL_LIST.final_level 
@@ -62,22 +63,27 @@ func go_to_next_level():
 		if current_level:
 			current_level.name = "DiscardedLevel"
 			current_level.queue_free()
-		level_limit_set = false
+
 		current_level = _next_level_scene
 	else:
 		print("Level data not valid, can't go to next level if it's not valid, please stop being a noob!")
 
 func set_current_camera_limits(left, top, right, bottom) -> void:
+
 	if not level_limit_set:
-		print("set me up")
-		
 		limits.left = left
 		limits.right = right
 		limits.top = top
 		limits.bottom = bottom
 		level_limit_set = true
 	else:
-		print("already setted limits, try again next time")
+		print("limits already set, try again next time?")
 
 func get_current_camera_limits() -> Array:
 	return [limits.left, limits.top, limits.right, limits.bottom]
+
+func set_camera_smoothing_speed(speed) -> void:
+	position_smoothing_speed = speed
+
+func get_camera_smoothing_speed() -> float:
+	return position_smoothing_speed

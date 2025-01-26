@@ -5,9 +5,3 @@
 [node name="EnvironmentBubble" instance=ExtResource("1_xh8ea")]
 collision_mask = 28
 is_static = true
-
-[node name="RaycastLeft" parent="." index="5"]
-target_position = Vector2(-0.0534954, 14.9999)
-
-[node name="RaycastLeft2" parent="." index="6"]
-target_position = Vector2(-0.0499287, 13.9999)

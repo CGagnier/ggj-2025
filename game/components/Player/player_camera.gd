@@ -11,5 +11,11 @@ func _ready() -> void:
 		limit_right = limits[2]
 		limit_bottom = limits[3]
 
+	if not LevelManager.position_smoothing_speed:
+		LevelManager.set_camera_smoothing_speed(position_smoothing_speed)
+	else:
+		position_smoothing_speed = LevelManager.get_camera_smoothing_speed()
+	
+	
 	make_current()
 	get_tree().create_timer(2).timeout.connect(func(): position_smoothing_enabled = true)
