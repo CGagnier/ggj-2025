@@ -20,7 +20,7 @@ tile_map_data = PackedByteArray("AAALAA4AAQAIAAYAAAALAA8AAQAIAAcAAAALABAAAQAIAAg
 tile_set = ExtResource("2_mla6l")
 
 [node name="StaticBody2D" parent="Decorations" instance=ExtResource("3_fx1r2")]
-position = Vector2(528, 157)
+position = Vector2(529, 99)
 
 [node name="Obstacles" type="Node" parent="."]
 
@@ -46,15 +46,24 @@ position = Vector2(352, 202)
 delay = 0.5
 next_waypoint = NodePath("../platform_waypoint")
 
+[node name="platform_waypoint4" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("5_mla6l")]
+position = Vector2(464, 300)
+delay = 0.5
+next_waypoint = NodePath("../platform_waypoint5")
+
+[node name="platform_waypoint5" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("5_mla6l")]
+position = Vector2(463, 141)
+delay = 0.5
+next_waypoint = NodePath("../platform_waypoint4")
+
 [node name="platform_moving" parent="." node_paths=PackedStringArray("initial_waypoint") instance=ExtResource("6_n8t6o")]
-position = Vector2(333, 287)
-initial_waypoint = NodePath("../platform_waypoint2")
+position = Vector2(463, 201)
+initial_waypoint = NodePath("../platform_waypoint4")
 
-[node name="Saw" parent="platform_moving" instance=ExtResource("7_fx1r2")]
-position = Vector2(0, 1)
-
-[node name="platform_static" parent="." instance=ExtResource("3_fx1r2")]
-position = Vector2(174, 151)
+[node name="platform_static" parent="platform_moving" instance=ExtResource("3_fx1r2")]
 
 [node name="Canon" parent="." instance=ExtResource("7_fx7p3")]
-position = Vector2(512, 142)
+position = Vector2(521, 84)
+
+[node name="Saw" parent="." instance=ExtResource("7_fx1r2")]
+position = Vector2(121, 137)
