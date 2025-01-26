@@ -16,7 +16,7 @@
 
 [sub_resource type="Resource" id="Resource_aosib"]
 script = ExtResource("1_y7i4h")
-name = "final"
+name = ""
 level = ExtResource("1_ecgu3")
 metadata/_custom_type_script = ExtResource("1_y7i4h")
 
