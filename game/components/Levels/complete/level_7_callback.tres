@@ -1,0 +1,10 @@
+[gd_resource type="Resource" script_class="LevelStat" load_steps=3 format=3 uid="uid://b55spttgab6gh"]
+
+[ext_resource type="PackedScene" uid="uid://coinmq1wrwgaf" path="res://components/Levels/complete/level_7_callback.tscn" id="1_0wbhe"]
+[ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="2_10p2u"]
+
+[resource]
+script = ExtResource("2_10p2u")
+name = "YOU GO UP AGAIN"
+level = ExtResource("1_0wbhe")
+metadata/_custom_type_script = ExtResource("2_10p2u")
