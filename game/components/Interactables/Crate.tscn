@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://components/Interactables/interactable.gd" id="1_10nmr"]
 [ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="1_gn25t"]
-[ext_resource type="Script" path="res://components/Interactables/crate.gd" id="1_qlcli"]
+[ext_resource type="Script" uid="uid://cgjgrkgpvj3gc" path="res://components/Interactables/crate.gd" id="1_qlcli"]
 [ext_resource type="PackedScene" path="res://components/Interactables/broken_crate.tscn" id="3_a4pbp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gtapc"]

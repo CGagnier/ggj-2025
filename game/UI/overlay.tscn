@@ -4,6 +4,7 @@
 [ext_resource type="FontFile" uid="uid://dxf7kllshf24s" path="res://assets/Pixel Adventure/fonts/m3x6.ttf" id="2_dtoip"]
 
 [node name="Overlay" type="Control"]
+z_index = 666
 layout_mode = 3
 anchors_preset = 0
 offset_right = 636.0

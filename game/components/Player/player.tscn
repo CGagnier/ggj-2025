@@ -1,9 +1,9 @@
 [gd_scene load_steps=38 format=3 uid="uid://bhfifqorg0fi4"]
 
-[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/Player/character_body_2d.gd" id="1_ph1f6"]
+[ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/player/character_body_2d.gd" id="1_ph1f6"]
 [ext_resource type="PackedScene" uid="uid://dxljrfefydguf" path="res://components/projectiles/bubble_shooter.tscn" id="3_46jg3"]
 [ext_resource type="Texture2D" uid="uid://bwj4ssjob1kc0" path="res://assets/Kings and Pigs/Sprites/Pig-Sheet.png" id="3_mpawu"]
-[ext_resource type="PackedScene" uid="uid://bu4muuwlf1gse" path="res://components/Player/bubble_indicator.tscn" id="4_hx8dc"]
+[ext_resource type="PackedScene" uid="uid://bu4muuwlf1gse" path="res://components/player/bubble_indicator.tscn" id="4_hx8dc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
 atlas = ExtResource("3_mpawu")
@@ -269,6 +269,8 @@ animations = [{
 size = Vector2(12, 15)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+z_index = 66
+z_as_relative = false
 scale = Vector2(1.2, 1.2)
 collision_layer = 2
 collision_mask = 21

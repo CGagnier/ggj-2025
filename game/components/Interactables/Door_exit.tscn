@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bi2blfo8ygdv7"]
+
+[ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="1_w8wfe"]
+
+[node name="Door" instance=ExtResource("1_w8wfe")]
+is_exit = true
