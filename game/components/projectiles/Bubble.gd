@@ -133,7 +133,7 @@ func _release_item():
 	if absorbed_entity:
 		var tree = get_tree()
 		if tree:
-			absorbed_entity.reparent(get_tree().root)
+			absorbed_entity.reparent(get_parent())
 			absorbed_entity.get_node("CollisionShape2D").disabled = false
 			absorbed_entity.z_as_relative = true
 			absorbed_entity.gravity_scale = 1

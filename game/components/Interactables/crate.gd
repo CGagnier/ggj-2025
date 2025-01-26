@@ -32,5 +32,5 @@ func _on_body_entered(body: Node) -> void:
 			
 			if item_scene:
 				var new_item = item_scene.instantiate()
-				get_tree().root.add_child.call_deferred(new_item)
+				get_parent().add_child.call_deferred(new_item)
 				new_item.global_position = global_position

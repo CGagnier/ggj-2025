@@ -37,7 +37,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 
 func spawn() -> void:
 	var player: Player = PLAYER_SCENE.instantiate()
-	get_tree().root.add_child(player)
+	add_sibling(player)
 	player.global_position = global_position
 	player.connect("died",open)
 	get_tree().create_timer(1).timeout.connect(close)

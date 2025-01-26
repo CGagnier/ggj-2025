@@ -1,24 +1,9 @@
-<<<<<<< Updated upstream
-[gd_scene load_steps=8 format=4 uid="uid://jmfximqcgfek"]
-
-[ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_4n7ef"]
-[ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="3_85ou3"]
-[ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="3_oncqk"]
-[ext_resource type="PackedScene" uid="uid://dkxwdswxo0la4" path="res://components/Enemy/spikes.tscn" id="4_gtapc"]
-[ext_resource type="PackedScene" uid="uid://bgms46rid1dx0" path="res://components/Enemy/saw_with_chain.tscn" id="4_mujus"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_85ou3"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_gtapc"]
-size = Vector2(21, 16)
-=======
-[gd_scene load_steps=5 format=4 uid="uid://jmfximqcgfek"]
+[gd_scene load_steps=5 format=4 uid="uid://n83nfsctgnnu"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_4n7ef"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="3_85ou3"]
 [ext_resource type="PackedScene" uid="uid://2314mjllg3yv" path="res://components/Interactables/Crate.tscn" id="3_oncqk"]
 [ext_resource type="PackedScene" uid="uid://bsp3e6nv7y1s8" path="res://components/Interactables/key.tscn" id="4_oncqk"]
->>>>>>> Stashed changes
 
 [node name="Node2D2" type="Node2D"]
 
@@ -42,44 +27,12 @@ position = Vector2(558, 293)
 flip_h = true
 is_exit = true
 
-<<<<<<< Updated upstream
-[node name="SawWithChain" parent="." instance=ExtResource("4_mujus")]
-position = Vector2(140, 55)
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(239, 42)
-=======
 [node name="Crate" parent="." instance=ExtResource("3_oncqk")]
 position = Vector2(269, 308)
 item_scene = ExtResource("4_oncqk")
->>>>>>> Stashed changes
 
 [node name="Crate2" parent="." instance=ExtResource("3_oncqk")]
 position = Vector2(423, 308)
 
-<<<<<<< Updated upstream
-[node name="DampedSpringJoint2D" type="DampedSpringJoint2D" parent="StaticBody2D"]
-node_a = NodePath("..")
-node_b = NodePath("../../RigidBody2D")
-bias = 0.9
-length = 30.0
-
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
-position = Vector2(239, 93)
-mass = 0.4
-contact_monitor = true
-constant_force = Vector2(4, 20)
-
-[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
-texture = ExtResource("3_oncqk")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(-0.5, 0)
-shape = SubResource("RectangleShape2D_gtapc")
-
-[node name="Spikes" parent="." instance=ExtResource("4_gtapc")]
-position = Vector2(216, 320)
-=======
 [node name="Crate3" parent="." instance=ExtResource("3_oncqk")]
 position = Vector2(423, 205)
->>>>>>> Stashed changes

@@ -25,8 +25,10 @@ func go_to_next_level():
 	next_level_index += 1
 	
 	var next_level = next_level_scene.instantiate()
+	next_level.name = "Level"
 	add_sibling(next_level)
 	if current_level:
+		current_level.name = "DiscardedLevel"
 		current_level.queue_free()
 	
 	current_level = next_level
