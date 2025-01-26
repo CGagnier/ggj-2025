@@ -9,6 +9,9 @@ var level_limit_set
 var limits = {"left": 0, "right": 0, "top": 0, "bottom": 0}
 var position_smoothing_speed
 
+var death_count:int = 0
+var level_death:int = 0
+
 func _reset_camera_settings() -> void:
 	level_limit_set = false
 	position_smoothing_speed = 5.0 # Default
@@ -43,6 +46,7 @@ func _load_current_level(level_index_modifier=0) -> void:
 
 func go_to_next_level():
 	var _next_level
+	level_death = 0
 	_reset_camera_settings()
 	
 	if next_level_index >= LEVEL_LIST.levels.size():
@@ -87,3 +91,8 @@ func set_camera_smoothing_speed(speed) -> void:
 
 func get_camera_smoothing_speed() -> float:
 	return position_smoothing_speed
+	
+func increase_deaths() -> void:
+	death_count += 1
+	level_death += 1
+	print("total: ", death_count, " level deaths: ", level_death)

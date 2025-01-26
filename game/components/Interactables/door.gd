@@ -40,11 +40,15 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	player_in = null
 
+func _player_death() -> void:
+	LevelManager.increase_deaths()
+	open()
+
 func spawn() -> void:
 	var player: Player = PLAYER_SCENE.instantiate()
 	add_sibling(player)
 	player.global_position = global_position
-	player.connect("died",open)
+	player.connect("died",_player_death)
 	get_tree().create_timer(1).timeout.connect(close)
 	
 func go_to_next_level(body: Node2D) -> void:
