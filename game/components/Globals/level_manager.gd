@@ -28,6 +28,5 @@ func go_to_next_level():
 	add_sibling(next_level)
 	if current_level:
 		current_level.queue_free()
-		current_level = next_level
 	
-	
+	current_level = next_level

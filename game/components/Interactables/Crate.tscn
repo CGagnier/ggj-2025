@@ -1,0 +1,28 @@
+[gd_scene load_steps=6 format=3 uid="uid://2314mjllg3yv"]
+
+[ext_resource type="Script" uid="uid://b46md7ax17r55" path="res://components/Interactables/interactable.gd" id="1_10nmr"]
+[ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="1_gn25t"]
+[ext_resource type="Script" uid="uid://cgjgrkgpvj3gc" path="res://components/Interactables/crate.gd" id="1_qlcli"]
+[ext_resource type="PackedScene" uid="uid://b8euctwf36mvn" path="res://components/Interactables/broken_crate.tscn" id="3_a4pbp"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gtapc"]
+size = Vector2(21, 16)
+
+[node name="Crate" type="RigidBody2D"]
+collision_layer = 16
+mass = 0.4
+contact_monitor = true
+max_contacts_reported = 1
+constant_force = Vector2(4, 20)
+script = ExtResource("1_qlcli")
+broken_crate = ExtResource("3_a4pbp")
+metadata/_custom_type_script = ExtResource("1_10nmr")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_gn25t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_gtapc")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

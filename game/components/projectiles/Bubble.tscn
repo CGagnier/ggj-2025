@@ -10,13 +10,11 @@ radius = 13.0
 size = Vector2(34.6149, 11.1741)
 
 [node name="Bubble" type="CharacterBody2D"]
+z_index = 1
 position = Vector2(0, -1)
 collision_layer = 8
-collision_mask = 13
+collision_mask = 29
 script = ExtResource("1_07ejg")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_h17rn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.74902)
@@ -25,6 +23,9 @@ scale = Vector2(0.793521, 0.793521)
 texture = ExtResource("2_03aeg")
 centered = false
 offset = Vector2(-6.30103, -23.9439)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_h17rn")
 
 [node name="JumpPad" type="Area2D" parent="."]
 position = Vector2(-18, -18)

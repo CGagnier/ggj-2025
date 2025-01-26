@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bsp3e6nv7y1s8"]
+
+[ext_resource type="Texture2D" uid="uid://bkt4qd7kbnuv6" path="res://assets/16x16 items sheet.png" id="1_wjc0f"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d1ghy"]
+atlas = ExtResource("1_wjc0f")
+region = Rect2(176, 48, 16, 16)
+
+[node name="Key" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-14, -15)
+scale = Vector2(1.5, 1.5)
+texture = SubResource("AtlasTexture_d1ghy")
+centered = false

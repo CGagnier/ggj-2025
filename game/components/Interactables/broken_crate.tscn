@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://b8euctwf36mvn"]
+
+[ext_resource type="Texture2D" uid="uid://syblsjxbtg2v" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 1.png" id="1_0k13b"]
+[ext_resource type="Texture2D" uid="uid://26s3b1kq4xko" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 2.png" id="2_r7gra"]
+[ext_resource type="Texture2D" uid="uid://c2q0u1w7l3p3r" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 3.png" id="3_ajano"]
+[ext_resource type="Texture2D" uid="uid://c06ctmluguyy1" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 4.png" id="4_2a5uw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0cdry"]
+size = Vector2(9, 9.25)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="."]
+position = Vector2(-7, 4)
+collision_layer = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(-5, -6)
+texture = ExtResource("1_0k13b")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+position = Vector2(-0.5, -0.625)
+shape = SubResource("RectangleShape2D_0cdry")
+
+[node name="RigidBody2D2" type="RigidBody2D" parent="."]
+position = Vector2(-7, -5)
+collision_layer = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D2"]
+position = Vector2(-5, -6)
+texture = ExtResource("2_r7gra")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D2"]
+position = Vector2(-0.5, -0.625)
+shape = SubResource("RectangleShape2D_0cdry")
+
+[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+position = Vector2(2, -5)
+collision_layer = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D3"]
+position = Vector2(-5, -6)
+texture = ExtResource("3_ajano")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D3"]
+position = Vector2(-0.5, -0.625)
+shape = SubResource("RectangleShape2D_0cdry")
+
+[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+position = Vector2(2, 4)
+collision_layer = 16
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D4"]
+position = Vector2(-5, -6)
+texture = ExtResource("4_2a5uw")
+centered = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
+position = Vector2(-0.5, -0.625)
+shape = SubResource("RectangleShape2D_0cdry")

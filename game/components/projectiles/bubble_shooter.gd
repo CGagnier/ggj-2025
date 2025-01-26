@@ -89,7 +89,6 @@ func _create_bubble() -> void:
 	current_projectile = _new_bubble
 	add_child(current_projectile)
 
-
 func _let_go() -> void:
 	if current_projectile:
 		#todo: use current dir

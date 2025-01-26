@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="2_bl0qu"]
 
 [node name="Node2D" type="Node2D"]
+z_index = 1
 script = ExtResource("1_oy2e8")
 ProjectileScene = ExtResource("2_bl0qu")
 start_scale = Vector2(0.3, 0.3)
