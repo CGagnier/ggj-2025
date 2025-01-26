@@ -7,6 +7,7 @@ signal died()
 @export var SPEED_JUMPDOWN = 2000.0
 const JUMP_VELOCITY = -400.0
 
+
 var will_die = false
 var alive = true
 
@@ -17,6 +18,16 @@ var current_state = null
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var shooter = $Shooter
 @onready var collisionshape = $CollisionShape2D
+
+var _last_velocities = []
+var _running_average_length := 5
+
+func mean(accum, number):
+	return accum + number / _running_average_length
+	
+var recent_velocity:
+	get:
+		return _last_velocities.reduce(mean, Vector2.ZERO)
 
 #region Statess
 func _enter_state(new_state):
@@ -122,6 +133,9 @@ func _physics_process(delta: float) -> void:
 
 		_process_states()
 		move_and_slide()
+		
+		_last_velocities.push_back(velocity)
+		if _last_velocities.size() > _running_average_length: _last_velocities.pop_front()
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:

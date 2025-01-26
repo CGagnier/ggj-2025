@@ -62,8 +62,9 @@ func _physics_process(delta: float) -> void:
 				# Alert no bullet
 				continue
 				
-			last_pressed_timestamps[i] = Time.get_unix_time_from_system()
 			_create_bubble()
+			
+			last_pressed_timestamps[i] = Time.get_unix_time_from_system()
 			
 			# Keep tracked of which key was pressed last.
 			var ts = last_pressed_timestamps[i]
@@ -80,6 +81,10 @@ func _physics_process(delta: float) -> void:
 			if current_projectile and current_projectile.scale < max_scale: 
 				current_projectile.global_scale *= (1 + growth_rate * delta)
 				break
+			
+			if not current_projectile and num_bullets > 0:
+				# Player holding down after projectiel died
+				_create_bubble()
 			
 	
 	for shoot_dir in shoot_dirs:
@@ -98,10 +103,11 @@ func _physics_process(delta: float) -> void:
 
 
 func _create_bubble() -> void:
-	var _new_bubble = ProjectileScene.instantiate()
+	var _new_bubble: Bubble = ProjectileScene.instantiate()
 	_new_bubble.scale = start_scale
 	current_projectile = _new_bubble
-	current_projectile.on_disappear.connect(func(): num_bullets += 1, CONNECT_ONE_SHOT)
+	current_projectile.player = get_parent()
+	current_projectile.on_disappear.connect(func(): if indicator: num_bullets += 1, CONNECT_ONE_SHOT)
 	add_child(current_projectile)
 	num_bullets -= 1
 

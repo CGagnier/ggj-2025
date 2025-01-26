@@ -11,19 +11,22 @@ signal on_disappear
 var launched = false
 var dir = Vector2.RIGHT
 var inflate_percent := 0.0
-
+var player: Player = null
 var t := 0.0
 
 var collided = false
 var body_started_in_bubble = false
 var absorbed_entity = null
 var _speed_multiplier = 1
+var _player_in_bubble = false
+var _player_velocity_to_bounce = 50
 
 @onready var raycast = $RayCast2D
 
-
 func _physics_process(delta: float) -> void:
-	
+	if should_bounce_player():
+		bounce_player()
+			
 	if launched:
 		t += delta * 2
 		t = min(t, 1.0)
@@ -34,7 +37,6 @@ func _physics_process(delta: float) -> void:
 		var collision = move_and_collide(dir *  speed)
 		
 		if collision and not collided:
-			
 			var collided = collision.get_collider()
 			if collided is Bubble:
 				pass
@@ -56,10 +58,8 @@ func _delay_die() -> void:
 
 func release() -> void:
 	launched = true
+	$RayCast2D.global_scale = Vector2(1,1)
 	speed = start_speed
-	# Scale down the speed according to inflation percent so that bigger bubbles 
-	# move slower
-	const _inflate_percent_influence = 0.7
 	
 func absorb(interactable: Interactable):
 	absorbed_entity = interactable
@@ -112,35 +112,13 @@ func _handle_interactable_collision(interactable: Interactable):
 	dir = Vector2.UP
 
 func _on_jump_pad_body_entered(body: Node2D) -> void:
-	# todo: Restrict this to Player class? 
-	if not launched:
-		body_started_in_bubble = true
-	
-	body_started_in_bubble = false #hack
-			
-	if body.velocity.y > 0:
-		if launched and not body_started_in_bubble and raycast.is_colliding():
-			# Prevent the player from boucning around when shooting left or right while in the bubble
-			# Note: This does not work.
-			
-			speed = 0
-			var tween = get_tree().create_tween()
-			body.velocity.y = 0
-			
-			var base_scale = scale
-			#tween.tween_property(self, "scale", scale * Vector2(1, 0.9), 0.05).set_trans(Tween.TRANS_BOUNCE)
-			#tween.tween_property(self, "scale", base_scale, 0.05).set_trans(Tween.TRANS_CUBIC)
-			var start_position_y = $Sprite2D.position.y
-			tween.tween_property($Sprite2D, "position:y", start_position_y + 1, 0.05).set_trans(Tween.TRANS_BOUNCE)
-			var scale_modifier = scale.length()
-			var jump_force = body.JUMP_VELOCITY * scale_modifier
-			tween.tween_property(body, "velocity:y", jump_force, 0.01).set_trans(Tween.TRANS_BOUNCE)
-			tween.tween_callback(queue_free)
-		else:
-			body_started_in_bubble = true
-
+	if body is Player:
+		_player_in_bubble = true
 
 func _on_jump_pad_body_exited(body: Node2D) -> void:
+	if body is Player:
+		_player_in_bubble = false
+	
 	if not launched:
 		body_started_in_bubble = false
 
@@ -153,6 +131,27 @@ func _release_item():
 			absorbed_entity.z_as_relative = true
 			absorbed_entity.gravity_scale = 1
 			absorbed_entity = null
+	
+func should_bounce_player():
+	if player and player.recent_velocity.y > _player_velocity_to_bounce and _player_in_bubble:
+		return raycast.is_colliding()
+	
+	return false
+
+func bounce_player():
+	speed = 0
+	var tween = get_tree().create_tween()
+	player.velocity.y = 0
+	
+	var base_scale = scale
+	#tween.tween_property(self, "scale", scale * Vector2(1, 0.9), 0.05).set_trans(Tween.TRANS_BOUNCE)
+	#tween.tween_property(self, "scale", base_scale, 0.05).set_trans(Tween.TRANS_CUBIC)
+	var start_position_y = $Sprite2D.position.y
+	tween.tween_property($Sprite2D, "position:y", start_position_y + 1, 0.05).set_trans(Tween.TRANS_BOUNCE)
+	var scale_modifier = scale.length()
+	var jump_force = player.JUMP_VELOCITY * scale_modifier
+	tween.tween_property(player, "velocity:y", jump_force, 0.01).set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_callback(queue_free)
 
 func _notification(what):
 	match what:
