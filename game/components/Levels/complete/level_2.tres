@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("2_4pxk0")
-name = "lvl2"
+name = "Watch the spikes! "
 level = ExtResource("1_xsqx4")
 metadata/_custom_type_script = ExtResource("2_4pxk0")
