@@ -17,7 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-LevelManager="*res://components/Globals/level_manager.gd"
+LevelManager="*res://components/Globals/level_manager.tscn"
 
 [display]
 

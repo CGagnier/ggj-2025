@@ -148,6 +148,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		died.emit()
 
 func _dying() -> void:
+	$DieSound.play()
 	_enter_state(state.die)
 	$ExpressionHolder/Expression.play_wtf()
 	alive = false

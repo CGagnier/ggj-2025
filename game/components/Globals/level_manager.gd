@@ -49,6 +49,10 @@ func go_to_next_level():
 	level_death = 0
 	_reset_camera_settings()
 	
+	if next_level_index != 0:
+		# lower music here
+		$AudioStreamPlayer2D.play()
+	
 	if next_level_index >= LEVEL_LIST.levels.size():
 		_next_level = LEVEL_LIST.final_level 
 	else:
@@ -69,6 +73,7 @@ func go_to_next_level():
 			current_level.queue_free()
 
 		current_level = _next_level_scene
+		
 	else:
 		print("Level data not valid, can't go to next level if it's not valid, please stop being a noob!")
 
