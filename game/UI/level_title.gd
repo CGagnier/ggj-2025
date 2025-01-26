@@ -1,4 +1,5 @@
 extends Control
+class_name OverlayTitle
 
 @export var title:String = "Testtt"
 @onready var label = $CenterContainer/Label

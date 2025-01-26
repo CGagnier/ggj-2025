@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="LevelStat" load_steps=3 format=3 uid="uid://bvtt3cwxv1h44"]
+
+[ext_resource type="PackedScene" uid="uid://bktgnpvg3hq40" path="res://components/Levels/tests/climb.tscn" id="1_5fxbk"]
+[ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="1_dby5s"]
+
+[resource]
+script = ExtResource("1_dby5s")
+name = "Debug Climb"
+level = ExtResource("1_5fxbk")
+bubble_allowed = false
+metadata/_custom_type_script = ExtResource("1_dby5s")
