@@ -43,21 +43,25 @@ position = Vector2(589, 317)
 scale = Vector2(2.60805, 2.60805)
 start_speed = 5.0
 final_speed = 4.0
+can_bounce_on_wall = false
 
 [node name="EnvironmentBubble2" parent="." instance=ExtResource("5_xok23")]
 position = Vector2(151, 151)
 scale = Vector2(2.60805, 2.60805)
 start_speed = 5.0
 final_speed = 4.0
+can_bounce_on_wall = false
 
 [node name="EnvironmentBubble3" parent="." instance=ExtResource("5_xok23")]
 position = Vector2(327, 98)
 scale = Vector2(2.60805, 2.60805)
 start_speed = 5.0
 final_speed = 4.0
+can_bounce_on_wall = false
 
 [node name="EnvironmentBubble4" parent="." instance=ExtResource("5_xok23")]
 position = Vector2(229, 319)
 scale = Vector2(2.60805, 2.60805)
 start_speed = 5.0
 final_speed = 4.0
+can_bounce_on_wall = false

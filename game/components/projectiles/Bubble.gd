@@ -3,6 +3,7 @@ extends CharacterBody2D
 class_name Bubble
 
 signal on_disappear
+signal on_bounce
 
 @export var is_static = false
 @export var bounce_force = 250
@@ -11,6 +12,7 @@ signal on_disappear
 @export var start_speed := 5.0
 @export var final_speed := 4.0
 @export var disappear_time: = 1.5
+@export var can_bounce_on_wall = false
 
 var speed = 2
 var launched = false
@@ -31,12 +33,23 @@ var _dont_check_collision_timer := 0.5
 var _can_die = true
 var _should_die_after_delay = false
 
+var _can_play_wall_sound = true
+
 @onready var raycast_down_left = $RaycastDownLeft
 @onready var raycast_down_right = $RaycastDownRight
+@onready var raycast_left = $RaycastLeft
+@onready var raycast_left2 = $RaycastLeft2
+@onready var raycast_right = $RaycastRight
+@onready var raycast_right2 = $RaycastRight2
+
+@onready var raycasts = [raycast_down_left, raycast_down_right, raycast_left, raycast_left2, raycast_right, raycast_right2]
+
+
 
 func _ready():
 	if is_static:
 		set_collision_mask_value(1, 0)
+	#$HitWall.finished.connect(_on_hit_wall_played)
 
 func _physics_process(delta: float) -> void:
 	if should_bounce_player():
@@ -54,7 +67,7 @@ func _physics_process(delta: float) -> void:
 		if collision and not collided:
 			var collided = collision.get_collider()
 			if collided is Bubble:
-				pass
+				play_hit_wall_sound()
 				#_handle_bubble_collision(collided as Bubble)
 			elif collided is Interactable:
 				if not absorbed_entity:
@@ -67,6 +80,7 @@ func _physics_process(delta: float) -> void:
 				
 				if collided is not Player:
 					if (collision.get_normal() * dir).length() > 0:
+						play_hit_wall_sound()
 						_delay_die()
 				
 func _delay_die() -> void: 
@@ -81,10 +95,12 @@ func _delay_die() -> void:
 
 func release() -> void:
 	launched = true
-	raycast_down_left.global_scale = Vector2.ONE
-	raycast_down_right.global_scale = Vector2.ONE
+	for raycast in raycasts:
+		raycast.global_scale = Vector2.ONE
 	
 	speed = start_speed
+	$SafetyDestroyTimer.timeout.connect(safety_destroy)
+	$SafetyDestroyTimer.start()
 	
 func absorb(interactable: Interactable):
 	_can_die = false
@@ -166,7 +182,12 @@ func should_bounce_player():
 	if player and player.recent_velocity.y > _player_velocity_to_bounce and _player_in_bubble:
 		if is_static:
 			return true # Static bubbles always bounce
-		return raycast_down_left.is_colliding() and raycast_down_right.is_colliding()
+		
+		if can_bounce_on_wall:
+			if raycast_left.is_colliding() or raycast_right.is_colliding() or raycast_left2.is_colliding() or raycast_right2.is_colliding():
+				return true
+		
+		return (raycast_down_left.is_colliding() and raycast_down_right.is_colliding())
 	
 	return false
 
@@ -177,10 +198,11 @@ func bounce_player():
 	
 	var base_scale = scale
 	#tween.tween_property(self, "scale", scale * Vector2(1, 0.9), 0.05).set_trans(Tween.TRANS_BOUNCE)
-	#tween.tween_property(self, "scale", base_scale, 0.05).set_trans(Tween.TRANS_CUBIC)
+	#tween.tween_property(self, "scale", base_scale, d0.05).set_trans(Tween.TRANS_CUBIC)
 	var start_position_y = $Sprite2D.position.y
 	tween.tween_property($Sprite2D, "position:y", start_position_y + 2, 0.05).set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property($Sprite2D, "position:y", 0, 0.05).set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_callback(play_bounce_sound)
 	tween.set_parallel()
 	var scale_modifier = scale.length()
 	var jump_force = -bounce_force * scale_modifier #todo: do * bounce dir
@@ -203,3 +225,19 @@ func _on_jump_pad_area_entered(area: Area2D) -> void:
 func _on_jump_pad_area_exited(area: Area2D) -> void:
 	if area.owner is Player:
 		_player_in_bubble = false
+		
+func play_bounce_sound():
+	if is_static:
+		$BoingPlayer.play()
+	else:
+		on_bounce.emit()
+		
+func play_hit_wall_sound():
+	if _can_play_wall_sound:
+		_can_play_wall_sound = false
+		get_tree().create_timer(0.2).timeout.connect(func():_can_play_wall_sound = false)
+		$HitWall.play()
+
+func safety_destroy():
+	
+	queue_free()

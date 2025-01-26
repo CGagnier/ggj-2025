@@ -1,10 +1,13 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxljrfefydguf"]
+[gd_scene load_steps=12 format=3 uid="uid://dxljrfefydguf"]
 
 [ext_resource type="Script" uid="uid://dvcokb01jkpuk" path="res://components/projectiles/bubble_shooter.gd" id="1_oy2e8"]
 [ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="2_bl0qu"]
 [ext_resource type="AudioStream" uid="uid://dpmvpeacdgttj" path="res://assets/Sounds/Pop1.wav" id="3_8u0md"]
 [ext_resource type="AudioStream" uid="uid://bs77hbmxr5c4b" path="res://assets/Sounds/Pop2.wav" id="4_6c2pl"]
 [ext_resource type="AudioStream" uid="uid://bu1phj6lwxuc0" path="res://assets/Sounds/Pop3.wav" id="5_aeswd"]
+[ext_resource type="AudioStream" uid="uid://dj87tt4x6apjj" path="res://assets/Sounds/Inflating.wav" id="6_6c2pl"]
+[ext_resource type="AudioStream" uid="uid://dmgj0lydopl3e" path="res://assets/Sounds/Spit.wav" id="7_aeswd"]
+[ext_resource type="AudioStream" uid="uid://vvvshv7crppb" path="res://assets/Sounds/Boing.wav" id="8_c18lt"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c18lt"]
 random_pitch = 1.4
@@ -13,6 +16,16 @@ streams_count = 3
 stream_0/stream = ExtResource("3_8u0md")
 stream_1/stream = ExtResource("4_6c2pl")
 stream_2/stream = ExtResource("5_aeswd")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_8s3vh"]
+random_pitch = 1.2
+streams_count = 1
+stream_0/stream = ExtResource("6_6c2pl")
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_m6urg"]
+random_pitch = 1.5
+streams_count = 1
+stream_0/stream = ExtResource("8_c18lt")
 
 [node name="Node2D" type="Node2D"]
 z_index = 1
@@ -25,3 +38,16 @@ growth_rate = 0.8
 [node name="PopAudioPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_c18lt")
 volume_db = 1.0
+
+[node name="InflateAudioPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_8s3vh")
+volume_db = -3.0
+
+[node name="SpitPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("7_aeswd")
+volume_db = 3.0
+pitch_scale = 0.8
+
+[node name="BoingPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_m6urg")
+volume_db = -3.0

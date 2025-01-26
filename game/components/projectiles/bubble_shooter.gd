@@ -10,7 +10,7 @@ signal bubble_popped
 @export var time_before_bubble_pop := 0.5
 ## How long you can hold a 'full' bubble before it pops
 @export var time_to_full_bubble := 1.0
-
+#
 var _grow_time := 0.0
 
 var current_projectile: Node2D = null
@@ -88,6 +88,8 @@ func _physics_process(delta: float) -> void:
 			
 			_grow_time += delta
 			if current_projectile and _grow_time <= time_to_full_bubble:
+				if  not $InflateAudioPlayer.playing:
+					$InflateAudioPlayer.play(0.27)
 				current_projectile.global_scale = lerp(start_scale, max_scale, _grow_time / time_to_full_bubble)
 				#current_projectile.global_scale += Vector2.ONE * 0.01
 				break
@@ -124,7 +126,8 @@ func _create_bubble() -> void:
 		_new_bubble.scale = start_scale
 		current_projectile = _new_bubble
 		current_projectile.player = get_parent()
-		current_projectile.on_disappear.connect(func(): if indicator: num_bullets += 1, CONNECT_ONE_SHOT)
+		current_projectile.on_disappear.connect(on_bubble_disappear, CONNECT_ONE_SHOT)
+		current_projectile.on_bounce.connect($BoingPlayer.play)
 		_grow_time = 0.0
 		add_child(current_projectile)
 		num_bullets -= 1
@@ -138,6 +141,8 @@ func _let_go() -> void:
 		current_projectile.reparent(get_parent().get_parent())
 		current_projectile.release()
 		current_projectile = null
+		$InflateAudioPlayer.stop()
+		$SpitPlayer.play()
 
 func pop_bubble() -> void:
 	_time_with_full_bubble = 0.0
@@ -147,4 +152,11 @@ func pop_bubble() -> void:
 	# todo: play pop animation
 	current_projectile.queue_free()
 	$PopAudioPlayer.play()
+	$InflateAudioPlayer.stop()
 	current_projectile = null
+
+func on_bubble_disappear():
+	if indicator:
+		num_bullets += 1
+		
+	$PopAudioPlayer.play()
