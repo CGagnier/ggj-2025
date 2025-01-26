@@ -8,6 +8,9 @@ signal on_bounce
 @export var is_static = false
 @export var bounce_force = 250
 
+@export_category("Static Bubble")
+@export var sine_intensity: float = 0.0
+
 @export_category("Dynamic Bubbles")
 @export var start_speed := 5.0
 @export var final_speed := 4.0
@@ -44,12 +47,17 @@ var _can_play_wall_sound = true
 
 @onready var raycasts = [raycast_down_left, raycast_down_right, raycast_left, raycast_left2, raycast_right, raycast_right2]
 
-
+@onready var sine_t := randf() * 10
 
 func _ready():
 	if is_static:
 		set_collision_mask_value(1, 0)
 	#$HitWall.finished.connect(_on_hit_wall_played)
+
+func _process(delta: float):
+	if is_static:
+		sine_t += delta
+		global_position.y += sin(sine_t) * sine_intensity / 300
 
 func _physics_process(delta: float) -> void:
 	if should_bounce_player():

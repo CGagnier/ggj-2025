@@ -158,5 +158,6 @@ func pop_bubble() -> void:
 func on_bubble_disappear():
 	if indicator:
 		num_bullets += 1
-		
-	$PopAudioPlayer.play()
+	
+	if is_inside_tree():
+		$PopAudioPlayer.play()
