@@ -115,7 +115,7 @@ position = Vector2(750, 324)
 [node name="Canon" parent="." index="34" instance=ExtResource("4_hfp3j")]
 position = Vector2(427, 277)
 ProjectileStats = Array[ExtResource("5_7dx2m")]([ExtResource("6_ljx2h")])
-RateOfFire = 2.0
+RateOfFire = 1.3
 
 [node name="Canon2" parent="." index="35" instance=ExtResource("4_hfp3j")]
 position = Vector2(973, 341)
