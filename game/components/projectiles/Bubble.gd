@@ -179,3 +179,11 @@ func _notification(what):
 		NOTIFICATION_PREDELETE:
 			on_disappear.emit()
 			_release_item()
+
+func _on_jump_pad_area_entered(area: Area2D) -> void:
+	if area.owner is Player:
+		_player_in_bubble = true
+
+func _on_jump_pad_area_exited(area: Area2D) -> void:
+	if area.owner is Player:
+		_player_in_bubble = false

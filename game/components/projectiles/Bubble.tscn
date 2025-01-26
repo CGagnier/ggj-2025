@@ -31,7 +31,7 @@ shape = SubResource("CircleShape2D_h17rn")
 position = Vector2(-18, -18)
 scale = Vector2(0.793521, 0.793521)
 collision_layer = 0
-collision_mask = 2
+collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPad"]
 position = Vector2(22.6837, 12.0558)
@@ -45,5 +45,7 @@ target_position = Vector2(0, 25)
 position = Vector2(10, 0)
 target_position = Vector2(0, 25)
 
+[connection signal="area_entered" from="JumpPad" to="." method="_on_jump_pad_area_entered"]
+[connection signal="area_exited" from="JumpPad" to="." method="_on_jump_pad_area_exited"]
 [connection signal="body_entered" from="JumpPad" to="." method="_on_jump_pad_body_entered"]
 [connection signal="body_exited" from="JumpPad" to="." method="_on_jump_pad_body_exited"]

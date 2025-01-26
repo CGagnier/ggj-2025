@@ -104,6 +104,7 @@ jump={
 2d_physics/layer_3="Enemy"
 2d_physics/layer_4="Balloon"
 2d_physics/layer_5="Objects"
+2d_physics/layer_6="PlayerFeet"
 
 [rendering]
 
