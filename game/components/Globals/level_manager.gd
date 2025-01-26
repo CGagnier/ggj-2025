@@ -2,7 +2,7 @@ extends Node
 
 var current_level = null
 var next_level_index = 0
-const LEVEL_LIST = preload("res://components/Levels/LevelList2.tres")
+const LEVEL_LIST = preload("res://components/Levels/complete/level_flow.tres")
 var overlay = preload("res://UI/overlay.tscn")
 
 var level_limit_set = false

@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://4hhlbnyyanov" path="res://assets/Pixel Adventure/Saw/Chain.png" id="3_orugi"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_ct5wd"]
+radius = 13.0384
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_rjwmn"]
 
@@ -30,6 +31,7 @@ damping = 0.9
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="root"]
 shape = SubResource("CircleShape2D_ct5wd")
+disabled = true
 
 [node name="saw" type="RigidBody2D" parent="."]
 position = Vector2(32, 35)
