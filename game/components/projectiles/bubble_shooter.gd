@@ -4,12 +4,22 @@ extends Node2D
 @export var start_scale = Vector2(0.5, 0.5)
 @export var max_scale: Vector2 = Vector2(2,2)
 @export var growth_rate = 1
+@export var indicator: BubbleIndicator
 
 var current_projectile: Node2D = null
 
 const shoot_dirs = ["shoot_left", "shoot_up", "shoot_right", "shoot_down"]
 
 var last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
+
+var _current_bullets = 3
+
+var num_bullets:
+	set(val):
+		_current_bullets = val
+		indicator.num_gums = val
+	get:
+		return _current_bullets
 
 var input_to_dir: Dictionary[String, Vector2] = {
 	shoot_dirs[0]: Vector2.LEFT,
@@ -48,6 +58,10 @@ func _physics_process(delta: float) -> void:
 	for i in 4:
 		var shoot_dir = shoot_dirs[i]
 		if Input.is_action_just_pressed(shoot_dir) and not current_projectile:
+			if num_bullets <= 0:
+				# Alert no bullet
+				continue
+				
 			last_pressed_timestamps[i] = Time.get_unix_time_from_system()
 			_create_bubble()
 			
@@ -87,7 +101,9 @@ func _create_bubble() -> void:
 	var _new_bubble = ProjectileScene.instantiate()
 	_new_bubble.scale = start_scale
 	current_projectile = _new_bubble
+	current_projectile.on_disappear.connect(func(): num_bullets += 1, CONNECT_ONE_SHOT)
 	add_child(current_projectile)
+	num_bullets -= 1
 
 func _let_go() -> void:
 	if current_projectile:

@@ -2,8 +2,9 @@ extends CharacterBody2D
 
 class_name Bubble
 
-@export var speed = 2
+signal on_disappear
 
+@export var speed = 2
 @export var start_speed = 5
 @export var final_speed = 4
 
@@ -36,7 +37,8 @@ func _physics_process(delta: float) -> void:
 			
 			var collided = collision.get_collider()
 			if collided is Bubble:
-				_handle_bubble_collision(collided as Bubble)
+				pass
+				#_handle_bubble_collision(collided as Bubble)
 			elif collided is Interactable:
 				if not absorbed_entity:
 					_handle_interactable_collision.call_deferred(collided as Interactable)
@@ -64,8 +66,9 @@ func absorb(interactable: Interactable):
 	
 	var tween = get_tree().create_tween()
 	
+	var target_position = interactable.global_position
+	
 	# absord method
-	interactable.reparent(self)
 	interactable.get_node("CollisionShape2D").disabled = true
 	interactable.z_index = 0
 	interactable.z_as_relative = false
@@ -74,7 +77,9 @@ func absorb(interactable: Interactable):
 	
 	_speed_multiplier = 0
 	
-	tween.tween_property(interactable, "position", Vector2(0,0), 0.2)
+	tween.tween_property(self, "position", target_position, 0.2)#.set_delay(0.1)
+	tween.tween_callback(func(): interactable.reparent(self))
+	
 	
 	#tween.set_parallel()
 	#tween.tween_property(self, "speed", 0, 0.3).set_delay(0.8)
@@ -110,6 +115,8 @@ func _on_jump_pad_body_entered(body: Node2D) -> void:
 	# todo: Restrict this to Player class? 
 	if not launched:
 		body_started_in_bubble = true
+	
+	body_started_in_bubble = false #hack
 			
 	if body.velocity.y > 0:
 		if launched and not body_started_in_bubble and raycast.is_colliding():
@@ -146,8 +153,9 @@ func _release_item():
 			absorbed_entity.z_as_relative = true
 			absorbed_entity.gravity_scale = 1
 			absorbed_entity = null
-	
+
 func _notification(what):
 	match what:
 		NOTIFICATION_PREDELETE:
+			on_disappear.emit()
 			_release_item()

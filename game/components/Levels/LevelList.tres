@@ -2,19 +2,23 @@
 
 [ext_resource type="Script" uid="uid://chd48lfhqi25b" path="res://components/Levels/level_list.gd" id="1_n4508"]
 [ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="1_tdpob"]
-[ext_resource type="PackedScene" uid="uid://n83nfsctgnnu" path="res://components/Levels/tests/GymLevel.tscn" id="2_ao226"]
-[ext_resource type="PackedScene" uid="uid://bktgnpvg3hq40" path="res://components/Levels/tests/climb.tscn" id="3_agayo"]
+
+[sub_resource type="Resource" id="Resource_r5baq"]
+metadata/__load_path__ = "res://components/Levels/GymLevel.tscn"
 
 [sub_resource type="Resource" id="Resource_sr6tl"]
 script = ExtResource("1_tdpob")
 name = "Gym level baby!!"
-level = ExtResource("2_ao226")
+level = SubResource("Resource_r5baq")
 metadata/_custom_type_script = ExtResource("1_tdpob")
+
+[sub_resource type="Resource" id="Resource_ht8nd"]
+metadata/__load_path__ = "res://components/Levels/climb.tscn"
 
 [sub_resource type="Resource" id="Resource_4jnwb"]
 script = ExtResource("1_tdpob")
 name = "How far can you go"
-level = ExtResource("3_agayo")
+level = SubResource("Resource_ht8nd")
 metadata/_custom_type_script = ExtResource("1_tdpob")
 
 [resource]

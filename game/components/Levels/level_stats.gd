@@ -1,4 +1,5 @@
 extends Resource
+
 class_name LevelStat
 
 @export var name: String

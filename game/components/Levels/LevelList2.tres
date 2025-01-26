@@ -1,0 +1,23 @@
+[gd_resource type="Resource" script_class="LevelList" load_steps=7 format=3 uid="uid://lj2cpxb70bjx"]
+
+[ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="1_chrsp"]
+[ext_resource type="Script" uid="uid://chd48lfhqi25b" path="res://components/Levels/level_list.gd" id="2_1ueer"]
+[ext_resource type="PackedScene" uid="uid://n83nfsctgnnu" path="res://components/Levels/tests/GymLevel.tscn" id="2_e7iou"]
+[ext_resource type="PackedScene" uid="uid://bktgnpvg3hq40" path="res://components/Levels/tests/climb.tscn" id="3_b4rfn"]
+
+[sub_resource type="Resource" id="Resource_jstjl"]
+script = ExtResource("1_chrsp")
+name = "Gym level baby!!"
+level = ExtResource("2_e7iou")
+metadata/_custom_type_script = ExtResource("1_chrsp")
+
+[sub_resource type="Resource" id="Resource_ac2cn"]
+script = ExtResource("1_chrsp")
+name = "How far can you go"
+level = ExtResource("3_b4rfn")
+metadata/_custom_type_script = ExtResource("1_chrsp")
+
+[resource]
+script = ExtResource("2_1ueer")
+levels = Array[ExtResource("1_chrsp")]([SubResource("Resource_jstjl"), SubResource("Resource_ac2cn")])
+metadata/_custom_type_script = ExtResource("2_1ueer")
