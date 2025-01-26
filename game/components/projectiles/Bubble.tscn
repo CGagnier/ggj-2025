@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cx05cla7f21ru"]
+[gd_scene load_steps=8 format=3 uid="uid://cx05cla7f21ru"]
 
 [ext_resource type="Script" uid="uid://bqfspwrggxekc" path="res://components/projectiles/Bubble.gd" id="1_07ejg"]
 [ext_resource type="Texture2D" uid="uid://xuldn814bgbq" path="res://components/projectiles/bubble.png" id="2_03aeg"]
 [ext_resource type="AudioStream" uid="uid://vvvshv7crppb" path="res://assets/Sounds/Boing.wav" id="3_03aeg"]
+[ext_resource type="PackedScene" uid="uid://bamt508k1od6e" path="res://components/projectiles/bubble_particules.tscn" id="4_64jfj"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_h17rn"]
 radius = 13.0
@@ -44,7 +45,7 @@ collision_layer = 0
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPad"]
-position = Vector2(22.6837, 12.0558)
+position = Vector2(20.1633, 12.6021)
 shape = SubResource("RectangleShape2D_2rhu5")
 
 [node name="RaycastDownLeft" type="RayCast2D" parent="."]
@@ -85,6 +86,8 @@ pitch_scale = 3.5
 [node name="SafetyDestroyTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="CPUParticles2D" parent="." instance=ExtResource("4_64jfj")]
 
 [connection signal="area_entered" from="JumpPad" to="." method="_on_jump_pad_area_entered"]
 [connection signal="area_exited" from="JumpPad" to="." method="_on_jump_pad_area_exited"]

@@ -49,6 +49,8 @@ var _can_play_wall_sound = true
 
 @onready var sine_t := randf() * 10
 
+@onready var particles = $CPUParticles2D
+
 func _ready():
 	if is_static:
 		set_collision_mask_value(1, 0)
@@ -95,7 +97,7 @@ func _delay_die() -> void:
 	if _should_die_after_delay or not _can_die: return #no-op if already scheduled to die
 	_speed_multiplier = 0
 	_should_die_after_delay = true
-	await get_tree().create_timer(disappear_time).timeout
+	await get_tree().create_timer(.5).timeout
 	
 	# Possible to be overriden by absorbing an entity
 	if _should_die_after_delay:
@@ -219,9 +221,14 @@ func bounce_player():
 	if not is_static:
 		tween.tween_callback(queue_free)
 
+func _particles() -> void:
+	particles.fire()
+	particles.reparent(get_parent())
+
 func _notification(what):
 	match what:
 		NOTIFICATION_PREDELETE:
+			_particles()
 			on_disappear.emit()
 			_release_item()
 
