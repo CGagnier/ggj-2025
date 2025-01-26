@@ -5,8 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="3_r3ojo"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="4_hfp3j"]
 [ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="5_7dx2m"]
-[ext_resource type="Resource" uid="uid://dp66yjkf0ycrq" path="res://components/projectiles/balls/Ball_Explodable_02.tres" id="6_ljx2h"]
-[ext_resource type="PackedScene" uid="uid://c2skbxd4jl3jg" path="res://components/Enemy/platform_static.tscn" id="7_ljx2h"]
+[ext_resource type="Resource" path="res://components/projectiles/balls/Ball_Explodable_02.tres" id="6_ljx2h"]
+[ext_resource type="PackedScene" path="res://components/Enemy/platform_static.tscn" id="7_ljx2h"]
 
 [node name="Main3" instance=ExtResource("1_i41ao")]
 
