@@ -1,8 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://btxan2a50jby0"]
+[gd_scene load_steps=2 format=3 uid="uid://divdirym2yvr8"]
 
 [sub_resource type="GDScript" id="GDScript_4jmw0"]
 script/source = "extends Node2D
-Player
 "
 
 [node name="Container" type="Node2D"]

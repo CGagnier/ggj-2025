@@ -16,6 +16,7 @@ var current_state = null
 
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var shooter = $Shooter
+@onready var collisionshape = $CollisionShape2D
 
 #region Statess
 func _enter_state(new_state):
@@ -133,6 +134,8 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func _dying() -> void:
 	_enter_state(state.die)
 	alive = false
-	shooter.queue_free()
+	collisionshape.disabled = true
+	if shooter:
+		shooter.queue_free()
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)
