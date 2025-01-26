@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b37xqua46eo40" path="res://components/Levels/manager/base.tscn" id="1_31lby"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="2_s0lnu"]
-[ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="3_rj4gk"]
+[ext_resource type="PackedScene" uid="uid://u0n6xx5b8eto" path="res://components/Interactables/Door_exit_crate.tscn" id="3_rj4gk"]
 
 [node name="Main" instance=ExtResource("1_31lby")]
 

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1juygc65pu2d" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" id="3_s1u8i"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="4_pbnod"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="5_cw52b"]
-[ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="6_7ck7l"]
+[ext_resource type="PackedScene" uid="uid://u0n6xx5b8eto" path="res://components/Interactables/Door_exit_crate.tscn" id="6_n28lh"]
 [ext_resource type="PackedScene" uid="uid://cdm76elufo5r" path="res://components/Enemy/saw.tscn" id="7_22ptw"]
 [ext_resource type="PackedScene" uid="uid://byk4tk4nfjdke" path="res://components/Player/player_camera.tscn" id="8_dbstm"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="8_lmy37"]
@@ -36,6 +36,58 @@ position = Vector2(0, -1.5)
 shape = SubResource("RectangleShape2D_57t40")
 one_way_collision = true
 
+[node name="StaticBody2D2" type="StaticBody2D" parent="Decorations"]
+position = Vector2(142, 253)
+
+[node name="Sprite2D" type="Sprite2D" parent="Decorations/StaticBody2D2"]
+texture = ExtResource("3_s1u8i")
+region_enabled = true
+region_rect = Rect2(160, 32, 32, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Decorations/StaticBody2D2"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_57t40")
+one_way_collision = true
+
+[node name="StaticBody2D3" type="StaticBody2D" parent="Decorations"]
+position = Vector2(174, 253)
+
+[node name="Sprite2D" type="Sprite2D" parent="Decorations/StaticBody2D3"]
+texture = ExtResource("3_s1u8i")
+region_enabled = true
+region_rect = Rect2(160, 32, 32, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Decorations/StaticBody2D3"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_57t40")
+one_way_collision = true
+
+[node name="StaticBody2D4" type="StaticBody2D" parent="Decorations"]
+position = Vector2(206, 253)
+
+[node name="Sprite2D" type="Sprite2D" parent="Decorations/StaticBody2D4"]
+texture = ExtResource("3_s1u8i")
+region_enabled = true
+region_rect = Rect2(160, 32, 32, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Decorations/StaticBody2D4"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_57t40")
+one_way_collision = true
+
+[node name="StaticBody2D5" type="StaticBody2D" parent="Decorations"]
+position = Vector2(237, 253)
+
+[node name="Sprite2D" type="Sprite2D" parent="Decorations/StaticBody2D5"]
+texture = ExtResource("3_s1u8i")
+region_enabled = true
+region_rect = Rect2(160, 32, 32, 8)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Decorations/StaticBody2D5"]
+position = Vector2(0, -1.5)
+shape = SubResource("RectangleShape2D_57t40")
+one_way_collision = true
+
 [node name="Obstacles" type="Node" parent="."]
 
 [node name="Crate-canon" parent="Obstacles" instance=ExtResource("4_pbnod")]
@@ -47,7 +99,7 @@ break_velocity = 100
 position = Vector2(299, 151)
 mass = 1.0
 gravity_scale = 2.0
-item_scene = ExtResource("6_7ck7l")
+item_scene = ExtResource("6_n28lh")
 break_velocity = 200
 
 [node name="Saw" parent="." instance=ExtResource("7_22ptw")]

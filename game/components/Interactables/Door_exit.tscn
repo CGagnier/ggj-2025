@@ -3,9 +3,4 @@
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="1_w8wfe"]
 
 [node name="Door" instance=ExtResource("1_w8wfe")]
-centered = false
-offset = Vector2(-22.5, -56)
 is_exit = true
-
-[node name="Area2D" parent="." index="0"]
-position = Vector2(0, -26)
