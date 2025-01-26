@@ -8,3 +8,5 @@ z_index = 1
 script = ExtResource("1_oy2e8")
 ProjectileScene = ExtResource("2_bl0qu")
 start_scale = Vector2(0.3, 0.3)
+max_scale = Vector2(1.6, 1.6)
+growth_rate = 0.8

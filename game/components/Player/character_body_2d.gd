@@ -148,7 +148,7 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 func _dying() -> void:
 	_enter_state(state.die)
 	alive = false
-	collisionshape.disabled = true
+	collisionshape.set_deferred("disabled", true)
 	if shooter:
 		shooter.queue_free()
 	var _tween = get_tree().create_tween()

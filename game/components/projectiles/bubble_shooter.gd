@@ -3,8 +3,12 @@ extends Node2D
 @export var ProjectileScene: PackedScene
 @export var start_scale = Vector2(0.5, 0.5)
 @export var max_scale: Vector2 = Vector2(2,2)
-@export var growth_rate = 1
+@export var growth_rate := 1.0
 @export var indicator: BubbleIndicator
+
+@export var time_to_full_bubble := 1.0
+
+var _grow_time := 0.0
 
 var current_projectile: Node2D = null
 
@@ -78,13 +82,20 @@ func _physics_process(delta: float) -> void:
 			release_time = 0
 			current_shoot_dir = input_to_dir.get(shoot_dir)
 			
-			if current_projectile and current_projectile.scale < max_scale: 
-				current_projectile.global_scale *= (1 + growth_rate * delta)
+			_grow_time += delta
+			if current_projectile and _grow_time <= time_to_full_bubble:
+				current_projectile.global_scale = lerp(start_scale, max_scale, _grow_time / time_to_full_bubble)
+				#current_projectile.global_scale += Vector2.ONE * 0.01
+			
+			if current_projectile and current_projectile.scale < max_scale:
+				#current_projectile.global_scale *= (1 + growth_rate * delta)
 				break
 			
 			if not current_projectile and num_bullets > 0:
 				# Player holding down after projectiel died
 				_create_bubble()
+				
+			
 			
 	
 	for shoot_dir in shoot_dirs:
@@ -108,6 +119,7 @@ func _create_bubble() -> void:
 	current_projectile = _new_bubble
 	current_projectile.player = get_parent()
 	current_projectile.on_disappear.connect(func(): if indicator: num_bullets += 1, CONNECT_ONE_SHOT)
+	_grow_time = 0.0
 	add_child(current_projectile)
 	num_bullets -= 1
 

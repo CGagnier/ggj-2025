@@ -29,7 +29,6 @@ func DestroyBall() -> void:
 	queue_free()
 
 func _on_body_entered(body: Node) -> void:
-	print("Collision!")
 	if (body is not Canon):
 		if (stat.can_explode):
 			if(body is Player):

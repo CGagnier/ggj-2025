@@ -1,9 +1,8 @@
-[gd_scene load_steps=6 format=3 uid="uid://c2pi8ieenh3w6"]
+[gd_scene load_steps=5 format=3 uid="uid://c2pi8ieenh3w6"]
 
-[ext_resource type="Script" path="res://components/Interactables/interactable.gd" id="1_10nmr"]
+[ext_resource type="Script" uid="uid://b46md7ax17r55" path="res://components/Interactables/interactable.gd" id="1_10nmr"]
 [ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="1_gn25t"]
 [ext_resource type="Script" uid="uid://cgjgrkgpvj3gc" path="res://components/Interactables/crate.gd" id="1_qlcli"]
-[ext_resource type="PackedScene" path="res://components/Interactables/broken_crate.tscn" id="3_a4pbp"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gtapc"]
 size = Vector2(21, 16)
@@ -15,7 +14,6 @@ contact_monitor = true
 max_contacts_reported = 1
 constant_force = Vector2(4, 20)
 script = ExtResource("1_qlcli")
-broken_crate = ExtResource("3_a4pbp")
 metadata/_custom_type_script = ExtResource("1_10nmr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
