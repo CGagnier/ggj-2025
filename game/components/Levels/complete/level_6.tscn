@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b37xqua46eo40" path="res://components/Levels/manager/base.tscn" id="1_i41ao"]
 [ext_resource type="PackedScene" uid="uid://dkxwdswxo0la4" path="res://components/Enemy/spikes.tscn" id="2_ho645"]
 
-[node name="Main" instance=ExtResource("1_i41ao")]
+[node name="Main2" instance=ExtResource("1_i41ao")]
 
 [node name="Decorations" parent="." index="1"]
 tile_map_data = PackedByteArray()
