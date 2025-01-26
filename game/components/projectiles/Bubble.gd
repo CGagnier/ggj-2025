@@ -18,7 +18,11 @@ var body_started_in_bubble = false
 var absorbed_entity = null
 var _speed_multiplier = 1
 
+@onready var raycast = $RayCast2D
+
+
 func _physics_process(delta: float) -> void:
+	
 	if launched:
 		t += delta * 2
 		t = min(t, 1.0)
@@ -41,9 +45,13 @@ func _physics_process(delta: float) -> void:
 				#dir = dir.bounce(collision.get_normal())
 				if collided is not Player:
 					if (collision.get_normal() * dir).length() > 0:
-						_release_item()
-						queue_free()
+						_delay_die()
 				
+func _delay_die() -> void: 
+	_speed_multiplier = 0
+	await get_tree().create_timer(.5).timeout
+	queue_free()
+
 func release() -> void:
 	launched = true
 	speed = start_speed
@@ -104,7 +112,7 @@ func _on_jump_pad_body_entered(body: Node2D) -> void:
 		body_started_in_bubble = true
 			
 	if body.velocity.y > 0:
-		if launched and not body_started_in_bubble:
+		if launched and not body_started_in_bubble and raycast.is_colliding():
 			# Prevent the player from boucning around when shooting left or right while in the bubble
 			# Note: This does not work.
 			
