@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("2_10p2u")
-name = "YOU GO UP AGAIN"
+name = "YOU GO UP, BUT WAY WAY HARDER"
 level = ExtResource("1_0wbhe")
 metadata/_custom_type_script = ExtResource("2_10p2u")

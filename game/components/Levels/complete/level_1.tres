@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("2_coew3")
-name = "Space to Jump"
+name = "Press space to Jump"
 level = ExtResource("1_2m6u8")
 metadata/_custom_type_script = ExtResource("2_coew3")

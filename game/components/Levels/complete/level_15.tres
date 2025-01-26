@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="LevelStat" load_steps=3 format=3 uid="uid://dxbhk3vhyxse7"]
 
-[ext_resource type="PackedScene" uid="uid://cqm7xaty53mp6" path="res://components/Levels/complete/level_15.tscn" id="1_u4q4v"]
+[ext_resource type="PackedScene" uid="uid://bwwcjsj1hqxh4" path="res://components/Levels/complete/level_15.tscn" id="1_u4q4v"]
 [ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="2_ny650"]
 
 [resource]

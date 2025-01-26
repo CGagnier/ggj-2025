@@ -5,6 +5,6 @@
 
 [resource]
 script = ExtResource("2_v7igi")
-name = "lvl6"
+name = "Who said cannons?"
 level = ExtResource("1_dagks")
 metadata/_custom_type_script = ExtResource("2_v7igi")

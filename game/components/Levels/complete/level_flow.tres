@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="LevelList" load_steps=20 format=3 uid="uid://bxt8yl7oorpbe"]
+[gd_resource type="Resource" script_class="LevelList" load_steps=15 format=3 uid="uid://bxt8yl7oorpbe"]
 
 [ext_resource type="PackedScene" uid="uid://c70rd2o0qifrn" path="res://components/Levels/complete/FinalLevel.tscn" id="1_ecgu3"]
 [ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="1_y7i4h"]
@@ -10,14 +10,9 @@
 [ext_resource type="Resource" uid="uid://dx3sx8jmeh58e" path="res://components/Levels/complete/level_5.tres" id="7_80hgi"]
 [ext_resource type="Resource" uid="uid://ywc08qng1xjq" path="res://components/Levels/complete/level_6.tres" id="8_kgut6"]
 [ext_resource type="Resource" uid="uid://dlwp3wnxyymjr" path="res://components/Levels/complete/level_7.tres" id="9_jbrwx"]
-[ext_resource type="Resource" uid="uid://cm7ebqs2nsxpd" path="res://components/Levels/complete/level_8.tres" id="10_ftbha"]
-[ext_resource type="Resource" uid="uid://cay02symgtprs" path="res://components/Levels/complete/level_9.tres" id="11_a4pop"]
-[ext_resource type="Resource" uid="uid://c0k0o4bsb0fu8" path="res://components/Levels/complete/level_10.tres" id="12_fkkrl"]
-[ext_resource type="Resource" uid="uid://1n3bcrrwnq7a" path="res://components/Levels/complete/level_11.tres" id="13_0hhuk"]
-[ext_resource type="Resource" uid="uid://deb83vw0sjep4" path="res://components/Levels/complete/level_12.tres" id="14_6q1tf"]
-[ext_resource type="Resource" uid="uid://bjwsjcpdmcs5a" path="res://components/Levels/complete/level_13.tres" id="15_0ymd6"]
-[ext_resource type="Resource" uid="uid://de0w2t3og0dpc" path="res://components/Levels/complete/level_14.tres" id="16_im5vv"]
-[ext_resource type="Resource" uid="uid://dxbhk3vhyxse7" path="res://components/Levels/complete/level_15.tres" id="17_o5vsu"]
+[ext_resource type="Resource" uid="uid://clo0wws7r5qwq" path="res://components/Levels/complete/level_8.tres" id="10_ftbha"]
+[ext_resource type="Resource" uid="uid://b51onrskl2y0k" path="res://components/Levels/complete/level_9.tres" id="11_a4pop"]
+[ext_resource type="Resource" uid="uid://b55spttgab6gh" path="res://components/Levels/complete/level_7_callback.tres" id="13_fdabn"]
 
 [sub_resource type="Resource" id="Resource_aosib"]
 script = ExtResource("1_y7i4h")
@@ -27,6 +22,6 @@ metadata/_custom_type_script = ExtResource("1_y7i4h")
 
 [resource]
 script = ExtResource("2_ygx3a")
-levels = Array[ExtResource("1_y7i4h")]([ExtResource("1_ygx3a"), ExtResource("4_rq4ro"), ExtResource("5_r1ae8"), ExtResource("6_ghlek"), ExtResource("7_80hgi"), ExtResource("8_kgut6"), ExtResource("9_jbrwx"), ExtResource("10_ftbha"), ExtResource("11_a4pop"), ExtResource("12_fkkrl"), ExtResource("13_0hhuk"), ExtResource("14_6q1tf"), ExtResource("15_0ymd6"), ExtResource("16_im5vv"), ExtResource("17_o5vsu")])
+levels = Array[ExtResource("1_y7i4h")]([ExtResource("1_ygx3a"), ExtResource("4_rq4ro"), ExtResource("5_r1ae8"), ExtResource("6_ghlek"), ExtResource("7_80hgi"), ExtResource("8_kgut6"), ExtResource("9_jbrwx"), ExtResource("10_ftbha"), ExtResource("11_a4pop"), ExtResource("13_fdabn")])
 final_level = SubResource("Resource_aosib")
 metadata/_custom_type_script = ExtResource("2_ygx3a")

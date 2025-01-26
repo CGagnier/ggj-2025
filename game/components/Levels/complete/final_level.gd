@@ -10,4 +10,5 @@ func emit_particle():
 		var particle = children.pick_random()
 		if particle:
 			particle.emitting = true
+			$FireworkAudio.play()
 	
