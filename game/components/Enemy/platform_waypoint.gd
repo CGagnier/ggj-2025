@@ -12,9 +12,6 @@ var currentPlatform: PlatformMoving = null
 func _ready() -> void:
 	sprite.visible = false
 
-func _process(delta: float) -> void:
-	pass
-
 # Should detect only moving platform layer
 func _on_area_entered(area: Area2D) -> void:
 	if area is PlatformMoving and next_waypoint and !currentPlatform:

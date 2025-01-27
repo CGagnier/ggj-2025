@@ -45,10 +45,7 @@ var release_time := 0.0
 var released = false
 var release_to_let_go_time := 0.1
 
-func _input(event: InputEvent) -> void:
-	pass
-	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	var offset = 10 * current_shoot_dir
 	if current_projectile:
 		current_projectile.position = offset
@@ -63,7 +60,6 @@ func _physics_process(delta: float) -> void:
 			released = false
 			release_time = 0
 	
-	var last_index = -1
 	var last_pressed_timestamp = -1
 	
 	for i in 4:
@@ -81,7 +77,6 @@ func _physics_process(delta: float) -> void:
 			var ts = last_pressed_timestamps[i]
 			if ts > last_pressed_timestamp:
 				last_pressed_timestamp = ts
-				last_index = i
 	
 	for shoot_dir in shoot_dirs:
 		if Input.is_action_pressed(shoot_dir):
@@ -101,11 +96,11 @@ func _physics_process(delta: float) -> void:
 			if current_projectile and _grow_time >= time_to_full_bubble:
 
 				if not is_tweening:
-					_tween = get_tree().create_tween().set_loops(2)
+					_tween = current_projectile.create_tween().set_loops(2)
 					is_tweening = true
-					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.0, 0.15)
-					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.75, 0.15).from(0.0)
-					_tween.tween_callback(func(): _clear_tween())
+					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.0, 0.10)
+					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.75, 0.10).from(0.0)
+					_tween.tween_callback(_clear_tween)
 				_time_with_full_bubble += delta
 				if _time_with_full_bubble >= time_before_bubble_pop:
 					pop_bubble()
@@ -143,8 +138,6 @@ func _create_bubble() -> void:
 		num_bullets -= 1
 
 func _clear_tween() -> void:
-	if _tween:
-		_tween.stop()
 	is_tweening = false
 	if current_projectile:
 		current_projectile.sprite.self_modulate.a = 0.75
@@ -166,6 +159,9 @@ func pop_bubble() -> void:
 	_time_with_full_bubble = 0.0
 	bubble_popped.emit()
 	_can_create_bubble = false
+	
+	_clear_tween()
+	
 	get_tree().create_timer(0.5).timeout.connect(func(): _can_create_bubble=true)
 	# todo: play pop animation
 	current_projectile.queue_free()

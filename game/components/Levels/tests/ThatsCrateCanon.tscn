@@ -1,12 +1,12 @@
 [gd_scene load_steps=10 format=4 uid="uid://c5i20161r656k"]
 
-[ext_resource type="TileSet" uid="uid://dn4fql7j0rrmu" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_7ck7l"]
+[ext_resource type="TileSet" uid="uid://cuivxl7wqd17e" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_7ck7l"]
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="2_dbstm"]
 [ext_resource type="Texture2D" uid="uid://d1juygc65pu2d" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" id="3_s1u8i"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="4_pbnod"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="5_cw52b"]
 [ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="6_7ck7l"]
-[ext_resource type="PackedScene" uid="uid://cdm76elufo5r" path="res://components/Enemy/saw.tscn" id="7_22ptw"]
+[ext_resource type="PackedScene" path="res://components/Enemy/saw.tscn" id="7_22ptw"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="8_lmy37"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_57t40"]

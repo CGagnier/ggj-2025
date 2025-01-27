@@ -20,7 +20,7 @@ func _ready() -> void:
 	_reset_camera_settings()
 	$MusicPlayer.play()
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	#print("level_set", level_limit_set)
 	if Input.is_action_just_pressed("reset"):
 		for node in get_parent().get_children():

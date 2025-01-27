@@ -16,9 +16,6 @@ class_name Canon
 func _ready() -> void:
 	Fire_Projectile(false)
 
-func _process(delta: float) -> void:
-	pass
-
 func Fire_Projectile(DoOnce = true) -> void:
 	AnimatedSprite.play("Shoot")
 	if (!DoOnce):

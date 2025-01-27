@@ -14,7 +14,7 @@ var last_velocities = []
 func _ready():
 	get_tree().create_timer(2).timeout.connect(func(): can_break = true)
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	last_velocities.push_back(linear_velocity.y)
 	if last_velocities.size() > 5:
 		last_velocities.pop_front()

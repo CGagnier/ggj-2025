@@ -9,8 +9,6 @@ var player_in: Player = null
 #const PLAYER_SCENE = preload("res://components/Player/player.tscn")
 @export var PLAYER_SCENE: PackedScene
 
-signal level_over
-
 func _ready():
 	if can_open:
 		get_tree().create_timer(1).timeout.connect(open)
@@ -37,7 +35,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if is_open and is_exit and not has_exited:
 		go_to_next_level(body)
 
-func _on_area_2d_body_exited(body: Node2D) -> void:
+func _on_area_2d_body_exited(_body: Node2D) -> void:
 	player_in = null
 
 func _player_death() -> void:

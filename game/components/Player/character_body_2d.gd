@@ -4,12 +4,16 @@ class_name Player
 signal died()
 
 @export var SPEED = 140.0
-@export var SPEED_JUMPDOWN = 2000.0
+@export var SPEED_JUMPDOWN = 400.0
 const JUMP_VELOCITY = -400.0
+
+@export var max_downwards_velocity = 400
+@export var max_upwards_velocity = 1000
 
 
 var will_die = false
 var alive = true
+var is_ground_pounding = false
 
 ## State Machine
 enum state {idle, run, jump, falling, landing, hit, die}
@@ -72,7 +76,7 @@ func _process_states():
 	if(current_state == state.jump):
 		_process_jumping()
 
-func _leave_state(old_state):
+func _leave_state(_old_state):
 	pass
 
 func _process_falling():
@@ -99,8 +103,17 @@ func _physics_process(delta: float) -> void:
 
 	# Add the gravity.
 	if not is_on_floor():
-		var InputDown = Vector2(0,Input.get_action_strength("move_down")*SPEED_JUMPDOWN*delta)
-		velocity += get_gravity() * delta + InputDown
+		var input_down := Vector2(0,Input.get_action_strength("move_down")*SPEED_JUMPDOWN)
+		
+		if abs(velocity.y) > 90:
+			# Only allow ground pound if you're at the apex of your jump
+			input_down = Vector2.ZERO
+		
+		if input_down.length() > 0:
+			is_ground_pounding = true
+		
+		velocity += get_gravity() * delta + input_down
+		velocity.y = clampf(velocity.y, -max_upwards_velocity, max_downwards_velocity)
 		
 		# TODO: Remove dying trigger
 		if velocity.y > 2000:
@@ -112,6 +125,7 @@ func _physics_process(delta: float) -> void:
 	if alive:
 		# Handle jump.
 		if Input.is_action_just_pressed("jump") and is_on_floor():
+			is_ground_pounding = false
 			velocity.y = JUMP_VELOCITY
 			$JumpSound.play(0.1)
 			_enter_state(state.jump)

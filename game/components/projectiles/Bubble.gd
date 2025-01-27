@@ -24,7 +24,7 @@ var inflate_percent := 0.0
 var player: Player = null
 var t := 0.0
 
-var collided = false
+var has_collided = false
 var body_started_in_bubble = false
 var absorbed_entity = null
 var _speed_multiplier = 1
@@ -32,7 +32,6 @@ var _player_in_bubble = false
 var _player_velocity_to_bounce = 50
 
 # For not detecting collision after absorb
-var _dont_check_collision_timer := 0.5
 var _can_die = true
 var _should_die_after_delay = false
 
@@ -76,7 +75,7 @@ func _physics_process(delta: float) -> void:
 		
 		var collision = move_and_collide(dir *  speed)
 		
-		if collision and not collided:
+		if collision and not has_collided:
 			var collided = collision.get_collider()
 			if collided is Bubble:
 				play_hit_wall_sound()
@@ -145,7 +144,7 @@ func absorb(interactable: Interactable):
 func _handle_bubble_collision(other_bubble: Bubble):
 	var scene:PackedScene = load(scene_file_path)
 	var new_instance = scene.instantiate()
-	other_bubble.collided = true # prevent other bubble from detecting same collision
+	other_bubble.has_collided = true # prevent other bubble from detecting same collision
 	other_bubble.queue_free()
 	queue_free()
 	
@@ -205,26 +204,30 @@ func should_bounce_player():
 
 func bounce_player():
 	speed = 0
-	var tween = get_tree().create_tween()
+	var tween = get_tree().create_tween().bind_node(self)
 	player.velocity.y = 0
 	
-	var base_scale = scale
-	#tween.tween_property(self, "scale", scale * Vector2(1, 0.9), 0.05).set_trans(Tween.TRANS_BOUNCE)
-	#tween.tween_property(self, "scale", base_scale, d0.05).set_trans(Tween.TRANS_CUBIC)
 	var start_position_y = $Sprite2D.position.y
 	tween.tween_property($Sprite2D, "position:y", start_position_y + 2, 0.05).set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property($Sprite2D, "position:y", 0, 0.05).set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_callback(play_bounce_sound)
 	tween.set_parallel()
 	var scale_modifier = scale.length()
-	var jump_force = -bounce_force * scale_modifier #todo: do * bounce dir
-	tween.tween_property(player, "velocity:y", jump_force, 0.01).set_trans(Tween.TRANS_BOUNCE)
+	var minimum_bounce_force = -250
+	var jump_force = min(-bounce_force * scale_modifier, minimum_bounce_force) #todo: do * bounce dir
+	
+	if player.is_ground_pounding:
+		jump_force *= 2
+		player.is_ground_pounding = false
+	
+	tween.tween_property(player, "velocity:y", jump_force, 0.01)#.set_trans(Tween.TRANS_BOUNCE)
 	
 	if not is_static:
 		tween.tween_callback(queue_free)
 
 func _particles() -> void:
 	particles.fire()
+	particles.owner = null
 	particles.reparent(get_parent())
 
 func _notification(what):
