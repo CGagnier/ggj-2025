@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1juygc65pu2d" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" id="3_s1u8i"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="4_pbnod"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="5_cw52b"]
-[ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="6_7ck7l"]
+[ext_resource type="PackedScene" uid="uid://b6ute071y4nqw" path="res://components/Interactables/crate_with_exit_inside.tscn" id="6_7ck7l"]
 [ext_resource type="PackedScene" uid="uid://oaongo66bylq" path="res://components/Enemy/saw.tscn" id="7_22ptw"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="8_lmy37"]
 
@@ -42,12 +42,8 @@ position = Vector2(525, 310)
 item_scene = ExtResource("5_cw52b")
 break_velocity = 100
 
-[node name="Crate-door" parent="Obstacles" instance=ExtResource("4_pbnod")]
-position = Vector2(299, 151)
-mass = 1.0
-gravity_scale = 2.0
-item_scene = ExtResource("6_7ck7l")
-break_velocity = 200
+[node name="Crate" parent="Obstacles" instance=ExtResource("6_7ck7l")]
+position = Vector2(305, 153)
 
 [node name="Saw" parent="." instance=ExtResource("7_22ptw")]
 position = Vector2(339, 344)

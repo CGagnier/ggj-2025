@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c2pi8ieenh3w6"]
+[gd_scene load_steps=10 format=3 uid="uid://c2pi8ieenh3w6"]
 
 [ext_resource type="Script" uid="uid://b46md7ax17r55" path="res://components/Interactables/interactable.gd" id="1_10nmr"]
 [ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="1_gn25t"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://b8euctwf36mvn" path="res://components/Interactables/broken_crate.tscn" id="2_a4pbp"]
 [ext_resource type="AudioStream" uid="uid://dtjs0pj4kuj4n" path="res://assets/Sounds/Wood shatter.wav" id="4_01r31"]
 [ext_resource type="AudioStream" uid="uid://bppf24cf8qxri" path="res://assets/Sounds/Small wood impact.wav" id="5_ksvp3"]
+
+[sub_resource type="PhysicsMaterial" id="PhysicsMaterial_ksvp3"]
+friction = 0.3
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1yn23"]
 random_pitch = 1.4
@@ -20,6 +23,7 @@ size = Vector2(21, 16)
 collision_layer = 16
 collision_mask = 17
 mass = 0.4
+physics_material_override = SubResource("PhysicsMaterial_ksvp3")
 sleeping = true
 lock_rotation = true
 contact_monitor = true

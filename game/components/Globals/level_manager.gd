@@ -39,7 +39,7 @@ func _load_current_level(level_index_modifier=0) -> void:
 	_next_level = LEVEL_LIST.levels[next_level_index-level_index_modifier]
 	_reset_camera_settings()
 	var _next_level_scene = _next_level.level.instantiate()
-	_next_level_scene.name = _next_level.name
+	_next_level_scene.name = _next_level.name if _next_level.name.length() else "EmptyNameLevel"
 
 	var _overlay: OverlayTitle = overlay.instantiate()
 	_overlay.title = _next_level.name

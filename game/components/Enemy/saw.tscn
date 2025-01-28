@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://oaongo66bylq"]
+[gd_scene load_steps=15 format=3 uid="uid://oaongo66bylq"]
 
 [ext_resource type="Script" path="res://components/Enemy/obstacle.gd" id="1_4q2bq"]
 [ext_resource type="Texture2D" uid="uid://dme7lkj7qduva" path="res://assets/Pixel Adventure/Saw/On (38x38).png" id="2_cgkwy"]
+[ext_resource type="AudioStream" uid="uid://duxkt5h450yrw" path="res://assets/Sounds/Saw.wav" id="3_cgkwy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mujus"]
 atlas = ExtResource("2_cgkwy")
@@ -70,6 +71,12 @@ animations = [{
 [sub_resource type="CircleShape2D" id="CircleShape2D_gtapc"]
 radius = 16.0
 
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_ioko8"]
+random_pitch = 1.1
+random_volume_offset_db = 1.0
+streams_count = 1
+stream_0/stream = ExtResource("3_cgkwy")
+
 [node name="Saw" type="Area2D"]
 collision_layer = 0
 collision_mask = 10
@@ -83,5 +90,12 @@ frame_progress = 0.0228593
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gtapc")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_ioko8")
+volume_db = -30.0
+autoplay = true
+max_distance = 300.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

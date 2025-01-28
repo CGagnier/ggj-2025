@@ -4,10 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://docniq82k1xc6" path="res://components/Interactables/Door_exit_crate.tscn" id="2_h37ia"]
 
 [sub_resource type="PhysicsMaterial" id="PhysicsMaterial_h37ia"]
-friction = 0.7
+friction = 0.3
 
 [node name="Crate" instance=ExtResource("1_s20kb")]
 physics_material_override = SubResource("PhysicsMaterial_h37ia")
+sleeping = false
 item_scene = ExtResource("2_h37ia")
 break_velocity = 20
 

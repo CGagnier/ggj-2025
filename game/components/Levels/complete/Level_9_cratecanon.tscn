@@ -98,10 +98,9 @@ position = Vector2(525, 310)
 item_scene = ExtResource("5_cw52b")
 break_velocity = 100
 
-[node name="Crate" parent="Obstacles" instance=ExtResource("6_n28lh")]
+[node name="Crate-exit" parent="Obstacles" instance=ExtResource("6_n28lh")]
 position = Vector2(305, 152)
 physics_material_override = SubResource("PhysicsMaterial_n28lh")
-break_velocity = 20
 
 [node name="Saw" parent="." instance=ExtResource("7_22ptw")]
 position = Vector2(339, 344)
