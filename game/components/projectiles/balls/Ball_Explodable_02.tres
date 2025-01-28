@@ -4,7 +4,7 @@
 
 [resource]
 script = ExtResource("1_gtsfl")
-speed = 30.0
+speed = 100.0
 gravity_scale = 0.0
 timeToDestroy = 0.0
 can_explode = true

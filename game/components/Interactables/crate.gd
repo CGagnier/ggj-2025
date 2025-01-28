@@ -54,6 +54,6 @@ func _spawn_item():
 		var new_item = item_scene.instantiate()
 		get_parent().add_child.call_deferred(new_item)
 		new_item.global_position = $ItemSpawnPoint.global_position
-		new_item.scale = Vector2.ZERO
-		get_tree().create_tween().tween_property(new_item, "scale", Vector2.ONE, 0.3).set_ease(Tween.EASE_OUT)
+		new_item.scale.y = 0
+		get_tree().create_tween().tween_property(new_item, "scale:y", 1, 0.3).set_ease(Tween.EASE_OUT)
 	
