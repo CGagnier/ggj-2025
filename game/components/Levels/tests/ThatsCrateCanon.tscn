@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="4_pbnod"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="5_cw52b"]
 [ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="6_7ck7l"]
-[ext_resource type="PackedScene" path="res://components/Enemy/saw.tscn" id="7_22ptw"]
+[ext_resource type="PackedScene" uid="uid://oaongo66bylq" path="res://components/Enemy/saw.tscn" id="7_22ptw"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="8_lmy37"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_57t40"]

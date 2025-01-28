@@ -12,13 +12,16 @@ var position_smoothing_speed
 var death_count:int = 0
 var level_death:int = 0
 
+var play_music = false
+
 func _reset_camera_settings() -> void:
 	level_limit_set = false
 	position_smoothing_speed = 5.0 # Default
 
 func _ready() -> void:
 	_reset_camera_settings()
-	$MusicPlayer.play()
+	if play_music:
+		$MusicPlayer.play()
 
 func _process(_delta: float) -> void:
 	#print("level_set", level_limit_set)

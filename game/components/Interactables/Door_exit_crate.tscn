@@ -1,4 +1,4 @@
-[gd_scene load_steps=2 format=3 uid="uid://u0n6xx5b8eto"]
+[gd_scene load_steps=2 format=3 uid="uid://docniq82k1xc6"]
 
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="1_oc3lj"]
 

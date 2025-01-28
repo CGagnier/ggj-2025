@@ -1,10 +1,12 @@
-[gd_scene load_steps=17 format=3 uid="uid://yqmpe7c351s5"]
+[gd_scene load_steps=20 format=3 uid="uid://yqmpe7c351s5"]
 
 [ext_resource type="Texture2D" uid="uid://lv0bwonsc48a" path="res://assets/Kings and Pigs/Sprites/11-Door/Idle.png" id="1_bwysc"]
 [ext_resource type="Texture2D" uid="uid://63ns6gtts34x" path="res://assets/Kings and Pigs/Sprites/11-Door/Closiong (46x56).png" id="1_tsqb8"]
 [ext_resource type="Texture2D" uid="uid://bagjx0klqdj7w" path="res://assets/Kings and Pigs/Sprites/11-Door/Opening (46x56).png" id="3_3su2g"]
 [ext_resource type="Script" uid="uid://soqdofyd2gxb" path="res://components/Interactables/door.gd" id="4_3su2g"]
 [ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="5_lqepo"]
+[ext_resource type="AudioStream" uid="uid://dd7w5lctmxcgt" path="res://assets/Sounds/Door Open.wav" id="6_ammli"]
+[ext_resource type="AudioStream" uid="uid://dls3fdr1kxb7l" path="res://assets/Sounds/Door Close.wav" id="7_n5pfu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lqepo"]
 atlas = ExtResource("1_tsqb8")
@@ -90,6 +92,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3su2g"]
 size = Vector2(27, 33)
 
+[sub_resource type="AudioStreamInteractive" id="AudioStreamInteractive_ct03e"]
+clip_count = 2
+clip_0/name = &"Open"
+clip_0/stream = ExtResource("6_ammli")
+clip_0/auto_advance = 0
+clip_1/name = &"Door Close"
+clip_1/stream = ExtResource("7_n5pfu")
+clip_1/auto_advance = 0
+
 [node name="Door" type="AnimatedSprite2D"]
 sprite_frames = SubResource("SpriteFrames_tsqb8")
 animation = &"close"
@@ -105,6 +116,11 @@ collision_mask = 2
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 position = Vector2(0.5, 9.5)
 shape = SubResource("RectangleShape2D_3su2g")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamInteractive_ct03e")
+volume_db = -5.0
+bus = &"SFX"
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

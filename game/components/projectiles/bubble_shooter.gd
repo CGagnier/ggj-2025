@@ -49,6 +49,8 @@ func _process(_delta: float) -> void:
 	var offset = 10 * current_shoot_dir
 	if current_projectile:
 		current_projectile.position = offset
+		current_projectile.dir = current_shoot_dir
+		current_projectile.inflate_percent = current_projectile.global_scale.length() / max_scale.length()
 	
 
 func _physics_process(delta: float) -> void:
@@ -94,7 +96,6 @@ func _physics_process(delta: float) -> void:
 			
 			# Detect holding bubble too long
 			if current_projectile and _grow_time >= time_to_full_bubble:
-
 				if not is_tweening:
 					_tween = current_projectile.create_tween().set_loops(2)
 					is_tweening = true
@@ -130,13 +131,17 @@ func _create_bubble() -> void:
 		var _new_bubble: Bubble = ProjectileScene.instantiate()
 		_new_bubble.scale = start_scale
 		current_projectile = _new_bubble
-		current_projectile.player = get_parent()
 		current_projectile.on_disappear.connect(on_bubble_disappear, CONNECT_ONE_SHOT)
-		current_projectile.on_bounce.connect($BoingPlayer.play)
+		current_projectile.on_bounce.connect(_on_bounce.bind(current_projectile))
 		_grow_time = 0.0
 		add_child(current_projectile)
 		num_bullets -= 1
 
+func _on_bounce(proj):
+	if proj:
+		$BoingPlayer.pitch_scale = 1.2 - (proj.inflate_percent*0.2)
+		$BoingPlayer.play()
+	
 func _clear_tween() -> void:
 	is_tweening = false
 	if current_projectile:
@@ -148,7 +153,6 @@ func _let_go() -> void:
 		_time_with_full_bubble = 0.0
 		#todo: use current dir
 		current_projectile.dir = current_shoot_dir
-		current_projectile.inflate_percent = current_projectile.scale.length() / max_scale.length()
 		current_projectile.reparent(get_parent().get_parent())
 		current_projectile.release()
 		current_projectile = null

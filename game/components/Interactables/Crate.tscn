@@ -1,26 +1,51 @@
-[gd_scene load_steps=5 format=3 uid="uid://c2pi8ieenh3w6"]
+[gd_scene load_steps=9 format=3 uid="uid://c2pi8ieenh3w6"]
 
 [ext_resource type="Script" uid="uid://b46md7ax17r55" path="res://components/Interactables/interactable.gd" id="1_10nmr"]
 [ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="1_gn25t"]
 [ext_resource type="Script" uid="uid://cgjgrkgpvj3gc" path="res://components/Interactables/crate.gd" id="1_qlcli"]
+[ext_resource type="PackedScene" uid="uid://b8euctwf36mvn" path="res://components/Interactables/broken_crate.tscn" id="2_a4pbp"]
+[ext_resource type="AudioStream" uid="uid://dtjs0pj4kuj4n" path="res://assets/Sounds/Wood shatter.wav" id="4_01r31"]
+[ext_resource type="AudioStream" uid="uid://bppf24cf8qxri" path="res://assets/Sounds/Small wood impact.wav" id="5_ksvp3"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1yn23"]
+random_pitch = 1.4
+random_volume_offset_db = 4.0
+streams_count = 1
+stream_0/stream = ExtResource("5_ksvp3")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gtapc"]
 size = Vector2(21, 16)
 
 [node name="Crate" type="RigidBody2D"]
 collision_layer = 16
+collision_mask = 17
 mass = 0.4
+sleeping = true
+lock_rotation = true
 contact_monitor = true
-max_contacts_reported = 1
+max_contacts_reported = 2
 constant_force = Vector2(4, 20)
 script = ExtResource("1_qlcli")
+broken_crate = ExtResource("2_a4pbp")
 metadata/_custom_type_script = ExtResource("1_10nmr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_gn25t")
 
+[node name="ContactStreamPlayer" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(-0.5, 0)
+stream = SubResource("AudioStreamRandomizer_1yn23")
+volume_db = -5.0
+pitch_scale = 0.8
+bus = &"SFX"
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, 0)
 shape = SubResource("RectangleShape2D_gtapc")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_01r31")
+
+[node name="ItemSpawnPoint" type="Node2D" parent="."]
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

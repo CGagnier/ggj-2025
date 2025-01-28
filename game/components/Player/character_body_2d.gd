@@ -3,9 +3,9 @@ class_name Player
 
 signal died()
 
-@export var SPEED = 140.0
+@export var SPEED = 160.0
 @export var SPEED_JUMPDOWN = 400.0
-const JUMP_VELOCITY = -400.0
+const JUMP_VELOCITY = -360.0
 
 @export var max_downwards_velocity = 400
 @export var max_upwards_velocity = 1000

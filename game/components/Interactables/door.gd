@@ -2,6 +2,7 @@ extends AnimatedSprite2D
 
 @export var is_exit = false
 @export var can_open = true
+
 var has_exited = false
 var is_open = false
 var player_in: Player = null
@@ -16,9 +17,12 @@ func _ready():
 	
 func open():
 	play("open")
+	$AudioStreamPlayer2D.play()
+	$AudioStreamPlayer2D.stream.set("parameters/switch_to_clip", "Open")
 	
 func close():
 	play("close")
+	$AudioStreamPlayer2D.get_stream_playback().switch_to_clip_by_name("Door Close")
 	
 func anim_finished():
 	if animation == "open":

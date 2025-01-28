@@ -1,6 +1,6 @@
-[gd_scene load_steps=13 format=3 uid="uid://cdm76elufo5r"]
+[gd_scene load_steps=13 format=3 uid="uid://oaongo66bylq"]
 
-[ext_resource type="Script" uid="uid://b7u7bky6vit8q" path="res://components/Enemy/obstacle.gd" id="1_4q2bq"]
+[ext_resource type="Script" path="res://components/Enemy/obstacle.gd" id="1_4q2bq"]
 [ext_resource type="Texture2D" uid="uid://dme7lkj7qduva" path="res://assets/Pixel Adventure/Saw/On (38x38).png" id="2_cgkwy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mujus"]
@@ -68,7 +68,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gtapc"]
-radius = 18.0
+radius = 16.0
 
 [node name="Saw" type="Area2D"]
 collision_layer = 0

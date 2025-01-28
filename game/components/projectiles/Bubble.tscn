@@ -9,10 +9,9 @@
 radius = 13.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2rhu5"]
-size = Vector2(34.6149, 11.1741)
+size = Vector2(34.6149, 11.8881)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_64jfj"]
-random_pitch = 1.5
 streams_count = 1
 stream_0/stream = ExtResource("3_03aeg")
 
@@ -23,7 +22,6 @@ collision_mask = 29
 script = ExtResource("1_07ejg")
 start_speed = 1.8
 final_speed = 2.0
-can_bounce_on_wall = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.74902)
@@ -37,21 +35,20 @@ offset = Vector2(-6.30103, -23.9439)
 shape = SubResource("CircleShape2D_h17rn")
 
 [node name="JumpPad" type="Area2D" parent="."]
-position = Vector2(-18, -18)
 scale = Vector2(0.793521, 0.793521)
 collision_layer = 0
 collision_mask = 32
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPad"]
-position = Vector2(20.1633, 12.6021)
+position = Vector2(0, -9.72466)
 shape = SubResource("RectangleShape2D_2rhu5")
 
 [node name="RaycastDownLeft" type="RayCast2D" parent="."]
-position = Vector2(-10, 0)
+position = Vector2(-4, 0)
 target_position = Vector2(0, 25)
 
 [node name="RaycastDownRight" type="RayCast2D" parent="."]
-position = Vector2(10, 0)
+position = Vector2(4, 0)
 target_position = Vector2(0, 25)
 
 [node name="RaycastLeft" type="RayCast2D" parent="."]

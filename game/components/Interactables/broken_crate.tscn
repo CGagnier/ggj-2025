@@ -1,63 +1,97 @@
-[gd_scene load_steps=6 format=3 uid="uid://b8euctwf36mvn"]
+[gd_scene load_steps=10 format=3 uid="uid://b8euctwf36mvn"]
 
 [ext_resource type="Texture2D" uid="uid://syblsjxbtg2v" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 1.png" id="1_0k13b"]
+[ext_resource type="Script" uid="uid://bmfqlac5bcy0d" path="res://components/Interactables/broken_crate.gd" id="1_ajano"]
 [ext_resource type="Texture2D" uid="uid://26s3b1kq4xko" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 2.png" id="2_r7gra"]
 [ext_resource type="Texture2D" uid="uid://c2q0u1w7l3p3r" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 3.png" id="3_ajano"]
 [ext_resource type="Texture2D" uid="uid://c06ctmluguyy1" path="res://assets/Kings and Pigs/Sprites/08-Box/Box Pieces 4.png" id="4_2a5uw"]
+[ext_resource type="AudioStream" uid="uid://bppf24cf8qxri" path="res://assets/Sounds/Small wood impact.wav" id="6_2a5uw"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0cdry"]
-size = Vector2(9, 9.25)
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_r7gra"]
+random_pitch = 1.4
+random_volume_offset_db = 4.0
+streams_count = 1
+stream_0/stream = ExtResource("6_2a5uw")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0k13b"]
+size = Vector2(9, 7.4375)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r7gra"]
+size = Vector2(8, 7)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_ajano")
 
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_r7gra")
+volume_db = -10.0
+bus = &"SFX"
+
+[node name="Parts" type="Node2D" parent="."]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="Parts"]
 position = Vector2(-7, 4)
-collision_layer = 16
+collision_layer = 128
+collision_mask = 129
+contact_monitor = true
+max_contacts_reported = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+[node name="Sprite2D" type="Sprite2D" parent="Parts/RigidBody2D"]
 position = Vector2(-5, -6)
 texture = ExtResource("1_0k13b")
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
-position = Vector2(-0.5, -0.625)
-shape = SubResource("RectangleShape2D_0cdry")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Parts/RigidBody2D"]
+position = Vector2(-0.5, 0.28125)
+shape = SubResource("RectangleShape2D_0k13b")
 
-[node name="RigidBody2D2" type="RigidBody2D" parent="."]
+[node name="RigidBody2D2" type="RigidBody2D" parent="Parts"]
 position = Vector2(-7, -5)
-collision_layer = 16
+collision_layer = 128
+collision_mask = 129
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector2(-20, -200)
 
-[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D2"]
+[node name="Sprite2D" type="Sprite2D" parent="Parts/RigidBody2D2"]
 position = Vector2(-5, -6)
 texture = ExtResource("2_r7gra")
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D2"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Parts/RigidBody2D2"]
 position = Vector2(-0.5, -0.625)
-shape = SubResource("RectangleShape2D_0cdry")
+shape = SubResource("RectangleShape2D_0k13b")
 
-[node name="RigidBody2D3" type="RigidBody2D" parent="."]
+[node name="RigidBody2D3" type="RigidBody2D" parent="Parts"]
 position = Vector2(2, -5)
-collision_layer = 16
+collision_layer = 128
+collision_mask = 129
+contact_monitor = true
+max_contacts_reported = 1
+linear_velocity = Vector2(20, -200)
 
-[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D3"]
+[node name="Sprite2D" type="Sprite2D" parent="Parts/RigidBody2D3"]
 position = Vector2(-5, -6)
 texture = ExtResource("3_ajano")
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D3"]
-position = Vector2(-0.5, -0.625)
-shape = SubResource("RectangleShape2D_0cdry")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Parts/RigidBody2D3"]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_0k13b")
 
-[node name="RigidBody2D4" type="RigidBody2D" parent="."]
+[node name="RigidBody2D4" type="RigidBody2D" parent="Parts"]
 position = Vector2(2, 4)
-collision_layer = 16
+collision_layer = 128
+collision_mask = 129
+contact_monitor = true
+max_contacts_reported = 1
 
-[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D4"]
+[node name="Sprite2D" type="Sprite2D" parent="Parts/RigidBody2D4"]
 position = Vector2(-5, -6)
 texture = ExtResource("4_2a5uw")
 centered = false
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D4"]
-position = Vector2(-0.5, -0.625)
-shape = SubResource("RectangleShape2D_0cdry")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Parts/RigidBody2D4"]
+shape = SubResource("RectangleShape2D_r7gra")
+
+[connection signal="body_entered" from="Parts/RigidBody2D" to="." method="_on_rigid_body_2d_body_entered"]

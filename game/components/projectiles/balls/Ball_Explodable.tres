@@ -1,11 +1,11 @@
-[gd_resource type="Resource" script_class="BallStat" load_steps=2 format=3 uid="uid://b1wgulw5o6ahv"]
+[gd_resource type="Resource" script_class="BallStat" load_steps=2 format=3 uid="uid://56bc712jodd8"]
 
 [ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="1_fuqvf"]
 
 [resource]
 script = ExtResource("1_fuqvf")
-speed = 40.0
-gravity_scale = 0.05
+speed = 250.0
+gravity_scale = 0.0
 timeToDestroy = 0.0
 can_explode = true
 scale_factor = 1.0

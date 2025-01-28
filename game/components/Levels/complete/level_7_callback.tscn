@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://b37xqua46eo40" path="res://components/Levels/manager/base.tscn" id="1_u1c13"]
 [ext_resource type="PackedScene" uid="uid://cxs76wj0ul56o" path="res://components/Interactables/environment_bubble.tscn" id="2_1n73s"]
-[ext_resource type="PackedScene" path="res://components/Enemy/saw.tscn" id="3_1n73s"]
+[ext_resource type="PackedScene" uid="uid://oaongo66bylq" path="res://components/Enemy/saw.tscn" id="3_1n73s"]
 [ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="3_d3q47"]
 [ext_resource type="PackedScene" uid="uid://b3dq2j7wy4mdc" path="res://components/Enemy/platform_moving.tscn" id="3_ykrrx"]
 [ext_resource type="PackedScene" uid="uid://c2skbxd4jl3jg" path="res://components/Enemy/platform_static.tscn" id="4_ykrrx"]
@@ -20,11 +20,12 @@ position = Vector2(-1, 181)
 [node name="EnvironmentBubble" parent="Node2D" index="0" instance=ExtResource("2_1n73s")]
 position = Vector2(296, -6)
 scale = Vector2(1.72272, 1.72272)
+bounce_force = 240
 sine_intensity = 10.0
 
 [node name="EnvironmentBubble2" parent="Node2D" index="1" instance=ExtResource("2_1n73s")]
-position = Vector2(236, 84)
-scale = Vector2(1.45657, 1.45657)
+position = Vector2(236, 82)
+scale = Vector2(1.21454, 1.21454)
 sine_intensity = 10.0
 
 [node name="EnvironmentBubble3" parent="Node2D" index="2" instance=ExtResource("2_1n73s")]

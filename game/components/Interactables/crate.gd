@@ -7,12 +7,16 @@ extends Interactable
 
 var last_velocity:Vector2
 
-var can_break = false
+var can_break = true
+var broken = false
 
 var last_velocities = []
 
+
 func _ready():
-	get_tree().create_timer(2).timeout.connect(func(): can_break = true)
+	$AudioStreamPlayer2D.finished.connect(queue_free)
+	contact_monitor = false
+	get_tree().create_timer(2).timeout.connect(func(): contact_monitor = true)
 
 func _physics_process(_delta: float) -> void:
 	last_velocities.push_back(linear_velocity.y)
@@ -23,14 +27,33 @@ func sum(accum, number):
 	return accum + number
 
 func _on_body_entered(body: Node) -> void:
-	if body is TileMapLayer or body is StaticBody2D:
+	if not broken:
+		$ContactStreamPlayer.play()
+		
+	if not broken and body is TileMapLayer or body is StaticBody2D:
 		var mean_velocities = last_velocities.reduce(sum, 0) / 5
 		if mean_velocities >= break_velocity and can_break:
-			queue_free()
-			#var instance = broken_crate.instantiate()
-			#get_tree().root.add_child.call_deferred(instance)
+			broken = true
+			set_collision_layer_value(5, 0)
+			set_collision_mask_value(5, 0)
+			#$CollisionShape2D.set_deferred("disabled", true)
 			
-			if item_scene:
-				var new_item = item_scene.instantiate()
-				get_parent().add_child.call_deferred(new_item)
-				new_item.global_position = global_position
+			if broken_crate:
+				var instance: Node2D = broken_crate.instantiate()
+				add_sibling.call_deferred(instance)
+				instance.global_position = global_position
+				instance.z_index = 2
+				$AudioStreamPlayer2D.play()
+				visible = false
+			
+			get_tree().create_timer(0.2).timeout.connect(_spawn_item)
+			
+
+func _spawn_item():	
+	if item_scene:
+		var new_item = item_scene.instantiate()
+		get_parent().add_child.call_deferred(new_item)
+		new_item.global_position = $ItemSpawnPoint.global_position
+		new_item.scale = Vector2.ZERO
+		get_tree().create_tween().tween_property(new_item, "scale", Vector2.ONE, 0.3).set_ease(Tween.EASE_OUT)
+	
