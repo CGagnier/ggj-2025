@@ -9,8 +9,12 @@ var level_limit_set
 var limits = {"left": 0, "right": 0, "top": 0, "bottom": 0}
 var position_smoothing_speed
 
-var death_count:int = 0
-var level_death:int = 0
+var death_count: int = 0
+var level_death: int = 0
+
+var total_time: float = 0.0 # TODO: Decide if it's time per level, or global
+var timer_should_run:= true
+var UI: OverlayTitle = null
 
 var play_music = false
 
@@ -29,6 +33,10 @@ func _process(_delta: float) -> void:
 			if not ProjectSettings.has_setting("autoload/%s" % node.name):
 				node.queue_free()
 				_load_current_level(1)
+	if timer_should_run:
+		total_time += _delta
+	if UI:
+		UI.update_time(total_time)
 
 ## Level Index Modifier used to NOT increase 
 func _load_current_level(level_index_modifier=0) -> void:
@@ -57,6 +65,7 @@ func go_to_next_level():
 		$AudioStreamPlayer2D.play()
 	
 	if next_level_index >= LEVEL_LIST.levels.size():
+		timer_should_run = false
 		_next_level = LEVEL_LIST.final_level 
 		$MusicPlayer.stop()
 	else:
@@ -70,6 +79,7 @@ func go_to_next_level():
 	
 		var _overlay: OverlayTitle = overlay.instantiate()
 		_overlay.title = _next_level.name
+		UI = _overlay
 	
 		add_sibling(_next_level_scene)
 		_next_level_scene.add_child(_overlay)
@@ -78,10 +88,10 @@ func go_to_next_level():
 			current_level.queue_free()
 
 		current_level = _next_level_scene
-		
 	else:
 		print("Level data not valid, can't go to next level if it's not valid, please stop being a noob!")
 
+#region Camera globals
 func set_current_camera_limits(left, top, right, bottom) -> void:
 
 	if not level_limit_set:
@@ -101,6 +111,7 @@ func set_camera_smoothing_speed(speed) -> void:
 
 func get_camera_smoothing_speed() -> float:
 	return position_smoothing_speed
+#endregion
 	
 func increase_deaths() -> void:
 	death_count += 1
