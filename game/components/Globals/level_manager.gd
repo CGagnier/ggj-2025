@@ -24,10 +24,9 @@ func _ready() -> void:
 		$MusicPlayer.play()
 
 func _process(_delta: float) -> void:
-	#print("level_set", level_limit_set)
 	if Input.is_action_just_pressed("reset"):
 		for node in get_parent().get_children():
-			if node.name != "LevelManager": # Yikes TODO: Add class? 
+			if not ProjectSettings.has_setting("autoload/%s" % node.name):
 				node.queue_free()
 				_load_current_level(1)
 
@@ -66,7 +65,8 @@ func go_to_next_level():
 	
 	if _next_level.level:
 		var _next_level_scene = _next_level.level.instantiate()
-		_next_level_scene.name = _next_level.name
+		if _next_level.name.length():
+			_next_level_scene.name = _next_level.name
 	
 		var _overlay: OverlayTitle = overlay.instantiate()
 		_overlay.title = _next_level.name

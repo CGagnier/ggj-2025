@@ -6,10 +6,12 @@ signal died()
 @export var SPEED = 160.0
 @export var SPEED_JUMPDOWN = 400.0
 const JUMP_VELOCITY = -360.0
+@export var can_ground_pound = false
 
 @export var max_downwards_velocity = 400
 @export var max_upwards_velocity = 1000
 
+var applied_force := Vector2.ZERO
 
 var will_die = false
 var alive = true
@@ -109,10 +111,11 @@ func _physics_process(delta: float) -> void:
 			# Only allow ground pound if you're at the apex of your jump
 			input_down = Vector2.ZERO
 		
+		if not can_ground_pound: input_down	 = Vector2.ZERO
 		if input_down.length() > 0:
 			is_ground_pounding = true
 		
-		velocity += get_gravity() * delta + input_down
+		velocity += get_gravity() * delta + input_down + applied_force
 		velocity.y = clampf(velocity.y, -max_upwards_velocity, max_downwards_velocity)
 		
 		# TODO: Remove dying trigger

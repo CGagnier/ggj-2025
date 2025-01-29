@@ -19,11 +19,14 @@ var _grow_time := 0.0
 var current_projectile: Node2D = null
 
 const shoot_dirs = ["shoot_left", "shoot_up", "shoot_right", "shoot_down"]
+const move_dirs = ["move_left", "move_up", "move_right", "move_down"]
 
 var last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
+var last_pressed_timestamp = -1
 var _current_bullets = 3
 var _time_with_full_bubble := 0.0
 var _can_create_bubble = true
+var _last_pressed_input = Vector2.RIGHT
 
 var num_bullets:
 	set(val):
@@ -31,13 +34,31 @@ var num_bullets:
 		indicator.num_gums = val
 	get:
 		return _current_bullets
+		
+func get_input_to_dir(input) -> Vector2:
+	if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
+		match input:
+			move_dirs[0]: return Vector2.LEFT
+			move_dirs[1]: return Vector2.UP
+			move_dirs[2]: return Vector2.RIGHT
+			move_dirs[3]: return Vector2.DOWN
+	else:
+		match input:
+			shoot_dirs[0]: return Vector2.LEFT
+			shoot_dirs[1]: return Vector2.UP
+			shoot_dirs[2]: return Vector2.RIGHT
+			shoot_dirs[3]: return Vector2.DOWN
+	
+	return Vector2.RIGHT
 
-var input_to_dir: Dictionary[String, Vector2] = {
-	shoot_dirs[0]: Vector2.LEFT,
-	shoot_dirs[1]: Vector2.UP,
-	shoot_dirs[2]: Vector2.RIGHT,
-	shoot_dirs[3]: Vector2.DOWN
-}
+#func has_input_shooting():
+	#if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
+		#return Input.is_action_just_pressed(shoot_dir) and not current_projectile
+#
+#func is_shoot_action_just_pressed():
+		#if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
+			#return Input.is_action_just_pressed(shoot_dir)
+
 
 var current_shoot_dir = Vector2.RIGHT
 
@@ -62,69 +83,105 @@ func _physics_process(delta: float) -> void:
 			released = false
 			release_time = 0
 	
-	var last_pressed_timestamp = -1
+	last_pressed_timestamp = -1
 	
-	for i in 4:
-		var shoot_dir = shoot_dirs[i]
-		if Input.is_action_just_pressed(shoot_dir) and not current_projectile:
-			if num_bullets <= 0:
-				# Alert no bullet
-				continue
-				
+	_process_start_shoot(delta)
+	_process_currently_shooting(delta)
+	_process_release_shoot(delta)
+
+func _process_start_shoot(delta):
+	if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
+		var _any_dir_set = false
+		for move_dir in move_dirs:
+			if Input.is_action_just_pressed(move_dir):
+				_any_dir_set = true
+				_last_pressed_input = move_dir
+		
+		if Input.is_action_just_pressed("shoot") and not current_projectile and num_bullets > 0:
+			if not _any_dir_set:
+				# In case player shoots while standing still, make him shoot the way he's facing
+				current_shoot_dir = get_input_to_dir(_last_pressed_input)
 			_create_bubble()
-			
-			last_pressed_timestamps[i] = Time.get_unix_time_from_system()
-			
-			# Keep tracked of which key was pressed last.
-			var ts = last_pressed_timestamps[i]
-			if ts > last_pressed_timestamp:
-				last_pressed_timestamp = ts
+	else:
+		for i in 4:
+			var shoot_dir = shoot_dirs[i]
+			if Input.is_action_just_pressed(shoot_dir) and not current_projectile:
+				if num_bullets <= 0:
+					# Alert no bullet
+					continue
+					
+				_create_bubble()
+				
+				last_pressed_timestamps[i] = Time.get_unix_time_from_system()
+				
+				# Keep tracked of which key was pressed last.
+				var ts = last_pressed_timestamps[i]
+				if ts > last_pressed_timestamp:
+					last_pressed_timestamp = ts
+
+func _process_currently_shooting(delta):
+	var is_inflating = false
+	if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
+		if Input.is_action_pressed("shoot"):
+			released = false
+			is_inflating = true
+			for move_dir in move_dirs:
+				if Input.is_action_pressed(move_dir):
+					current_shoot_dir = get_input_to_dir(move_dir)
+	else:
+		for shoot_dir in shoot_dirs:
+			if Input.is_action_pressed(shoot_dir):
+				released = false
+				is_inflating = true
+				current_shoot_dir = get_input_to_dir(shoot_dir)
 	
-	for shoot_dir in shoot_dirs:
-		if Input.is_action_pressed(shoot_dir):
+	if is_inflating:
+		_grow_time += delta
+		release_time = 0
+		
+		if current_projectile and _grow_time <= time_to_full_bubble:
+			if not $InflateAudioPlayer.playing:
+				$InflateAudioPlayer.play(0.27)
+			current_projectile.global_scale = lerp(start_scale, max_scale, _grow_time / time_to_full_bubble)
+		
+		# Detect holding bubble too long
+		if current_projectile and _grow_time >= time_to_full_bubble:
+			if not is_tweening:
+				_tween = current_projectile.create_tween().set_loops(2)
+				is_tweening = true
+				_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.0, 0.10)
+				_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.75, 0.10).from(0.0)
+				_tween.tween_callback(_clear_tween)
+			_time_with_full_bubble += delta
+			if _time_with_full_bubble >= time_before_bubble_pop:
+				pop_bubble()
+				
+		
+		if not current_projectile and num_bullets > 0:
+			# Player holding down after projectile was shot
+			_create_bubble()
+				
+func _process_release_shoot(delta):
+	if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
+		if Input.is_action_just_released("shoot"):
+			_let_go()
 			released = false
 			release_time = 0
-			current_shoot_dir = input_to_dir.get(shoot_dir)
-			
-			_grow_time += delta
-			if current_projectile and _grow_time <= time_to_full_bubble:
-				if  not $InflateAudioPlayer.playing:
-					$InflateAudioPlayer.play(0.27)
-				current_projectile.global_scale = lerp(start_scale, max_scale, _grow_time / time_to_full_bubble)
-				#current_projectile.global_scale += Vector2.ONE * 0.01
-				break
-			
-			# Detect holding bubble too long
-			if current_projectile and _grow_time >= time_to_full_bubble:
-				if not is_tweening:
-					_tween = current_projectile.create_tween().set_loops(2)
-					is_tweening = true
-					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.0, 0.10)
-					_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.75, 0.10).from(0.0)
-					_tween.tween_callback(_clear_tween)
-				_time_with_full_bubble += delta
-				if _time_with_full_bubble >= time_before_bubble_pop:
-					pop_bubble()
-					
-			
-			if not current_projectile and num_bullets > 0:
-				# Player holding down after projectiel died
-				_create_bubble()
+	else:
+		for shoot_dir in shoot_dirs:
+			if get_input_to_dir(shoot_dir) == current_shoot_dir and Input.is_action_just_released(shoot_dir):
+				if Time.get_unix_time_from_system() - last_pressed_timestamp > 0.05:
+					# This code path is to handle quickly shooting small projectiles
+					_let_go()
+					released = false
+					release_time = 0
+					last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
+				else:
+					# Start a timer to release this bubble shortly.
+					# It's to avoid a case where the player switches shoot direction, so there's a small gap in time
+					# where all keys are released.
+					released = true
 	
-	for shoot_dir in shoot_dirs:
-		if input_to_dir.get(shoot_dir) == current_shoot_dir and Input.is_action_just_released(shoot_dir):
-			if Time.get_unix_time_from_system() - last_pressed_timestamp > 0.05:
-				# This code path is to handle quickly shooting small projectiles
-				_let_go()
-				released = false
-				release_time = 0
-				last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
-			else:
-				# Start a timer to release this bubble shortly.
-				# It's to avoid a case where the player switches shoot direction, so there's a small gap in time
-				# where all keys are released.
-				released = true
-
 
 func _create_bubble() -> void:
 	if _can_create_bubble:
