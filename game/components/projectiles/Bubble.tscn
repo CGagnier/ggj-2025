@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cx05cla7f21ru"]
+[gd_scene load_steps=11 format=3 uid="uid://cx05cla7f21ru"]
 
 [ext_resource type="Script" uid="uid://bqfspwrggxekc" path="res://components/projectiles/Bubble.gd" id="1_07ejg"]
 [ext_resource type="Texture2D" uid="uid://xuldn814bgbq" path="res://components/projectiles/bubble.png" id="2_03aeg"]
@@ -8,8 +8,17 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_h17rn"]
 radius = 13.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2rhu5"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_64jfj"]
 size = Vector2(34.6149, 11.8881)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_12ofa"]
+size = Vector2(31.5051, 9.72467)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hgtwm"]
+size = Vector2(31.1697, 9.72466)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fk2ml"]
+size = Vector2(11.3419, 9.72466)
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_64jfj"]
 streams_count = 1
@@ -25,11 +34,10 @@ final_speed = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.74902)
-position = Vector2(-13, 1)
 scale = Vector2(0.793521, 0.793521)
 texture = ExtResource("2_03aeg")
 centered = false
-offset = Vector2(-6.30103, -23.9439)
+offset = Vector2(-22.971, -23.254)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_h17rn")
@@ -38,10 +46,50 @@ shape = SubResource("CircleShape2D_h17rn")
 scale = Vector2(0.793521, 0.793521)
 collision_layer = 0
 collision_mask = 32
+priority = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="JumpPad"]
 position = Vector2(0, -9.72466)
-shape = SubResource("RectangleShape2D_2rhu5")
+shape = SubResource("RectangleShape2D_64jfj")
+
+[node name="LeftJumpPad" type="Area2D" parent="."]
+scale = Vector2(0.793521, 0.793521)
+collision_layer = 0
+collision_mask = 32
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftJumpPad"]
+position = Vector2(-11.3419, 0.630104)
+rotation = -1.57079
+shape = SubResource("RectangleShape2D_12ofa")
+
+[node name="RightJumpPad" type="Area2D" parent="."]
+scale = Vector2(0.793521, 0.793521)
+collision_layer = 0
+collision_mask = 32
+monitoring = false
+monitorable = false
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightJumpPad"]
+position = Vector2(11.3419, 1.26021)
+rotation = 1.57079
+shape = SubResource("RectangleShape2D_hgtwm")
+
+[node name="DownJumpPad" type="Area2D" parent="."]
+editor_description = "Disabled for the moment because it causes issues
+"
+scale = Vector2(0.793521, 0.793521)
+collision_layer = 0
+collision_mask = 32
+monitoring = false
+monitorable = false
+priority = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DownJumpPad"]
+position = Vector2(0, 11.3419)
+rotation = 3.14159
+shape = SubResource("RectangleShape2D_fk2ml")
 
 [node name="RaycastDownLeft" type="RayCast2D" parent="."]
 position = Vector2(-4, 0)
@@ -50,6 +98,14 @@ target_position = Vector2(0, 25)
 [node name="RaycastDownRight" type="RayCast2D" parent="."]
 position = Vector2(4, 0)
 target_position = Vector2(0, 25)
+
+[node name="RaycastUp" type="RayCast2D" parent="."]
+position = Vector2(-4, 0)
+target_position = Vector2(0, -27)
+
+[node name="RaycastUp2" type="RayCast2D" parent="."]
+position = Vector2(4, 0)
+target_position = Vector2(0, -27)
 
 [node name="RaycastLeft" type="RayCast2D" parent="."]
 position = Vector2(-10, -6)
@@ -84,7 +140,19 @@ one_shot = true
 
 [node name="CPUParticles2D" parent="." instance=ExtResource("4_64jfj")]
 
-[connection signal="area_entered" from="JumpPad" to="." method="_on_jump_pad_area_entered"]
-[connection signal="area_exited" from="JumpPad" to="." method="_on_jump_pad_area_exited"]
-[connection signal="body_entered" from="JumpPad" to="." method="_on_jump_pad_body_entered"]
-[connection signal="body_exited" from="JumpPad" to="." method="_on_jump_pad_body_exited"]
+[connection signal="area_entered" from="JumpPad" to="." method="_on_jump_pad_area_entered" binds= [Vector2(0, -1)]]
+[connection signal="area_exited" from="JumpPad" to="." method="_on_jump_pad_area_exited" binds= [Vector2(0, -1)]]
+[connection signal="body_entered" from="JumpPad" to="." method="_on_jump_pad_body_entered" binds= [Vector2(0, -1)]]
+[connection signal="body_exited" from="JumpPad" to="." method="_on_jump_pad_body_exited" binds= [Vector2(0, -1)]]
+[connection signal="area_entered" from="LeftJumpPad" to="." method="_on_jump_pad_area_entered" binds= [Vector2(-1, 0)]]
+[connection signal="area_exited" from="LeftJumpPad" to="." method="_on_jump_pad_area_exited" binds= [Vector2(-1, 0)]]
+[connection signal="body_entered" from="LeftJumpPad" to="." method="_on_jump_pad_body_entered" binds= [Vector2(-1, 0)]]
+[connection signal="body_exited" from="LeftJumpPad" to="." method="_on_jump_pad_body_exited" binds= [Vector2(-1, 0)]]
+[connection signal="area_entered" from="RightJumpPad" to="." method="_on_jump_pad_area_entered" binds= [Vector2(1, 0)]]
+[connection signal="area_exited" from="RightJumpPad" to="." method="_on_jump_pad_area_exited" binds= [Vector2(1, 0)]]
+[connection signal="body_entered" from="RightJumpPad" to="." method="_on_jump_pad_body_entered" binds= [Vector2(1, 0)]]
+[connection signal="body_exited" from="RightJumpPad" to="." method="_on_jump_pad_body_exited" binds= [Vector2(1, 0)]]
+[connection signal="area_entered" from="DownJumpPad" to="." method="_on_jump_pad_area_entered" binds= [Vector2(0, 1)]]
+[connection signal="area_exited" from="DownJumpPad" to="." method="_on_jump_pad_area_exited" binds= [Vector2(0, 1)]]
+[connection signal="body_entered" from="DownJumpPad" to="." method="_on_jump_pad_body_entered" binds= [Vector2(0, 1)]]
+[connection signal="body_exited" from="DownJumpPad" to="." method="_on_jump_pad_body_exited" binds= [Vector2(0, 1)]]

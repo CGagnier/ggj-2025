@@ -11,7 +11,6 @@ const JUMP_VELOCITY = -360.0
 @export var max_downwards_velocity = 400
 @export var max_upwards_velocity = 1000
 
-var applied_force := Vector2.ZERO
 
 var will_die = false
 var alive = true
@@ -34,6 +33,31 @@ func mean(accum, number):
 var recent_velocity:
 	get:
 		return _last_velocities.reduce(mean, Vector2.ZERO)
+
+class Impulse extends RefCounted:
+	var impulse_velocity: Vector2
+	var damping_factor := 0.95
+	var done:
+		get:
+			return impulse_velocity == Vector2.ZERO
+	
+	func _init(_dir, damp: float = 0.95):
+		impulse_velocity = _dir
+		damping_factor = damp
+	
+	func process(delta: float):
+		var val = impulse_velocity
+		impulse_velocity *= damping_factor
+		
+		if impulse_velocity.length() < 4:
+			impulse_velocity = Vector2.ZERO
+		
+		return val
+		
+var impulses:Array[Impulse] = []
+
+func add_impulse(impulse: Vector2, damp = 0.95):
+	impulses.push_back(Impulse.new(impulse, damp))
 
 #region Statess
 func _enter_state(new_state):
@@ -100,9 +124,24 @@ func _ready() -> void:
 	will_die = false
 	_enter_state(state.idle)
 	$Shooter.bubble_popped.connect(_on_bubble_popped)
+	
+func _process_impulses(delta):
+	var applied_force := Vector2.ZERO
+	
+	var to_remove = []
+	for i in impulses.size():
+		var impulse = impulses[i]
+		applied_force += impulse.process(delta)
+		
+		if impulse.done:
+			to_remove.push_back(i)
+	
+	for index in to_remove:
+		impulses.remove_at(index)
+	
+	return applied_force
 
 func _physics_process(delta: float) -> void:
-
 	# Add the gravity.
 	if not is_on_floor():
 		var input_down := Vector2(0,Input.get_action_strength("move_down")*SPEED_JUMPDOWN)
@@ -115,8 +154,8 @@ func _physics_process(delta: float) -> void:
 		if input_down.length() > 0:
 			is_ground_pounding = true
 		
-		velocity += get_gravity() * delta + input_down + applied_force
-		velocity.y = clampf(velocity.y, -max_upwards_velocity, max_downwards_velocity)
+		velocity += get_gravity() * delta + input_down
+		#velocity.y = clampf(velocity.y, -max_upwards_velocity, max_downwards_velocity)
 		
 		# TODO: Remove dying trigger
 		if velocity.y > 2000:
@@ -145,6 +184,8 @@ func _physics_process(delta: float) -> void:
 			$ExpressionHolder.scale.x = _mult
 		else:
 			velocity.x = move_toward(velocity.x, 0, SPEED)
+		
+		velocity += _process_impulses(delta)
 
 		if velocity.y == 0:
 			if velocity.x != 0.0 :

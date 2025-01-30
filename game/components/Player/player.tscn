@@ -274,7 +274,7 @@ animations = [{
 size = Vector2(12, 15)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hx8dc"]
-size = Vector2(10.8333, 5.83333)
+size = Vector2(4.37499, 3.75)
 
 [sub_resource type="AudioStreamPlaylist" id="AudioStreamPlaylist_b5xp4"]
 loop = false
@@ -302,7 +302,8 @@ flip_h = true
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_seu75")
-animation = &"idle"
+animation = &"falling"
+frame_progress = 0.224558
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 0.5)
@@ -319,8 +320,20 @@ collision_layer = 32
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerFeet"]
-position = Vector2(0, 5)
+position = Vector2(0, 6.66667)
 shape = SubResource("RectangleShape2D_hx8dc")
+debug_color = Color(0.97845, 0, 0.396087, 0.42)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerFeet"]
+position = Vector2(4.16667, 0.833333)
+shape = SubResource("RectangleShape2D_hx8dc")
+disabled = true
+debug_color = Color(0.97845, 0, 0.396087, 0.42)
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PlayerFeet"]
+position = Vector2(-4.16667, 0.833333)
+shape = SubResource("RectangleShape2D_hx8dc")
+disabled = true
 debug_color = Color(0.97845, 0, 0.396087, 0.42)
 
 [node name="PlayerCamera" parent="." instance=ExtResource("5_o667d")]
