@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://daml4qpyucco3"]
+
+[ext_resource type="Script" uid="uid://dradlwcagy7q7" path="res://components/Enemy/moving_object.gd" id="1_00q66"]
+[ext_resource type="PackedScene" uid="uid://5medgt3sori1" path="res://components/Enemy/platform_waypoint.tscn" id="1_s3ri1"]
+[ext_resource type="PackedScene" uid="uid://b3dq2j7wy4mdc" path="res://components/Enemy/platform_moving.tscn" id="2_00q66"]
+
+[node name="MovingObject" type="Node2D"]
+script = ExtResource("1_00q66")
+object = NodePath("../../Sprite2D2")
+
+[node name="platform_waypoint" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("1_s3ri1")]
+next_waypoint = NodePath("../platform_waypoint2")
+
+[node name="platform_waypoint2" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("1_s3ri1")]
+position = Vector2(100, 0)
+next_waypoint = NodePath("../platform_waypoint")
+
+[node name="platform_moving" parent="." node_paths=PackedStringArray("initial_waypoint") instance=ExtResource("2_00q66")]
+position = Vector2(9, 0)
+initial_waypoint = NodePath("../platform_waypoint")
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="platform_moving"]

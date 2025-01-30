@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=4 uid="uid://n83nfsctgnnu"]
+[gd_scene load_steps=9 format=4 uid="uid://n83nfsctgnnu"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_hg2y5"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_xok23"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" uid="uid://docniq82k1xc6" path="res://components/Interactables/Door_exit_crate.tscn" id="5_n2fsx"]
 [ext_resource type="PackedScene" uid="uid://cxs76wj0ul56o" path="res://components/Interactables/environment_bubble.tscn" id="5_xok23"]
 [ext_resource type="PackedScene" uid="uid://b8euctwf36mvn" path="res://components/Interactables/broken_crate.tscn" id="6_n2fsx"]
+[ext_resource type="PackedScene" uid="uid://daml4qpyucco3" path="res://components/Enemy/moving_object.tscn" id="7_j4yrq"]
+[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="8_e1rvs"]
 
 [node name="Node2D2" type="Node2D"]
 
@@ -53,3 +55,11 @@ break_velocity = 5
 
 [node name="Node2D" parent="." instance=ExtResource("6_n2fsx")]
 position = Vector2(354, 243)
+
+[node name="MovingObject" parent="." node_paths=PackedStringArray("_object") instance=ExtResource("7_j4yrq")]
+position = Vector2(164, 104)
+_object = NodePath("Canon")
+object = NodePath("Canon")
+
+[node name="Canon" parent="MovingObject" instance=ExtResource("8_e1rvs")]
+position = Vector2(0, 50)
