@@ -5,7 +5,8 @@ var object_path: NodePath
 
 @export var _object: Node2D
 
-@export var object: NodePath:
+## Disabled for now
+var object: NodePath:
 	set(val):
 		# todo: Construct relative node path to remote node? 
 		object_path = val

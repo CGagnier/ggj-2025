@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://22ryonet5vup"]
+
+[ext_resource type="PackedScene" uid="uid://daml4qpyucco3" path="res://components/Enemy/moving_object.tscn" id="1_boeyg"]
+[ext_resource type="PackedScene" uid="uid://c2skbxd4jl3jg" path="res://components/Enemy/platform_static.tscn" id="2_trwhx"]
+
+[node name="MovingObject" node_paths=PackedStringArray("_object") instance=ExtResource("1_boeyg")]
+_object = NodePath("platform_static")
+
+[node name="platform_static" parent="." index="3" instance=ExtResource("2_trwhx")]
+position = Vector2(9, 0)

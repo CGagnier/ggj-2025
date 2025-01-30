@@ -6,7 +6,6 @@
 
 [node name="MovingObject" type="Node2D"]
 script = ExtResource("1_00q66")
-object = NodePath("../../Sprite2D2")
 
 [node name="platform_waypoint" parent="." node_paths=PackedStringArray("next_waypoint") instance=ExtResource("1_s3ri1")]
 next_waypoint = NodePath("../platform_waypoint2")
@@ -18,5 +17,3 @@ next_waypoint = NodePath("../platform_waypoint")
 [node name="platform_moving" parent="." node_paths=PackedStringArray("initial_waypoint") instance=ExtResource("2_00q66")]
 position = Vector2(9, 0)
 initial_waypoint = NodePath("../platform_waypoint")
-
-[node name="RemoteTransform2D" type="RemoteTransform2D" parent="platform_moving"]

@@ -2,6 +2,11 @@ extends Node2D
 
 signal bubble_popped
 
+@export_category("Static")
+@export var is_static: bool = false
+@export var static_shoot_dir: Vector2 = Vector2.RIGHT
+
+@export_category("Dynamic")
 @export var ProjectileScene: PackedScene
 @export var start_scale = Vector2(0.5, 0.5)
 @export var max_scale: Vector2 = Vector2(2,2)
@@ -10,6 +15,8 @@ signal bubble_popped
 @export var time_before_bubble_pop := 0.5
 ## How long you can hold a 'full' bubble before it pops
 @export var time_to_full_bubble := 1.0
+
+@onready var _current_bullets = 3 if not is_static else 2147483647
 
 var is_tweening = false
 var _tween = null
@@ -23,7 +30,6 @@ const move_dirs = ["move_left", "move_up", "move_right", "move_down"]
 
 var last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
 var last_pressed_timestamp = -1
-var _current_bullets = 3
 var _time_with_full_bubble := 0.0
 var _can_create_bubble = true
 var _last_pressed_input = Vector2.RIGHT
@@ -31,7 +37,8 @@ var _last_pressed_input = Vector2.RIGHT
 var num_bullets:
 	set(val):
 		_current_bullets = val
-		indicator.num_gums = val
+		if indicator:
+			indicator.num_gums = val
 	get:
 		return _current_bullets
 		
@@ -73,21 +80,49 @@ func _process(_delta: float) -> void:
 		current_projectile.dir = current_shoot_dir
 		current_projectile.inflate_percent = current_projectile.global_scale.length() / max_scale.length()
 	
-
 func _physics_process(delta: float) -> void:
 	if released:
 		release_time += delta
 		
 		if release_time >= release_to_let_go_time:
 			_let_go()
-			released = false
-			release_time = 0
 	
 	last_pressed_timestamp = -1
+	if not is_static:
+		_process_start_shoot(delta)
+		_process_currently_shooting(delta)
+		_process_release_shoot(delta)
+	else:
+		_process_currently_shooting_static(delta)	
+
+### Processor for the static version of the shooter
+func _process_currently_shooting_static(delta):	
+	current_shoot_dir = static_shoot_dir
+	if current_projectile and _grow_time <= time_to_full_bubble:
+		if not $InflateAudioPlayer.playing:
+			$InflateAudioPlayer.play(0.27)
+		current_projectile.global_scale = lerp(start_scale, max_scale, _grow_time / time_to_full_bubble)
 	
-	_process_start_shoot(delta)
-	_process_currently_shooting(delta)
-	_process_release_shoot(delta)
+	# Detect holding bubble too long
+	if current_projectile and _grow_time >= time_to_full_bubble:
+		if not is_tweening:
+			_tween = current_projectile.create_tween().set_loops(2)
+			is_tweening = true
+			_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.0, 0.10)
+			_tween.tween_property(current_projectile.sprite, "self_modulate:a", 0.75, 0.10).from(0.0)
+			_tween.tween_callback(_clear_tween)
+			
+		_time_with_full_bubble += delta
+		
+		if _time_with_full_bubble >= time_before_bubble_pop:
+			_let_go()
+			
+	
+	if not current_projectile and num_bullets > 0:
+		# Player holding down after projectile was shot
+		_create_bubble()
+	
+	_grow_time += delta
 
 func _process_start_shoot(delta):
 	if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
@@ -165,16 +200,12 @@ func _process_release_shoot(delta):
 	if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
 		if Input.is_action_just_released("shoot"):
 			_let_go()
-			released = false
-			release_time = 0
 	else:
 		for shoot_dir in shoot_dirs:
 			if get_input_to_dir(shoot_dir) == current_shoot_dir and Input.is_action_just_released(shoot_dir):
 				if Time.get_unix_time_from_system() - last_pressed_timestamp > 0.05:
 					# This code path is to handle quickly shooting small projectiles
 					_let_go()
-					released = false
-					release_time = 0
 					last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
 				else:
 					# Start a timer to release this bubble shortly.
@@ -205,6 +236,9 @@ func _clear_tween() -> void:
 		current_projectile.sprite.self_modulate.a = 0.75
 
 func _let_go() -> void:
+	released = false
+	release_time = 0
+			
 	_clear_tween()
 	if current_projectile:
 		_time_with_full_bubble = 0.0

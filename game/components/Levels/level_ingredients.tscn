@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bqyu6whw4cfu0"]
+[gd_scene load_steps=15 format=3 uid="uid://bqyu6whw4cfu0"]
 
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="1_r82i4"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="2_cgxtj"]
@@ -12,6 +12,8 @@
 [ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="9_6606p"]
 [ext_resource type="PackedScene" uid="uid://dkxwdswxo0la4" path="res://components/Enemy/spikes.tscn" id="11_erbif"]
 [ext_resource type="PackedScene" uid="uid://bgms46rid1dx0" path="res://components/Enemy/saw_with_chain.tscn" id="12_0tceb"]
+[ext_resource type="PackedScene" uid="uid://2mafwnt6xi06" path="res://components/projectiles/static_bubble_shooter.tscn" id="13_erbif"]
+[ext_resource type="PackedScene" uid="uid://22ryonet5vup" path="res://components/Interactables/moving_platform.tscn" id="14_0tceb"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -36,12 +38,24 @@ text = "Exit"
 [node name="platform_static" parent="." instance=ExtResource("8_lkdsx")]
 position = Vector2(27, 21)
 
+[node name="platform_static2" parent="." instance=ExtResource("8_lkdsx")]
+position = Vector2(56, 40)
+
+[node name="platform_static3" parent="." instance=ExtResource("8_lkdsx")]
+position = Vector2(87, 40)
+
+[node name="platform_static4" parent="." instance=ExtResource("8_lkdsx")]
+position = Vector2(120, 69)
+
+[node name="platform_static5" parent="." instance=ExtResource("8_lkdsx")]
+position = Vector2(151, 69)
+
 [node name="Bubble" parent="." instance=ExtResource("9_6606p")]
-position = Vector2(70, 92)
+position = Vector2(70, 114)
 is_static = true
 
 [node name="Key" parent="." instance=ExtResource("7_g8sci")]
-position = Vector2(25, 97)
+position = Vector2(26, 116)
 
 [node name="Label" type="Label" parent="Key"]
 offset_left = -14.0
@@ -53,7 +67,7 @@ theme_override_fonts/font = ExtResource("5_6606p")
 text = "(Unused)"
 
 [node name="Enemies" type="Node2D" parent="."]
-position = Vector2(274, 4)
+position = Vector2(345, 4)
 
 [node name="Canon" parent="Enemies" instance=ExtResource("1_r82i4")]
 position = Vector2(133, 2)
@@ -61,12 +75,33 @@ position = Vector2(133, 2)
 [node name="MovingObject" parent="Enemies" instance=ExtResource("6_jqxyw")]
 position = Vector2(3, 2)
 
-[node name="MovingObject2" parent="Enemies" node_paths=PackedStringArray("_object") instance=ExtResource("7_cgxtj")]
+[node name="MovingObject2" parent="Enemies" instance=ExtResource("7_cgxtj")]
 position = Vector2(2, 42)
-_object = NodePath("platform_moving/Saw")
 
 [node name="Spikes" parent="Enemies" instance=ExtResource("11_erbif")]
 position = Vector2(87, 83)
 
 [node name="SawWithChain" parent="Enemies" instance=ExtResource("12_0tceb")]
 position = Vector2(9, 83)
+
+[node name="StaticBubbleShooter" parent="." instance=ExtResource("13_erbif")]
+position = Vector2(206, 190)
+rotation = -0.00203737
+
+[node name="Label2" type="Label" parent="StaticBubbleShooter"]
+offset_left = -34.947
+offset_top = -26.0713
+offset_right = 76.053
+offset_bottom = -3.07125
+theme_override_fonts/font = ExtResource("5_6606p")
+text = "Static bubble shooter"
+
+[node name="MovingObject" parent="." instance=ExtResource("14_0tceb")]
+position = Vector2(228, 8)
+
+[node name="Label" type="Label" parent="."]
+offset_top = -1.0
+offset_right = 111.0
+offset_bottom = 22.0
+theme_override_fonts/font = ExtResource("5_6606p")
+text = "todo: make longer platforms"

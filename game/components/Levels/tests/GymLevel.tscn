@@ -7,7 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cxs76wj0ul56o" path="res://components/Interactables/environment_bubble.tscn" id="5_xok23"]
 [ext_resource type="PackedScene" uid="uid://b8euctwf36mvn" path="res://components/Interactables/broken_crate.tscn" id="6_n2fsx"]
 [ext_resource type="PackedScene" uid="uid://daml4qpyucco3" path="res://components/Enemy/moving_object.tscn" id="7_j4yrq"]
-[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="8_e1rvs"]
+[ext_resource type="PackedScene" uid="uid://cobo1mvcfwq4b" path="res://components/Enemy/moving_saw.tscn" id="8_j4yrq"]
 
 [node name="Node2D2" type="Node2D"]
 
@@ -58,8 +58,8 @@ position = Vector2(354, 243)
 
 [node name="MovingObject" parent="." node_paths=PackedStringArray("_object") instance=ExtResource("7_j4yrq")]
 position = Vector2(164, 104)
-_object = NodePath("Canon")
-object = NodePath("Canon")
+_object = NodePath("../MovingObject3")
 
-[node name="Canon" parent="MovingObject" instance=ExtResource("8_e1rvs")]
-position = Vector2(0, 50)
+[node name="MovingObject3" parent="." instance=ExtResource("8_j4yrq")]
+position = Vector2(165, 140)
+rotation = 1.57079

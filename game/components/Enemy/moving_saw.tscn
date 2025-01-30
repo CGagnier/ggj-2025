@@ -4,7 +4,6 @@
 [ext_resource type="PackedScene" uid="uid://oaongo66bylq" path="res://components/Enemy/saw.tscn" id="2_6g3k8"]
 
 [node name="MovingObject" node_paths=PackedStringArray("_object") instance=ExtResource("1_pu4ue")]
-_object = NodePath("Saw")
+_object = NodePath("platform_moving/Saw")
 
-[node name="Saw" parent="." index="2" instance=ExtResource("2_6g3k8")]
-position = Vector2(9, 0)
+[node name="Saw" parent="platform_moving" index="3" instance=ExtResource("2_6g3k8")]
