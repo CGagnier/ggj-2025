@@ -5,8 +5,6 @@ extends Interactable
 @export var broken_crate: PackedScene
 
 
-var last_velocity:Vector2
-
 var can_break = true
 var broken = false
 

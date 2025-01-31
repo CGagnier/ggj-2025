@@ -18,6 +18,7 @@ func _ready() -> void:
 
 func Fire_Projectile(DoOnce = true) -> void:
 	AnimatedSprite.play("Shoot")
+	$AudioStreamPlayer2D.play()
 	if (!DoOnce):
 		Cooldown.start(RateOfFire)
 	
@@ -25,7 +26,7 @@ func SpawnProjectile() -> void:
 	var ProjectileStat = ProjectileStats.pick_random()
 	if (ProjectileStat != null):
 		var _proj:Ball = projectile_scene.instantiate()
-		_proj.direction = Vector2(-1,0)*scale.x
+		_proj.direction = (Vector2.LEFT * scale).rotated(rotation)
 		_proj.stat = ProjectileStat
 		add_child(_proj)
 

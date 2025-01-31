@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://d1juygc65pu2d" path="res://assets/Kings and Pigs/Sprites/14-TileSets/Decorations (32x32).png" id="3_s1u8i"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="4_pbnod"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="5_cw52b"]
-[ext_resource type="PackedScene" uid="uid://b6ute071y4nqw" path="res://components/Interactables/crate_with_exit_inside.tscn" id="6_n28lh"]
+[ext_resource type="PackedScene" uid="uid://b6ute071y4nqw" path="res://components/Interactables/crates/crate_with_exit_inside.tscn" id="6_n28lh"]
 [ext_resource type="PackedScene" uid="uid://oaongo66bylq" path="res://components/Enemy/saw.tscn" id="7_22ptw"]
 [ext_resource type="PackedScene" uid="uid://byk4tk4nfjdke" path="res://components/Player/player_camera.tscn" id="8_dbstm"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="8_lmy37"]
