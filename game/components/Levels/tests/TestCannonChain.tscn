@@ -1,10 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://eu1gri5jay4u"]
+[gd_scene load_steps=6 format=4 uid="uid://eu1gri5jay4u"]
 
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_op3mh"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_wt0pd"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="3_m0oc0"]
 [ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="4_3xulb"]
-[ext_resource type="PackedScene" uid="uid://b0mdgbpvqq05y" path="res://components/Interactables/crates/nested_crate.tscn" id="5_nmncq"]
 
 [sub_resource type="Resource" id="Resource_nmncq"]
 script = ExtResource("4_3xulb")
@@ -43,4 +42,3 @@ position = Vector2(151, 305)
 rotation = -0.694374
 scale = Vector2(-1, 1)
 ProjectileStats = Array[ExtResource("4_3xulb")]([SubResource("Resource_nmncq")])
-projectile_scene = ExtResource("5_nmncq")

@@ -8,3 +8,4 @@ enum ControlScheme {
 }
 
 @export var control_scheme: ControlScheme = ControlScheme.WasdAndSpaceToShoot
+@export var play_music: bool = false

@@ -2,6 +2,7 @@ extends AnimatedSprite2D
 
 @export var is_exit = false
 @export var can_open = true
+@export var door_open_delay := 0.3
 
 var has_exited = false
 var is_open = false
@@ -12,7 +13,7 @@ var player_in: Player = null
 
 func _ready():
 	if can_open:
-		get_tree().create_timer(1).timeout.connect(open)
+		get_tree().create_timer(door_open_delay).timeout.connect(open)
 	animation_finished.connect(anim_finished)
 	
 func open():
