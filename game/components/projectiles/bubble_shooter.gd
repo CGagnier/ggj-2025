@@ -1,13 +1,23 @@
 extends Node2D
 
 signal bubble_popped
+signal bubble_created
+signal bubble_shot
+
+@export_category("General")
+@export var projectile_speed := 0.0
+@export var ProjectileScene: PackedScene
+@export var bubbles_can_absorb = true
 
 @export_category("Static")
 @export var is_static: bool = false
 @export var static_shoot_dir: Vector2 = Vector2.RIGHT
+@export var shoot_delay := 0.0
+
+## Set this to the owner of the bubble shooter to avoid the bubble colliding with it.
+@export var shooter_ref: Node2D = null
 
 @export_category("Dynamic")
-@export var ProjectileScene: PackedScene
 @export var start_scale = Vector2(0.5, 0.5)
 @export var max_scale: Vector2 = Vector2(2,2)
 @export var growth_rate := 1.0
@@ -16,7 +26,8 @@ signal bubble_popped
 ## How long you can hold a 'full' bubble before it pops
 @export var time_to_full_bubble := 1.0
 
-@onready var _current_bullets = 3 if not is_static else 2147483647
+
+@onready var _current_bullets = 3 if not is_static else 9999
 
 var is_tweening = false
 var _tween = null
@@ -72,6 +83,12 @@ var current_shoot_dir = Vector2.RIGHT
 var release_time := 0.0
 var released = false
 var release_to_let_go_time := 0.1
+
+func ready():
+	if is_static:
+		_can_create_bubble = false
+		await get_tree().create_timer(shoot_delay).timeout
+		_can_create_bubble = false
 
 func _process(_delta: float) -> void:
 	var offset = 10 * current_shoot_dir
@@ -215,15 +232,22 @@ func _process_release_shoot(delta):
 	
 
 func _create_bubble() -> void:
+	if is_static:
+		await get_tree().create_timer(shoot_delay).timeout
+	
 	if _can_create_bubble:
+		_can_create_bubble = false
 		var _new_bubble: Bubble = ProjectileScene.instantiate()
 		_new_bubble.scale = start_scale
 		current_projectile = _new_bubble
 		current_projectile.on_disappear.connect(on_bubble_disappear, CONNECT_ONE_SHOT)
 		current_projectile.on_bounce.connect(_on_bounce.bind(current_projectile))
+		current_projectile.shooter = self if shooter_ref == null else shooter_ref
+		current_projectile.can_absorb = bubbles_can_absorb
 		_grow_time = 0.0
 		add_child(current_projectile)
 		num_bullets -= 1
+		bubble_created.emit()
 
 func _on_bounce(proj):
 	if proj:
@@ -236,19 +260,32 @@ func _clear_tween() -> void:
 		current_projectile.sprite.self_modulate.a = 0.75
 
 func _let_go() -> void:
+	# released is for debouncing key pressses when using the arrow keys to shoot
 	released = false
 	release_time = 0
 			
 	_clear_tween()
 	if current_projectile:
+		get_tree().create_timer(shoot_delay).timeout.connect(func(): _can_create_bubble = true)
+		
 		_time_with_full_bubble = 0.0
 		#todo: use current dir
 		current_projectile.dir = current_shoot_dir
 		current_projectile.reparent(get_parent().get_parent())
 		current_projectile.release()
+		
+		if projectile_speed != 0.0:
+			current_projectile.base_speed = projectile_speed
+		
 		current_projectile = null
 		$InflateAudioPlayer.stop()
 		$SpitPlayer.play()
+		bubble_shot.emit()
+		
+		#
+		#if is_static:
+			#get_tree().create_timer(shoot_delay).timeout.connect(func(): current_projectile = null)
+		#else:
 
 func pop_bubble() -> void:
 	_time_with_full_bubble = 0.0
@@ -257,16 +294,20 @@ func pop_bubble() -> void:
 	
 	_clear_tween()
 	
-	get_tree().create_timer(0.5).timeout.connect(func(): _can_create_bubble=true)
+	# todo fix this somehow, causes an error
+	if get_tree():
+		get_tree().create_timer(0.5).timeout.connect(func(): _can_create_bubble=true)
 	# todo: play pop animation
 	current_projectile.queue_free()
 	$PopAudioPlayer.play()
 	$InflateAudioPlayer.stop()
 	current_projectile = null
 
-func on_bubble_disappear():
-	if indicator:
-		num_bullets += 1
+func on_bubble_disappear(popped_bubble):
+	num_bullets += 1
+	
+	if popped_bubble == current_projectile:
+		pop_bubble()
 	
 	if is_inside_tree():
 		$PopAudioPlayer.play()

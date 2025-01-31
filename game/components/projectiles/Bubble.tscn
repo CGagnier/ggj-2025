@@ -29,8 +29,6 @@ z_index = 1
 collision_layer = 8
 collision_mask = 29
 script = ExtResource("1_07ejg")
-start_speed = 1.8
-final_speed = 2.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.74902)

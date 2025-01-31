@@ -309,7 +309,8 @@ frame_progress = 0.224558
 position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_ph1f6")
 
-[node name="Shooter" parent="." node_paths=PackedStringArray("indicator") instance=ExtResource("3_46jg3")]
+[node name="Shooter" parent="." node_paths=PackedStringArray("shooter_ref", "indicator") instance=ExtResource("3_46jg3")]
+shooter_ref = NodePath("..")
 indicator = NodePath("../BubbleIndicator")
 
 [node name="BubbleIndicator" parent="." instance=ExtResource("4_hx8dc")]

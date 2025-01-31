@@ -37,15 +37,11 @@ position = Vector2(441, 208)
 [node name="EnvironmentBubble" parent="." instance=ExtResource("5_xok23")]
 position = Vector2(516, 183)
 scale = Vector2(2.60805, 2.60805)
-start_speed = 5.0
-final_speed = 4.0
 
 [node name="EnvironmentBubble4" parent="." instance=ExtResource("5_xok23")]
 position = Vector2(223, 264)
 scale = Vector2(2.60805, 2.60805)
 bounce_force = 200
-start_speed = 5.0
-final_speed = 4.0
 
 [node name="Crate" parent="." instance=ExtResource("3_n2fsx")]
 position = Vector2(383, 162)

@@ -1,0 +1,83 @@
+[gd_scene load_steps=12 format=3 uid="uid://cavsnq31kvok8"]
+
+[ext_resource type="Script" uid="uid://db1r34fff185t" path="res://components/Interactables/bubble_cannon.gd" id="1_dwqmt"]
+[ext_resource type="Texture2D" uid="uid://b8d55vwrwjahy" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Shoot (44x28).png" id="1_vrlhr"]
+[ext_resource type="Texture2D" uid="uid://cehx641j6xsgu" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Idle.png" id="2_s0ace"]
+[ext_resource type="PackedScene" uid="uid://2mafwnt6xi06" path="res://components/projectiles/static_bubble_shooter.tscn" id="3_s0ace"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ibwbr"]
+atlas = ExtResource("2_s0ace")
+region = Rect2(0, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dwqmt"]
+atlas = ExtResource("1_vrlhr")
+region = Rect2(44, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8oe58"]
+atlas = ExtResource("1_vrlhr")
+region = Rect2(88, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_36vnj"]
+atlas = ExtResource("1_vrlhr")
+region = Rect2(132, 0, 44, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y3hdw"]
+atlas = ExtResource("1_vrlhr")
+region = Rect2(0, 0, 44, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_7om1w"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ibwbr")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dwqmt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8oe58")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_36vnj")
+}],
+"loop": false,
+"name": &"shoot",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y3hdw")
+}],
+"loop": true,
+"name": &"windup",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwqmt"]
+size = Vector2(20, 15)
+
+[node name="BubbleCannon" type="RigidBody2D"]
+collision_layer = 48
+collision_mask = 65
+script = ExtResource("1_dwqmt")
+bubble_speed = 5.0
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_7om1w")
+animation = &"shoot"
+autoplay = "idle"
+flip_h = true
+
+[node name="StaticBubbleShooter" parent="." instance=ExtResource("3_s0ace")]
+position = Vector2(-6, 0)
+shoot_delay = 0.2
+max_scale = Vector2(1.2, 1.2)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-8, 2.5)
+shape = SubResource("RectangleShape2D_dwqmt")

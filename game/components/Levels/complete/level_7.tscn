@@ -20,6 +20,7 @@ sine_intensity = 10.0
 
 [node name="EnvironmentBubble2" parent="Node2D" index="1" instance=ExtResource("2_sjdiu")]
 position = Vector2(336, 84)
+bounce_force = 300
 sine_intensity = 10.0
 
 [node name="EnvironmentBubble4" parent="Node2D" index="2" instance=ExtResource("2_sjdiu")]
@@ -29,6 +30,7 @@ sine_intensity = 10.0
 
 [node name="EnvironmentBubble5" parent="Node2D" index="3" instance=ExtResource("2_sjdiu")]
 position = Vector2(326, -122)
+bounce_force = 300
 sine_intensity = 10.0
 
 [node name="EnvironmentBubble7" parent="Node2D" index="4" instance=ExtResource("2_sjdiu")]

@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://dxljrfefydguf" path="res://components/projectiles/bubble_shooter.tscn" id="1_idn3y"]
 
 [node name="StaticBubbleShooter" instance=ExtResource("1_idn3y")]
+bubbles_can_absorb = false
 is_static = true
 
 [node name="InflateAudioPlayer" parent="." index="1"]

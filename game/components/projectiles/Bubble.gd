@@ -2,22 +2,26 @@ extends CharacterBody2D
 
 class_name Bubble
 
-signal on_disappear
+signal on_disappear(bubble)
 signal on_bounce
 
 @export var is_static = false
+## How high will the player bounce when jumping on it.
 @export var bounce_force = 270
+@export var can_absorb = true
 
 @export_category("Static Bubble")
 @export var sine_intensity: float = 0.0
 
 @export_category("Dynamic Bubbles")
-@export var start_speed := 5.0
-@export var final_speed := 4.0
 @export var disappear_time: = 1.5
 @export var needs_to_be_grounded_to_bounce = false
 
-var speed = 2
+@export var base_speed := 2.0
+
+## What shooter created this bubble
+var shooter = null
+var speed := 0.0
 var launched = false
 var dir = Vector2.RIGHT
 var inflate_percent := 0.0
@@ -83,11 +87,22 @@ func collides_in_dir(collide_dir: Vector2):
 @onready var particles = $CPUParticles2D
 @onready var sprite = $Sprite2D
 
-func _ready():
+var collision_pos := Vector2.ZERO
 
+func _ready():
+	
 	if is_static:
 		set_collision_mask_value(1, 0)
+	
+	if shooter is not Player:
+		# Collide with player if shot by cannon
+		set_collision_mask_value(2, true)
 	#$HitWall.finished.connect(_on_hit_wall_played)
+
+func _draw() -> void:
+	if collision_pos != Vector2.ZERO:
+		draw_circle(collision_pos, 10, Color.RED)
+
 
 func _process(delta: float):
 	if is_static:
@@ -102,12 +117,16 @@ func _physics_process(delta: float) -> void:
 		t = min(t, 1.0)
 		
 		# Activate bounce after a small delay
-		speed = lerpf(start_speed, final_speed, t) * _speed_multiplier
+		speed = base_speed * _speed_multiplier
 		
 		var collision = move_and_collide(dir *  speed)
 		
-		if collision and not has_collided:
+		# Has collided can be set by other bubbles that collide with it 
+		if collision and not has_collided and collision.get_collider() != shooter:
 			var collided = collision.get_collider()
+			
+			collision_pos = collision.get_position()
+			
 			if collided is Bubble:
 				play_hit_wall_sound()
 				#_handle_bubble_collision(collided as Bubble)
@@ -120,7 +139,7 @@ func _physics_process(delta: float) -> void:
 				
 				if is_static: return # Don't kill environment bubbles
 				
-				if collided is not Player:
+				if collided is not Player or shooter is not Player:
 					if (collision.get_normal() * dir).length() > 0:
 						play_hit_wall_sound()
 						_delay_die()
@@ -141,7 +160,7 @@ func release() -> void:
 	for raycast in all_raycasts:
 		raycast.global_scale = Vector2.ONE
 	
-	speed = start_speed
+	speed = base_speed
 	$SafetyDestroyTimer.timeout.connect(safety_destroy)
 	$SafetyDestroyTimer.start()
 	
@@ -196,8 +215,9 @@ func _handle_bubble_collision(other_bubble: Bubble):
 	collision_tween.tween_property(new_instance, "scale", Vector2(1,1) * total_length, 0.3).set_trans(Tween.TRANS_ELASTIC)
 
 func _handle_interactable_collision(interactable: Interactable):
-	absorb(interactable)
-	dir = Vector2.UP
+	if can_absorb:
+		absorb(interactable)
+		dir = Vector2.UP
 
 func _on_jump_pad_body_entered(body: Node2D, jump_pad_side: Vector2) -> void:
 	_jump_pad_entered(body, jump_pad_side)
@@ -297,7 +317,7 @@ func _notification(what):
 	match what:
 		NOTIFICATION_PREDELETE:
 			_particles()
-			on_disappear.emit()
+			on_disappear.emit(self)
 			_release_item()
 		
 func play_bounce_sound():
