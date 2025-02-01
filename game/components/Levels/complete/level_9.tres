@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="LevelStat" load_steps=3 format=3 uid="uid://b51onrskl2y0k"]
 
-[ext_resource type="PackedScene" uid="uid://c5i20161r656k" path="res://components/Levels/tests/ThatsCrateCanon.tscn" id="1_3xwhd"]
+[ext_resource type="PackedScene" uid="uid://c7pqpus558e5w" path="res://components/Levels/complete/Level_9_cratecanon.tscn" id="1_3xwhd"]
 [ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="2_losxl"]
 
 [resource]

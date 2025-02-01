@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://m3w4to81hs3r"]
 
-[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/player/player.tscn" id="1_m4ara"]
-[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="2_c824b"]
+[ext_resource type="PackedScene" uid="uid://bhfifqorg0fi4" path="res://components/Player/player.tscn" id="1_m4ara"]
+[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/Enemy/canon.tscn" id="2_c824b"]
 [ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="3_43g2m"]
 
 [sub_resource type="Resource" id="Resource_jfwpl"]

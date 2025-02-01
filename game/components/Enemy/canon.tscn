@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://cjijdjnr06w0p"]
 
-[ext_resource type="Script" uid="uid://bn2rph81je8hu" path="res://components/NME/canon.gd" id="1_hv5bc"]
+[ext_resource type="Script" uid="uid://bn2rph81je8hu" path="res://components/Enemy/canon.gd" id="1_hv5bc"]
 [ext_resource type="Texture2D" uid="uid://cehx641j6xsgu" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Idle.png" id="1_wemop"]
 [ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="2_gnty4"]
 [ext_resource type="Texture2D" uid="uid://b8d55vwrwjahy" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Shoot (44x28).png" id="2_hv5bc"]
