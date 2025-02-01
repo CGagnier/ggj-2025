@@ -97,9 +97,10 @@ func go_to_level(level: LevelStat, _is_final: bool):
 		var _overlay: OverlayTitle = overlay.instantiate()
 		_overlay.title = level.name
 		UI = _overlay
+		UI.current_deaths = death_count
 		
 		if _is_final:
-			UI.hide_timer()
+			UI.hide_overlays()
 	
 		add_sibling(_next_level_scene)
 		_next_level_scene.add_child(_overlay)
@@ -140,7 +141,11 @@ func _reset_camera_settings() -> void:
 func increase_deaths() -> void:
 	death_count += 1
 	level_death += 1
+	UI.update_death_count(death_count)
 	print("total: ", death_count, " level deaths: ", level_death)
 
 func get_formatted_total_time() -> String:
-	return UI.format_time(total_time)
+	if UI:
+		return UI.format_time(total_time)
+	else: # Not loaded using level manager
+		return "00:00:00" 

@@ -99,6 +99,17 @@ theme_override_font_sizes/font_size = 31
 text = "00:00:00"
 horizontal_alignment = 1
 
+[node name="TotalDeaths" type="Label" parent="Control"]
+layout_mode = 0
+offset_left = 308.0
+offset_top = 272.0
+offset_right = 557.0
+offset_bottom = 306.0
+theme_override_fonts/font = ExtResource("8_48vr5")
+theme_override_font_sizes/font_size = 21
+text = "You died 0 times"
+horizontal_alignment = 1
+
 [node name="Particules" type="Node" parent="."]
 
 [node name="CPUParticles2D" parent="Particules" instance=ExtResource("7_ko68t")]
