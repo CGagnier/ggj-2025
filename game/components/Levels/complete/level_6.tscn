@@ -1,11 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://cgh0w3jqwvqv5"]
+[gd_scene load_steps=7 format=4 uid="uid://cgh0w3jqwvqv5"]
 
 [ext_resource type="PackedScene" uid="uid://b37xqua46eo40" path="res://components/Levels/TEMPLATE.tscn" id="1_i41ao"]
 [ext_resource type="PackedScene" uid="uid://dkxwdswxo0la4" path="res://components/Enemy/spikes.tscn" id="2_ho645"]
 [ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="3_r3ojo"]
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/Enemy/canon.tscn" id="4_hfp3j"]
-[ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="5_7dx2m"]
-[ext_resource type="Resource" uid="uid://dp66yjkf0ycrq" path="res://components/projectiles/balls/Ball_Explodable_02.tres" id="6_ljx2h"]
+[ext_resource type="Script" path="res://ball_stat.gd" id="5_7dx2m"]
 [ext_resource type="PackedScene" path="res://components/Enemy/platform_static.tscn" id="7_ljx2h"]
 
 [node name="Main3" instance=ExtResource("1_i41ao")]
@@ -114,12 +113,12 @@ position = Vector2(750, 324)
 
 [node name="Canon" parent="." index="34" instance=ExtResource("4_hfp3j")]
 position = Vector2(427, 277)
-ProjectileStats = Array[ExtResource("5_7dx2m")]([ExtResource("6_ljx2h")])
+ProjectileStats = Array[ExtResource("5_7dx2m")]([])
 RateOfFire = 5.0
 
 [node name="Canon2" parent="." index="35" instance=ExtResource("4_hfp3j")]
 position = Vector2(973, 341)
-ProjectileStats = Array[ExtResource("5_7dx2m")]([ExtResource("6_ljx2h")])
+ProjectileStats = Array[ExtResource("5_7dx2m")]([])
 RateOfFire = 5.0
 
 [node name="platform_static" parent="." index="36" instance=ExtResource("7_ljx2h")]

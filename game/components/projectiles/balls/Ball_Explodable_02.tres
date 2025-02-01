@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="BallStat" load_steps=2 format=3 uid="uid://dp66yjkf0ycrq"]
 
-[ext_resource type="Script" uid="uid://pw630imha0ww" path="res://ball_stat.gd" id="1_gtsfl"]
+[ext_resource type="Script" uid="uid://pw630imha0ww" path="res://components/projectiles/balls/ball_stat.gd" id="1_gtsfl"]
 
 [resource]
 script = ExtResource("1_gtsfl")
