@@ -294,14 +294,16 @@ func pop_bubble() -> void:
 	
 	_clear_tween()
 	
-	# todo fix this somehow, causes an error
-	if get_tree():
-		get_tree().create_timer(0.5).timeout.connect(func(): _can_create_bubble=true)
-	# todo: play pop animation
-	current_projectile.queue_free()
-	$PopAudioPlayer.play()
-	$InflateAudioPlayer.stop()
-	current_projectile = null
+	if is_inside_tree():
+		# todo fix this somehow, causes an error
+		if get_tree():
+			get_tree().create_timer(0.5).timeout.connect(func(): _can_create_bubble=true)
+		# todo: play pop animation
+		current_projectile.queue_free()
+		$PopAudioPlayer.play()
+		$InflateAudioPlayer.stop()
+		current_projectile = null
+		
 
 func on_bubble_disappear(popped_bubble):
 	num_bullets += 1

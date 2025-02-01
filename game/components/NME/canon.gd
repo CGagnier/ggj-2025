@@ -13,8 +13,11 @@ class_name Canon
 @onready var Cooldown: Timer = $CooldownTimer
 @onready var AnimatedSprite: AnimatedSprite2D = $AnimatedSprite2D
 
+@onready var particles = $CPUParticles2D
+
 func _ready() -> void:
 	Fire_Projectile(false)
+	
 
 func Fire_Projectile(DoOnce = true) -> void:
 	AnimatedSprite.play("Shoot")
@@ -29,6 +32,17 @@ func SpawnProjectile() -> void:
 		_proj.direction = (Vector2.LEFT * scale).rotated(rotation)
 		_proj.stat = ProjectileStat
 		add_child(_proj)
+		
+func destroy():
+	_particles()
+	visible = false
+	$ExplodePlayer.play()
+	$ExplodePlayer.finished.connect(queue_free)
+
+func _particles() -> void:
+	particles.fire()
+	particles.owner = null
+	particles.reparent(get_parent())
 
 func Stop_Firing() -> void:
 	Cooldown.stop()

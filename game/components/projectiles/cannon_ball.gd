@@ -8,10 +8,13 @@ class_name Ball
 # Local var
 var direction = null
 var lifeTime = 0.0
+var can_explode_cannon = false
 
 func _ready() -> void:
 	gravity_scale = stat.gravity_scale
 	lock_rotation = stat.lock_rotation
+	get_tree().create_timer(0.3).timeout.connect(func(): can_explode_cannon = true)
+
 	start_movement()
 
 func _process(delta: float) -> void:
@@ -29,7 +32,11 @@ func DestroyBall() -> void:
 	queue_free()
 
 func _on_body_entered(body: Node) -> void:
-	if (body is not Canon):
+	if body is Canon:
+		if can_explode_cannon:
+			(body as Canon).destroy()
+			DestroyBall()
+	else:
 		if (stat.can_explode):
 			if(body is Player):
 				var player: Player = body
@@ -38,7 +45,14 @@ func _on_body_entered(body: Node) -> void:
 					DestroyBall()
 			elif(body is Bubble):
 				var bubble: Bubble = body
-				bubble.queue_free()
-				DestroyBall()
+				# todo: if collision is on the side that makes sense for it to pop, then boucne it back, otherwise just push it out of the way
+				var tween = get_tree().create_tween()
+				tween.tween_property(self, "linear_velocity", Vector2.ZERO, 0.3).set_trans(Tween.TRANS_CUBIC)
+				var bounce_dir= -direction*stat.speed * 4.5
+				tween.tween_callback(apply_impulse.bind(bounce_dir)).set_delay(0.2)
+				tween.tween_callback(bubble.queue_free).set_delay(0.012)
+				#apply_impulse(-direction*stat.speed /4)
+				#get_tree().create_timer(0.2).timeout.connect(apply_impulse.bind(-direction*stat.speed * 4))
+				#DestroyBall()
 			else:
 				DestroyBall()

@@ -3,6 +3,7 @@ extends AnimatedSprite2D
 @export var is_exit = false
 @export var can_open = true
 @export var door_open_delay := 0.3
+@export var time_to_respawn := 0.6
 
 var has_exited = false
 var is_open = false
@@ -52,7 +53,7 @@ func spawn() -> void:
 	add_sibling(player)
 	player.global_position = global_position
 	player.connect("died",_player_death)
-	get_tree().create_timer(1).timeout.connect(close)
+	get_tree().create_timer(time_to_respawn).timeout.connect(close)
 	
 func go_to_next_level(body: Node2D) -> void:
 	has_exited = true
