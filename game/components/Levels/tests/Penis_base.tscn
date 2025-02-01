@@ -2,12 +2,12 @@
 
 [ext_resource type="TileSet" uid="uid://cuivxl7wqd17e" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_mp2qf"]
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="2_mla6l"]
-[ext_resource type="PackedScene" uid="uid://c2skbxd4jl3jg" path="res://components/Enemy/platform_static.tscn" id="3_fx1r2"]
+[ext_resource type="PackedScene" path="res://components/Enemy/platform_static.tscn" id="3_fx1r2"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="4_fx1r2"]
-[ext_resource type="PackedScene" uid="uid://5medgt3sori1" path="res://components/Enemy/platform_waypoint.tscn" id="5_mla6l"]
-[ext_resource type="PackedScene" uid="uid://b3dq2j7wy4mdc" path="res://components/Enemy/platform_moving.tscn" id="6_n8t6o"]
-[ext_resource type="PackedScene" path="res://components/Enemy/saw.tscn" id="7_fx1r2"]
-[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/NME/canon.tscn" id="7_fx7p3"]
+[ext_resource type="PackedScene" path="res://components/Enemy/platform_waypoint.tscn" id="5_mla6l"]
+[ext_resource type="PackedScene" path="res://components/Enemy/platform_moving.tscn" id="6_n8t6o"]
+[ext_resource type="PackedScene" uid="uid://oaongo66bylq" path="res://components/Enemy/saw.tscn" id="7_fx1r2"]
+[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/Enemy/canon.tscn" id="7_fx7p3"]
 
 [node name="Main2" type="Node2D"]
 
