@@ -79,6 +79,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="Congratulations" type="Label" parent="Control"]
+layout_mode = 0
 offset_left = 308.0
 offset_top = 209.0
 offset_right = 557.0
@@ -88,6 +89,7 @@ theme_override_font_sizes/font_size = 41
 text = "Congratulations, you won!"
 
 [node name="FinalTime" type="Label" parent="Control"]
+layout_mode = 0
 offset_left = 308.0
 offset_top = 248.0
 offset_right = 557.0
