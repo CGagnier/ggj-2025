@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://cavsnq31kvok8"]
+[gd_scene load_steps=13 format=3 uid="uid://cavsnq31kvok8"]
 
 [ext_resource type="Script" uid="uid://db1r34fff185t" path="res://components/Interactables/bubble_cannon.gd" id="1_dwqmt"]
 [ext_resource type="Texture2D" uid="uid://b8d55vwrwjahy" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Shoot (44x28).png" id="1_vrlhr"]
 [ext_resource type="Texture2D" uid="uid://cehx641j6xsgu" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Idle.png" id="2_s0ace"]
 [ext_resource type="PackedScene" uid="uid://2mafwnt6xi06" path="res://components/projectiles/static_bubble_shooter.tscn" id="3_s0ace"]
+[ext_resource type="Script" uid="uid://dvcokb01jkpuk" path="res://components/projectiles/bubble_shooter.gd" id="5_36vnj"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ibwbr"]
 atlas = ExtResource("2_s0ace")
@@ -75,8 +76,11 @@ flip_h = true
 
 [node name="StaticBubbleShooter" parent="." instance=ExtResource("3_s0ace")]
 position = Vector2(-6, 0)
+script = ExtResource("5_36vnj")
 shoot_delay = 0.2
+start_scale = Vector2(0.3, 0.3)
 max_scale = Vector2(1.2, 1.2)
+growth_rate = 0.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-8, 2.5)

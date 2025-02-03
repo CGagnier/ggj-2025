@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://bqyu6whw4cfu0"]
+[gd_scene load_steps=17 format=3 uid="uid://bqyu6whw4cfu0"]
 
 [ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/Enemy/canon.tscn" id="1_r82i4"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="2_cgxtj"]
@@ -7,13 +7,14 @@
 [ext_resource type="FontFile" uid="uid://dxf7kllshf24s" path="res://assets/Pixel Adventure/fonts/m3x6.ttf" id="5_6606p"]
 [ext_resource type="PackedScene" uid="uid://daml4qpyucco3" path="res://components/Enemy/moving_object.tscn" id="6_jqxyw"]
 [ext_resource type="PackedScene" uid="uid://cobo1mvcfwq4b" path="res://components/Enemy/moving_saw.tscn" id="7_cgxtj"]
-[ext_resource type="PackedScene" path="res://components/Interactables/key.tscn" id="7_g8sci"]
-[ext_resource type="PackedScene" path="res://components/Enemy/platform_static.tscn" id="8_lkdsx"]
+[ext_resource type="PackedScene" uid="uid://bsp3e6nv7y1s8" path="res://components/Interactables/key.tscn" id="7_g8sci"]
+[ext_resource type="PackedScene" uid="uid://c2skbxd4jl3jg" path="res://components/Enemy/platform_static.tscn" id="8_lkdsx"]
 [ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="9_6606p"]
 [ext_resource type="PackedScene" uid="uid://dkxwdswxo0la4" path="res://components/Enemy/spikes.tscn" id="11_erbif"]
 [ext_resource type="PackedScene" uid="uid://bgms46rid1dx0" path="res://components/Enemy/saw_with_chain.tscn" id="12_0tceb"]
 [ext_resource type="PackedScene" uid="uid://22ryonet5vup" path="res://components/Interactables/moving_platform.tscn" id="14_0tceb"]
 [ext_resource type="PackedScene" uid="uid://cavsnq31kvok8" path="res://components/Interactables/bubble_cannon.tscn" id="15_6i01l"]
+[ext_resource type="PackedScene" uid="uid://b0pvflvp7y3iu" path="res://components/Interactables/breakable_pillar.tscn" id="16_5y1ko"]
 [ext_resource type="PackedScene" uid="uid://bgny1uke5auu0" path="res://components/Enemy/platform_static_long.tscn" id="16_8gxnj"]
 
 [node name="Node2D" type="Node2D"]
@@ -48,13 +49,6 @@ position = Vector2(80, 28)
 [node name="platform_static3" parent="." instance=ExtResource("8_lkdsx")]
 position = Vector2(80, 28)
 
-[node name="platform_static4" parent="." instance=ExtResource("8_lkdsx")]
-position = Vector2(33, 73)
-
-[node name="platform_static5" parent="." instance=ExtResource("8_lkdsx")]
-position = Vector2(12, 60)
-rotation = 1.57079
-
 [node name="Bubble" parent="." instance=ExtResource("9_6606p")]
 position = Vector2(70, 114)
 is_static = true
@@ -75,7 +69,8 @@ text = "(Unused)"
 position = Vector2(345, 4)
 
 [node name="Canon" parent="Enemies" instance=ExtResource("1_r82i4")]
-position = Vector2(133, 2)
+position = Vector2(-312, 175)
+scale = Vector2(-1, 1)
 
 [node name="MovingObject" parent="Enemies" instance=ExtResource("6_jqxyw")]
 position = Vector2(3, 2)
@@ -104,3 +99,6 @@ position = Vector2(133, 75)
 
 [node name="platform_static7" parent="." instance=ExtResource("16_8gxnj")]
 position = Vector2(49, 214)
+
+[node name="BreakablePillar" parent="." instance=ExtResource("16_5y1ko")]
+position = Vector2(14, 70)

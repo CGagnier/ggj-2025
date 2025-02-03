@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="BubbleDefinition" load_steps=6 format=3 uid="uid://c6hxwjll2q02e"]
+
+[ext_resource type="Script" uid="uid://b1e1rhwo0iwlq" path="res://components/inflate_state.gd" id="1_t7wj6"]
+[ext_resource type="Script" uid="uid://carjfxdhghjto" path="res://components/projectiles/bubble_definition.gd" id="2_2ei4y"]
+
+[sub_resource type="Resource" id="Resource_t7wj6"]
+script = ExtResource("1_t7wj6")
+max_scale = 0.5
+state_time = 0.7
+speed = 1.0
+audio_pitch_scale = 1.0
+metadata/_custom_type_script = ExtResource("1_t7wj6")
+
+[sub_resource type="Resource" id="Resource_2ei4y"]
+script = ExtResource("1_t7wj6")
+max_scale = 1.0
+state_time = 0.7
+speed = 1.0
+audio_pitch_scale = 1.26
+metadata/_custom_type_script = ExtResource("1_t7wj6")
+
+[sub_resource type="Resource" id="Resource_1r8f6"]
+script = ExtResource("1_t7wj6")
+max_scale = 1.5
+state_time = 1.2
+speed = 1.0
+audio_pitch_scale = 1.498
+metadata/_custom_type_script = ExtResource("1_t7wj6")
+
+[resource]
+script = ExtResource("2_2ei4y")
+inflate_states = Array[ExtResource("1_t7wj6")]([SubResource("Resource_t7wj6"), SubResource("Resource_2ei4y"), SubResource("Resource_1r8f6")])
+time_to_pop = 1.0
+bubble_type = "Normal"
+metadata/_custom_type_script = ExtResource("2_2ei4y")

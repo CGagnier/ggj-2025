@@ -1,5 +1,7 @@
 extends Node2D
 
+class_name BubbleShooter
+
 signal bubble_popped
 signal bubble_created
 signal bubble_shot

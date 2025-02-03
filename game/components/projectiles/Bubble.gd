@@ -16,8 +16,12 @@ signal on_bounce
 @export_category("Dynamic Bubbles")
 @export var disappear_time: = 1.5
 @export var needs_to_be_grounded_to_bounce = false
+## How many "bullets" should htis bubble give back
+@export var bullet_value = 1
+
 
 @export var base_speed := 2.0
+
 
 ## What shooter created this bubble
 var shooter = null
@@ -157,8 +161,6 @@ func _delay_die() -> void:
 
 func release() -> void:
 	launched = true
-	for raycast in all_raycasts:
-		raycast.global_scale = Vector2.ONE
 	
 	speed = base_speed
 	$SafetyDestroyTimer.timeout.connect(safety_destroy)

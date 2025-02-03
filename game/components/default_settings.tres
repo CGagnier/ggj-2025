@@ -1,8 +1,12 @@
-[gd_resource type="Resource" script_class="Settings" load_steps=2 format=3 uid="uid://cmb2n3igssv18"]
+[gd_resource type="Resource" script_class="GameSettings" load_steps=3 format=3 uid="uid://cmb2n3igssv18"]
 
 [ext_resource type="Script" uid="uid://dufa2x2tmyd0b" path="res://components/Globals/settings.gd" id="1_q6rs2"]
+[ext_resource type="Script" uid="uid://dvcokb01jkpuk" path="res://components/projectiles/bubble_shooter.gd" id="2_tsqcw"]
 
 [resource]
 script = ExtResource("1_q6rs2")
-control_scheme = 1
+control_scheme = 0
+play_music = true
+_shooting_script = ExtResource("2_tsqcw")
 metadata/_custom_type_script = ExtResource("1_q6rs2")
+metadata/CHRIS = "Ce fichier  la marche pas, modifie direct dans settings.gd"

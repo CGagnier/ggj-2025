@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 LevelManager="*res://components/Globals/level_manager.tscn"
 Settings="*res://components/Globals/settings.gd"
+InputBuffer="*res://Utils/input_buffer.gd"
 
 [display]
 
@@ -131,6 +132,7 @@ shoot={
 2d_physics/layer_6="Bounceable"
 2d_physics/layer_7="MovingPlatform"
 2d_physics/layer_8="Decorations"
+2d_physics/layer_9="Breakable Terrain"
 
 [rendering]
 

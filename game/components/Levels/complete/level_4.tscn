@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=4 uid="uid://cb502ro4yeeyy"]
 
-[ext_resource type="PackedScene" uid="uid://b37xqua46eo40" path="res://components/Levels/manager/base.tscn" id="1_354y3"]
+[ext_resource type="PackedScene" uid="uid://b37xqua46eo40" path="res://components/Levels/TEMPLATE.tscn" id="1_354y3"]
 [ext_resource type="PackedScene" uid="uid://bi2blfo8ygdv7" path="res://components/Interactables/Door_exit.tscn" id="2_i4054"]
 [ext_resource type="PackedScene" uid="uid://oaongo66bylq" path="res://components/Enemy/saw.tscn" id="4_ja4y0"]
 

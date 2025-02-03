@@ -141,7 +141,8 @@ func _reset_camera_settings() -> void:
 func increase_deaths() -> void:
 	death_count += 1
 	level_death += 1
-	UI.update_death_count(death_count)
+	if UI:
+		UI.update_death_count(death_count)
 	print("total: ", death_count, " level deaths: ", level_death)
 
 func get_formatted_total_time() -> String:

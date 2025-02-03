@@ -3,10 +3,10 @@
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="1_hg2y5"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="2_xok23"]
 [ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="3_n2fsx"]
-[ext_resource type="PackedScene" uid="uid://docniq82k1xc6" path="res://components/Interactables/crates/Door_exit_crate.tscn" id="5_n2fsx"]
 [ext_resource type="PackedScene" uid="uid://cxs76wj0ul56o" path="res://components/Interactables/environment_bubble.tscn" id="5_xok23"]
-[ext_resource type="PackedScene" uid="uid://b8euctwf36mvn" path="res://components/Interactables/broken_crate.tscn" id="6_n2fsx"]
+[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/Enemy/canon.tscn" id="6_efoxy"]
 [ext_resource type="PackedScene" uid="uid://daml4qpyucco3" path="res://components/Enemy/moving_object.tscn" id="7_j4yrq"]
+[ext_resource type="PackedScene" uid="uid://b0pvflvp7y3iu" path="res://components/Interactables/breakable_pillar.tscn" id="8_j4yrq"]
 
 [node name="Node2D2" type="Node2D"]
 
@@ -37,19 +37,15 @@ position = Vector2(441, 208)
 position = Vector2(516, 183)
 scale = Vector2(2.60805, 2.60805)
 
-[node name="EnvironmentBubble4" parent="." instance=ExtResource("5_xok23")]
-position = Vector2(223, 264)
-scale = Vector2(2.60805, 2.60805)
-bounce_force = 200
-
 [node name="Crate" parent="." instance=ExtResource("3_n2fsx")]
-position = Vector2(383, 162)
+position = Vector2(256, 312)
+scale = Vector2(-1, 1)
 collision_layer = 48
-item_scene = ExtResource("5_n2fsx")
+item_scene = ExtResource("6_efoxy")
 break_velocity = 5
-
-[node name="Node2D" parent="." instance=ExtResource("6_n2fsx")]
-position = Vector2(354, 243)
 
 [node name="MovingObject" parent="." instance=ExtResource("7_j4yrq")]
 position = Vector2(164, 104)
+
+[node name="4" parent="." instance=ExtResource("8_j4yrq")]
+position = Vector2(463, 320)

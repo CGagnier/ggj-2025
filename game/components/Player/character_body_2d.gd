@@ -166,7 +166,7 @@ func _physics_process(delta: float) -> void:
 	
 	if alive:
 		# Handle jump.
-		if Input.is_action_just_pressed("jump") and is_on_floor():
+		if InputBuffer.is_action_press_buffered("jump") and is_on_floor():
 			is_ground_pounding = false
 			velocity.y = JUMP_VELOCITY
 			$JumpSound.play(0.1)
