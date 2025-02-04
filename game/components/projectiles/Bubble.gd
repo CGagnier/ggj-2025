@@ -20,10 +20,10 @@ signal on_bounce
 @export var bullet_value = 1
 ## Force applied to objects that collide with it.
 @export var impact_force := 0.0
-
+## How long should we wait before giving a bullet back after pushing an object
+@export var impact_give_bullet_back_delay := 0.7
 
 @export var base_speed := 2.0
-
 
 ## What shooter created this bubble
 var shooter = null
@@ -38,6 +38,8 @@ var is_dynamic:
 var has_collided = false
 var body_started_in_bubble = false
 var absorbed_entity = null
+var give_bullet_back_delay := 0.0
+
 var _speed_multiplier = 1
 var _min_velocity_to_bounce = 20
 
@@ -243,6 +245,8 @@ func _handle_interactable_collision(interactable: Interactable):
 		if interactable is RigidBody2D and not has_pushed:
 			has_pushed = true
 			interactable.apply_impulse(dir * impact_force)
+			give_bullet_back_delay = 0.5
+			queue_free()
 
 func _on_jump_pad_body_entered(body: Node2D, jump_pad_side: Vector2) -> void:
 	_jump_pad_entered(body, jump_pad_side)
@@ -271,7 +275,9 @@ func _release_item():
 	if absorbed_entity:
 		var tree = get_tree()
 		if tree:
-			absorbed_entity.reparent(get_parent())
+			# TODO : Set current level when launching from run current scene
+			# On launch, initialize the level manager from entry_point.gd
+			absorbed_entity.reparent(LevelManager.current_level)
 			absorbed_entity.get_node("CollisionShape2D").disabled = false
 			absorbed_entity.z_as_relative = true
 			absorbed_entity.gravity_scale = 1
