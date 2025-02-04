@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://b21cgmyqi61n0"]
+[gd_scene load_steps=6 format=3 uid="uid://b21cgmyqi61n0"]
 
 [ext_resource type="Texture2D" uid="uid://dqfc7x7iurb2u" path="res://assets/Kings and Pigs/Sprites/10-Cannon/Cannon Ball.png" id="1_illji"]
 [ext_resource type="Script" uid="uid://dygii1x8yvvk" path="res://components/projectiles/cannon_ball.gd" id="1_rxsjn"]
+[ext_resource type="Resource" uid="uid://56bc712jodd8" path="res://components/projectiles/balls/Ball_Explodable.tres" id="2_rnxit"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_jfwpl"]
 animations = [{
@@ -24,6 +25,7 @@ lock_rotation = true
 contact_monitor = true
 max_contacts_reported = 3
 script = ExtResource("1_rxsjn")
+stat = ExtResource("2_rnxit")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 position = Vector2(-7, -5)

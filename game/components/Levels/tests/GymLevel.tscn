@@ -38,7 +38,7 @@ position = Vector2(516, 183)
 scale = Vector2(2.60805, 2.60805)
 
 [node name="Crate" parent="." instance=ExtResource("3_n2fsx")]
-position = Vector2(256, 312)
+position = Vector2(167, 312)
 scale = Vector2(-1, 1)
 collision_layer = 48
 item_scene = ExtResource("6_efoxy")
@@ -47,5 +47,17 @@ break_velocity = 5
 [node name="MovingObject" parent="." instance=ExtResource("7_j4yrq")]
 position = Vector2(164, 104)
 
-[node name="4" parent="." instance=ExtResource("8_j4yrq")]
-position = Vector2(463, 320)
+[node name="BreakablePillar" parent="." instance=ExtResource("8_j4yrq")]
+position = Vector2(253, 321)
+
+[node name="BreakablePillar2" parent="." instance=ExtResource("8_j4yrq")]
+position = Vector2(303, 321)
+
+[node name="BreakablePillar3" parent="." instance=ExtResource("8_j4yrq")]
+position = Vector2(356, 321)
+
+[node name="BreakablePillar4" parent="." instance=ExtResource("8_j4yrq")]
+position = Vector2(408, 321)
+
+[node name="BreakablePillar5" parent="." instance=ExtResource("8_j4yrq")]
+position = Vector2(461, 321)

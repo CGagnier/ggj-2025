@@ -12,13 +12,15 @@ var can_explode_cannon = false
 ## If its being sent back to cannon, used to ensure it cant kill the player in that case
 var sent_back = false
 
+@onready var initial_velocity =  direction*stat.speed
+
 func _ready() -> void:
 	gravity_scale = stat.gravity_scale
 	lock_rotation = stat.lock_rotation
 	# Dont kill the cannon ball on spawn
 	get_tree().create_timer(0.3).timeout.connect(func(): can_explode_cannon = true)
-
-	start_movement()
+	
+	linear_velocity = initial_velocity
 
 func _process(delta: float) -> void:
 	if(stat.timeToDestroy > 0.0):
@@ -27,9 +29,6 @@ func _process(delta: float) -> void:
 		else:
 			lifeTime = lifeTime + delta
 
-func start_movement() -> void:
-	apply_impulse(direction*stat.speed)
-
 func DestroyBall() -> void:
 	# Todo Spawn Destroy VFX 
 	queue_free()
@@ -37,7 +36,11 @@ func DestroyBall() -> void:
 func _on_body_entered(body: Node) -> void:
 	if body is BreakablePillar:
 		body.destroy()
-		DestroyBall()
+		linear_velocity = Vector2.ZERO
+		get_tree().create_timer(0.05).timeout.connect(set_deferred.bind("linear_velocity", initial_velocity))
+		#set_deferred.bind("freeze", true)
+		#get_tree().create_timer(0.4).timeout.connect(set_deferred.bind("freeze", false))
+		
 	elif body is Canon:
 		if can_explode_cannon:
 			(body as Canon).destroy()

@@ -1,19 +1,22 @@
-[gd_scene load_steps=4 format=3 uid="uid://b0pvflvp7y3iu"]
+[gd_scene load_steps=5 format=3 uid="uid://b0pvflvp7y3iu"]
 
 [ext_resource type="Texture2D" uid="uid://dv5juopmmhsqi" path="res://assets/sunken-city-tileset-pixel-art/3 Objects/2 Pillars/4.png" id="1_eb5po"]
+[ext_resource type="PackedScene" uid="uid://r1irb5jk061g" path="res://components/Interactables/breakable_pillar_pieces.tscn" id="2_qmsdj"]
 [ext_resource type="Script" uid="uid://br2wo7uhf3b82" path="res://components/Interactables/breakable_pillar.gd" id="2_t8h0f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_t8h0f"]
 size = Vector2(14, 66)
 
 [node name="BreakablePillar" type="RigidBody2D"]
-collision_layer = 257
+collision_layer = 256
 freeze = true
 script = ExtResource("2_t8h0f")
+pieces_scene = ExtResource("2_qmsdj")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -1)
+position = Vector2(-10, -33)
 texture = ExtResource("1_eb5po")
+centered = false
 offset = Vector2(0, -32)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
