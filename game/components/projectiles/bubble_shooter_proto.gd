@@ -345,13 +345,20 @@ func _let_go() -> void:
 		get_tree().create_timer(shoot_delay).timeout.connect(func(): _can_create_bubble = true)
 		
 		_time_with_full_bubble = 0.0
-		#todo: use current dir
+		
+		var current_bubble_state = inflate_state_machine.get_current_bubble_state()
+		
 		current_projectile.sprite.self_modulate.a = bubble_initial_alpha
 		current_projectile.dir = current_shoot_dir
+		
+		#todo: Just give the resource to the bubble.
+		current_projectile.base_speed = projectile_speed if projectile_speed != 0.0 else current_bubble_state.speed
+		current_projectile.can_absorb = bubbles_can_absorb and current_bubble_state.can_absorb
+		current_projectile.impact_force = current_bubble_state.impact_force
+		
 		current_projectile.reparent(get_parent().get_parent())
 		current_projectile.release()
 		
-		current_projectile.base_speed = projectile_speed if projectile_speed != 0.0 else inflate_state_machine.get_current_bubble_state().speed
 		current_projectile = null
 		$InflateAudioPlayer.stop()
 		$SpitPlayer.play()

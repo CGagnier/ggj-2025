@@ -100,6 +100,7 @@ break_velocity = 100
 
 [node name="Crate-exit" parent="Obstacles" instance=ExtResource("6_n28lh")]
 position = Vector2(305, 152)
+collision_mask = 17
 physics_material_override = SubResource("PhysicsMaterial_n28lh")
 
 [node name="Saw" parent="." instance=ExtResource("7_22ptw")]

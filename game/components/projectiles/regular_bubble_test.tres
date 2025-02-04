@@ -8,6 +8,8 @@ script = ExtResource("1_t7wj6")
 max_scale = 0.5
 state_time = 0.7
 speed = 5.0
+can_absorb = false
+impact_force = 100.0
 audio_pitch_scale = 1.0
 metadata/_custom_type_script = ExtResource("1_t7wj6")
 
@@ -16,6 +18,8 @@ script = ExtResource("1_t7wj6")
 max_scale = 1.1
 state_time = 0.7
 speed = 2.5
+can_absorb = true
+impact_force = 10.0
 audio_pitch_scale = 1.26
 metadata/_custom_type_script = ExtResource("1_t7wj6")
 
@@ -24,6 +28,8 @@ script = ExtResource("1_t7wj6")
 max_scale = 1.5
 state_time = 1.2
 speed = 2.2
+can_absorb = true
+impact_force = 10.0
 audio_pitch_scale = 1.498
 metadata/_custom_type_script = ExtResource("1_t7wj6")
 

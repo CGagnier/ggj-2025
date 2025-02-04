@@ -21,13 +21,13 @@ size = Vector2(21, 16)
 
 [node name="Crate" type="RigidBody2D"]
 collision_layer = 16
-collision_mask = 17
+collision_mask = 273
 mass = 0.4
 physics_material_override = SubResource("PhysicsMaterial_ksvp3")
 sleeping = true
 lock_rotation = true
 contact_monitor = true
-max_contacts_reported = 2
+max_contacts_reported = 50
 constant_force = Vector2(4, 20)
 script = ExtResource("1_qlcli")
 broken_crate = ExtResource("2_a4pbp")

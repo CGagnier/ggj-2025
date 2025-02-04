@@ -18,6 +18,8 @@ signal on_bounce
 @export var needs_to_be_grounded_to_bounce = false
 ## How many "bullets" should htis bubble give back
 @export var bullet_value = 1
+## Force applied to objects that collide with it.
+@export var impact_force := 0.0
 
 
 @export var base_speed := 2.0
@@ -67,6 +69,8 @@ var _can_die = true
 var _should_die_after_delay = false
 
 var _can_play_wall_sound = true
+
+var has_pushed = false
 
 @onready var raycasts_map = {
 	Vector2.LEFT: [$RaycastLeft, $RaycastLeft2],
@@ -133,9 +137,11 @@ func _physics_process(delta: float) -> void:
 			
 			if collided is Bubble:
 				play_hit_wall_sound()
-				dir = dir.bounce(collision.get_normal())
-				dir = dir.normalized()
-				dir =_snap_vector(dir)
+				#var bounce_vector = (self.global_position - collided.global_position).normalized()
+				var bounce_vector = (collision_pos - collided.global_position).normalized()
+				#dir = dir.bounce(collision.get_normal())
+				#dir = dir.normalized()
+				dir =_snap_vector(bounce_vector)
 			elif collided is Interactable:
 				if not absorbed_entity:
 					_handle_interactable_collision.call_deferred(collided as Interactable)
@@ -155,7 +161,10 @@ func _snap_vector(vector: Vector2) -> Vector2:
 		return Vector2.ZERO  # Avoid snapping a zero vector
 
 	var angle = rad_to_deg(vector.angle())  # Convert the vector's angle to degrees
-	var snapped_angle = round(angle / 45.0) * 45.0  # Snap to nearest 45 degrees
+	const num_possible_angles = 360 / 4
+	
+	
+	var snapped_angle = round(angle / num_possible_angles) * num_possible_angles
 	return Vector2.RIGHT.rotated(deg_to_rad(snapped_angle)) 
 	
 func _delay_die() -> void: 
@@ -227,9 +236,13 @@ func _handle_bubble_collision(other_bubble: Bubble):
 	collision_tween.tween_property(new_instance, "scale", Vector2(1,1) * total_length, 0.3).set_trans(Tween.TRANS_ELASTIC)
 
 func _handle_interactable_collision(interactable: Interactable):
-	if can_absorb:
+	if can_absorb and is_dynamic:
 		absorb(interactable)
 		dir = Vector2.UP
+	else:
+		if interactable is RigidBody2D and not has_pushed:
+			has_pushed = true
+			interactable.apply_impulse(dir * impact_force)
 
 func _on_jump_pad_body_entered(body: Node2D, jump_pad_side: Vector2) -> void:
 	_jump_pad_entered(body, jump_pad_side)
