@@ -1,0 +1,27 @@
+[gd_scene load_steps=5 format=3 uid="uid://b4cu85gnqccph"]
+
+[ext_resource type="Script" uid="uid://i24k1e1e8mti" path="res://components/Interactables/falling_crate.gd" id="1_iruw3"]
+[ext_resource type="PackedScene" uid="uid://c2pi8ieenh3w6" path="res://components/Interactables/Crate.tscn" id="2_6xshv"]
+[ext_resource type="PackedScene" uid="uid://cjijdjnr06w0p" path="res://components/Enemy/canon.tscn" id="3_minfa"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6xshv"]
+size = Vector2(23, 360)
+
+[node name="Area2D" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+script = ExtResource("1_iruw3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 180)
+shape = SubResource("RectangleShape2D_6xshv")
+debug_color = Color(0.867345, 0.335751, 0.301572, 0.42)
+
+[node name="Crate" parent="." instance=ExtResource("2_6xshv")]
+scale = Vector2(-1, 1)
+freeze = true
+item_scene = ExtResource("3_minfa")
+break_velocity = 5
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
