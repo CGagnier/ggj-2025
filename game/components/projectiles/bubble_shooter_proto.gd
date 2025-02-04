@@ -385,10 +385,14 @@ func pop_bubble() -> void:
 		
 
 func on_bubble_disappear(popped_bubble):
-	num_bullets += popped_bubble.bullet_value
+	if is_inside_tree():
+		$PopAudioPlayer.play()
+		get_tree().create_timer(popped_bubble.give_bullet_back_delay).timeout.connect(give_bullet_back.bind(popped_bubble.bullet_value))
 	
 	if popped_bubble == current_projectile:
 		pop_bubble()
 	
-	if is_inside_tree():
-		$PopAudioPlayer.play()
+	
+
+func give_bullet_back(bullet_value):
+	num_bullets += bullet_value

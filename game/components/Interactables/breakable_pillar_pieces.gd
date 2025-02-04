@@ -6,7 +6,7 @@ func _ready() -> void:
 	$CrumblePlayer.play()
 	
 	var tween = get_tree().create_tween()
-	tween.tween_method(_set_alpha, 1.0, 0.0, 1).set_delay(3)
+	tween.tween_method(_set_alpha, 1.0, 0.0, 1).set_delay(randf_range(2.5, 3.2))
 	tween.tween_callback(queue_free)
 	
 func _set_scale(value: float):
