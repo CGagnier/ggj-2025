@@ -13,7 +13,6 @@ var last_velocities = []
 @onready var initial_scale = scale
 
 func _ready():
-	print(initial_scale)
 	$AudioStreamPlayer2D.finished.connect(queue_free)
 	contact_monitor = false
 	get_tree().create_timer(2).timeout.connect(func(): contact_monitor = true)

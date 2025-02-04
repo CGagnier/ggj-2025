@@ -133,7 +133,9 @@ func _physics_process(delta: float) -> void:
 			
 			if collided is Bubble:
 				play_hit_wall_sound()
-				#_handle_bubble_collision(collided as Bubble)
+				dir = dir.bounce(collision.get_normal())
+				dir = dir.normalized()
+				dir =_snap_vector(dir)
 			elif collided is Interactable:
 				if not absorbed_entity:
 					_handle_interactable_collision.call_deferred(collided as Interactable)
@@ -148,6 +150,14 @@ func _physics_process(delta: float) -> void:
 						play_hit_wall_sound()
 						_delay_die()
 				
+func _snap_vector(vector: Vector2) -> Vector2:
+	if vector == Vector2.ZERO:
+		return Vector2.ZERO  # Avoid snapping a zero vector
+
+	var angle = rad_to_deg(vector.angle())  # Convert the vector's angle to degrees
+	var snapped_angle = round(angle / 45.0) * 45.0  # Snap to nearest 45 degrees
+	return Vector2.RIGHT.rotated(deg_to_rad(snapped_angle)) 
+	
 func _delay_die() -> void: 
 	if _should_die_after_delay or not _can_die: return #no-op if already scheduled to die
 	_speed_multiplier = 0

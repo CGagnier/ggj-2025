@@ -54,12 +54,13 @@ class InflateStateMachine extends Node:
 	
 	## The time to scale the bubble to its maximum size when we enter a new state
 	const INFLATE_TIME := 0.4
+	var alpha_tween = null
+	var bubble_definition = null
+	
 	var _bubble_initial_alpha = 0.75
 	var _state_index := -1
 	var _time_in_inflate_state := 0.0
-	var bubble_definition = null
 	var _shooter_ref = null
-	var alpha_tween = null
 	var _scale_tween: Tween
 	
 	@onready var audio_player = _shooter_ref.get_node("InflateAudioPlayer")
@@ -87,8 +88,11 @@ class InflateStateMachine extends Node:
 		_state_index = -1
 		_time_in_inflate_state = 0.0
 		warning_player.stop()
+	
+	func get_current_bubble_state():
+		return bubble_definition.get_state(_state_index)
 		
-	func transition_to_next_state():
+	func _transition_to_next_state():
 		# Handle state transition
 		_time_in_inflate_state = 0.0
 		_state_index += 1
@@ -134,7 +138,7 @@ class InflateStateMachine extends Node:
 	func process(delta: float):
 		if not _shooter_ref.current_projectile: return
 		if _state_index == -1 and _shooter_ref.current_projectile:
-			transition_to_next_state()
+			_transition_to_next_state()
 		
 		if _state_index == bubble_definition.num_states - 1:
 			process_current_state()
@@ -143,7 +147,7 @@ class InflateStateMachine extends Node:
 		
 		if _time_in_inflate_state >= bubble_definition.get_state(_state_index).state_time:
 			if _shooter_ref.num_bullets:
-				transition_to_next_state()	
+				_transition_to_next_state()	
 		
 
 @onready var inflate_state_machine:InflateStateMachine = InflateStateMachine.new(bubble_definition, self)
@@ -337,8 +341,6 @@ func _let_go() -> void:
 	released = false
 	release_time = 0
 	
-	inflate_state_machine.reset()
-	
 	if current_projectile:
 		get_tree().create_timer(shoot_delay).timeout.connect(func(): _can_create_bubble = true)
 		
@@ -349,13 +351,14 @@ func _let_go() -> void:
 		current_projectile.reparent(get_parent().get_parent())
 		current_projectile.release()
 		
-		if projectile_speed != 0.0:
-			current_projectile.base_speed = projectile_speed
-		
+		current_projectile.base_speed = projectile_speed if projectile_speed != 0.0 else inflate_state_machine.get_current_bubble_state().speed
 		current_projectile = null
 		$InflateAudioPlayer.stop()
 		$SpitPlayer.play()
 		bubble_shot.emit()
+	
+	inflate_state_machine.reset()
+	
 
 func pop_bubble() -> void:
 	_time_with_full_bubble = 0.0

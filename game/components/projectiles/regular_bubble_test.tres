@@ -7,15 +7,15 @@
 script = ExtResource("1_t7wj6")
 max_scale = 0.5
 state_time = 0.7
-speed = 1.0
+speed = 5.0
 audio_pitch_scale = 1.0
 metadata/_custom_type_script = ExtResource("1_t7wj6")
 
 [sub_resource type="Resource" id="Resource_2ei4y"]
 script = ExtResource("1_t7wj6")
-max_scale = 1.0
+max_scale = 1.1
 state_time = 0.7
-speed = 1.0
+speed = 2.5
 audio_pitch_scale = 1.26
 metadata/_custom_type_script = ExtResource("1_t7wj6")
 
@@ -23,7 +23,7 @@ metadata/_custom_type_script = ExtResource("1_t7wj6")
 script = ExtResource("1_t7wj6")
 max_scale = 1.5
 state_time = 1.2
-speed = 1.0
+speed = 2.2
 audio_pitch_scale = 1.498
 metadata/_custom_type_script = ExtResource("1_t7wj6")
 
