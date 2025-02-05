@@ -24,6 +24,8 @@ signal on_bounce
 @export var impact_give_bullet_back_delay := 0.7
 
 @export var base_speed := 2.0
+@export var absorbed_entity: Node2D = null
+@export var destroy_on_bounce: bool = true
 
 ## What shooter created this bubble
 var shooter = null
@@ -37,7 +39,6 @@ var is_dynamic:
 
 var has_collided = false
 var body_started_in_bubble = false
-var absorbed_entity = null
 var give_bullet_back_delay := 0.0
 
 var _speed_multiplier = 1
@@ -100,6 +101,9 @@ func collides_in_dir(collide_dir: Vector2):
 var collision_pos := Vector2.ZERO
 
 func _ready():
+	
+	if absorbed_entity:
+		absorb(absorbed_entity)
 	
 	if is_static:
 		set_collision_mask_value(1, 0)
@@ -269,6 +273,9 @@ func _jump_pad_exited(node: Node2D, bounce_dir: Vector2):
 func _release_item():
 	if absorbed_entity:
 		if is_inside_tree():
+			# Make sure to reparent our absorbed entity if were going to die and theyre a child
+			if absorbed_entity.get_parent() == self:
+				absorbed_entity.reparent(LevelManager.current_level)
 			absorbed_entity.freeze = false
 			absorbed_entity.z_as_relative = true
 			absorbed_entity = null
@@ -312,7 +319,7 @@ func bounce(entity, bounce_dir):
 	tween.tween_callback(_set_entity_velocity.bind(dir_bounce_force, entity))
 	tween.tween_callback(func() :_entities_to_info[entity].bounce_state = BounceState.FinishedBounce).set_delay(0.5)
 	
-	if is_dynamic:
+	if destroy_on_bounce:
 		tween.tween_callback(queue_free)
 
 func _set_entity_velocity(_velocity, entity):
@@ -343,7 +350,11 @@ func _notification(what):
 		
 func play_bounce_sound():
 	if is_static:
-		$BoingPlayer.play()
+		var boing_player = $BoingPlayer
+		if boing_player:
+			boing_player.reparent(LevelManager.current_level)
+			boing_player.finished.connect(boing_player.queue_free)
+			boing_player.play()
 	else:
 		on_bounce.emit()
 		

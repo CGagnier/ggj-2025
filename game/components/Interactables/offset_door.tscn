@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bx70a108vgg5j"]
+
+[ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="1_umf4j"]
+
+[node name="Door" instance=ExtResource("1_umf4j")]
+position = Vector2(0, -2)
+offset = Vector2(0, -27)
+
+[node name="CollisionShape2D" parent="Area2D" index="0"]
+position = Vector2(0.5, -18)

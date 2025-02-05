@@ -288,7 +288,7 @@ z_index = 66
 z_as_relative = false
 scale = Vector2(1.2, 1.2)
 collision_layer = 2
-collision_mask = 277
+collision_mask = 279
 platform_wall_layers = 1
 script = ExtResource("1_ph1f6")
 
