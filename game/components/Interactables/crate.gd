@@ -36,7 +36,6 @@ func _on_body_entered(body: Node) -> void:
 	var _can_break = body is Interactable
 	
 	var angle = rad_to_deg(get_angle_to(body.global_position))
-	#print(angle)
 	
 	if not broken and (_can_break or body is TileMapLayer or body is StaticBody2D):
 		var mean_velocities = last_velocities.reduce(sum, 0) / 5

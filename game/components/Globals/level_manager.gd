@@ -1,10 +1,11 @@
 extends Node
 
-var current_level = null
+var current_level: Node = null
 var next_level_index = 0
 const LEVEL_LIST = preload("res://components/Levels/complete/level_flow.tres")
 const LEVEL_SELECT_SCENE = preload("res://UI/debug_level_select.tscn")
 var overlay = preload("res://UI/overlay.tscn")
+var launched_from_main = false
 
 var final_level = false
 
@@ -21,7 +22,6 @@ var UI: OverlayTitle = null
 
 @onready var play_music = Settings.play_music
 
-
 func _ready() -> void:
 	_reset_camera_settings()
 	if play_music:
@@ -30,7 +30,11 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		clear_nodes()
-		_load_current_level(1)
+		if launched_from_main:
+			_load_current_level(1)
+			timer_should_run = true
+		else:
+			_reload_current_level()
 	if Input.is_action_just_pressed("ui_cancel"):
 		clear_nodes()
 		var level_select = LEVEL_SELECT_SCENE.instantiate()
@@ -94,6 +98,7 @@ func go_to_level(level: LevelStat, _is_final: bool):
 		if level.name.length():
 			_next_level_scene.name = level.name
 	
+		## TODO: Overlay should always be loaded. 
 		var _overlay: OverlayTitle = overlay.instantiate()
 		_overlay.title = level.name
 		UI = _overlay
@@ -150,3 +155,13 @@ func get_formatted_total_time() -> String:
 		return UI.format_time(total_time)
 	else: # Not loaded using level manager
 		return "00:00:00" 
+
+## NOTE: Only to be used when running a single scene
+func _reload_current_level():
+	var scene_path = current_level.scene_file_path
+	#var scene = load(scene_path)
+	var level_stat:LevelStat = LevelStat.new()
+	level_stat.level = load(scene_path)
+	total_time = 0.0
+	
+	go_to_level(level_stat, false)

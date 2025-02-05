@@ -11,7 +11,6 @@ tile_map_data = PackedByteArray("AAD9/wUAAAACAAIAAAD9/wcAAAACAAIAAAD9/wYAAAACAAI
 
 [node name="Crate" parent="." index="6" instance=ExtResource("2_ya1iy")]
 position = Vector2(426, 56)
-continuous_cd = 0
 max_contacts_reported = 2
 break_velocity = 5
 

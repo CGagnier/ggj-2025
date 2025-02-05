@@ -121,6 +121,8 @@ func _process(delta: float):
 
 func _physics_process(delta: float) -> void:
 	_process_bouncing(delta)
+	if absorbed_entity:
+		absorbed_entity.global_position = lerp(absorbed_entity.global_position, global_position, 0.8)
 	
 	if launched:
 		t += delta * 2
@@ -193,26 +195,19 @@ func absorb(interactable: Interactable):
 	
 	absorbed_entity = interactable
 	
+	# Disable collision with objects while item is inside.
+	set_collision_mask_value(5, 0)
+	
 	var tween = get_tree().create_tween()
 	
-	var target_position = interactable.global_position
-	
-	# absord method
-	interactable.get_node("CollisionShape2D").disabled = true
+	interactable.freeze = true
 	interactable.z_index = 0
 	interactable.z_as_relative = false
-	interactable.gravity_scale = 0
+	
 	$Sprite2D.self_modulate *= 0.7
 	
-	_speed_multiplier = 0
-	
-	tween.tween_property(self, "position", target_position, 0.2)#.set_delay(0.1)
-	tween.tween_callback(func(): interactable.reparent(self))
-	
-	
-	#tween.set_parallel()
-	#tween.tween_property(self, "speed", 0, 0.3).set_delay(0.8)
-	tween.tween_property(self, "_speed_multiplier", 1, 0.3)
+	tween.tween_property(self, "position", interactable.global_position, 0.2)#.set_delay(0.1)
+	tween.tween_property(self, "_speed_multiplier", 2.5,  0.6).from(0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
 	tween.tween_callback(func(): _can_die = true)
 
 func _handle_bubble_collision(other_bubble: Bubble):
@@ -273,14 +268,9 @@ func _jump_pad_exited(node: Node2D, bounce_dir: Vector2):
 
 func _release_item():
 	if absorbed_entity:
-		var tree = get_tree()
-		if tree:
-			# TODO : Set current level when launching from run current scene
-			# On launch, initialize the level manager from entry_point.gd
-			absorbed_entity.reparent(LevelManager.current_level)
-			absorbed_entity.get_node("CollisionShape2D").disabled = false
+		if is_inside_tree():
+			absorbed_entity.freeze = false
 			absorbed_entity.z_as_relative = true
-			absorbed_entity.gravity_scale = 1
 			absorbed_entity = null
 
 func should_bounce_in_dir(entity, bounce_dir: Vector2):
