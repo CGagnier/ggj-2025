@@ -13,11 +13,10 @@ tile_map_data = PackedByteArray("AAD9/wUAAAACAAIAAAD9/wcAAAACAAIAAAD9/wYAAAACAAI
 
 [node name="Bubble" parent="." index="6" node_paths=PackedStringArray("absorbed_entity") instance=ExtResource("3_kp115")]
 process_physics_priority = 1
-position = Vector2(172, 267)
+position = Vector2(171, 212)
 scale = Vector2(1.17839, 1.17839)
 is_static = true
 bounce_force = 275
-sine_intensity = 10.0
 absorbed_entity = NodePath("Crate")
 
 [node name="Crate" parent="Bubble" index="18" instance=ExtResource("4_lspmu")]
@@ -26,51 +25,6 @@ scale = Vector2(0.848614, 0.848614)
 item_scene = ExtResource("4_kp115")
 break_velocity = 1
 
-[node name="Bubble2" parent="." index="7" node_paths=PackedStringArray("absorbed_entity") instance=ExtResource("3_kp115")]
-process_physics_priority = 1
-position = Vector2(234, 252)
-scale = Vector2(1.17839, 1.17839)
-is_static = true
-bounce_force = 275
-sine_intensity = 10.0
-absorbed_entity = NodePath("Crate")
-
-[node name="Crate" parent="Bubble2" index="18" instance=ExtResource("4_lspmu")]
-position = Vector2(1.69722, 0)
-scale = Vector2(0.848614, 0.848614)
-item_scene = ExtResource("4_kp115")
-break_velocity = 1
-
-[node name="Bubble3" parent="." index="8" node_paths=PackedStringArray("absorbed_entity") instance=ExtResource("3_kp115")]
-process_physics_priority = 1
-position = Vector2(293, 233)
-scale = Vector2(1.17839, 1.17839)
-is_static = true
-bounce_force = 275
-sine_intensity = 10.0
-absorbed_entity = NodePath("Crate")
-
-[node name="Crate" parent="Bubble3" index="18" instance=ExtResource("4_lspmu")]
-position = Vector2(1.69722, 0)
-scale = Vector2(0.848614, 0.848614)
-item_scene = ExtResource("4_kp115")
-break_velocity = 1
-
-[node name="Bubble4" parent="." index="9" node_paths=PackedStringArray("absorbed_entity") instance=ExtResource("3_kp115")]
-process_physics_priority = 1
-position = Vector2(361, 200)
-scale = Vector2(1.17839, 1.17839)
-is_static = true
-bounce_force = 275
-sine_intensity = 10.0
-absorbed_entity = NodePath("Crate")
-
-[node name="Crate" parent="Bubble4" index="18" instance=ExtResource("4_lspmu")]
-position = Vector2(1.69722, 0)
-scale = Vector2(0.848614, 0.848614)
-item_scene = ExtResource("4_kp115")
-break_velocity = 1
-
-[node name="Spikes" parent="." index="10" instance=ExtResource("5_lspmu")]
+[node name="Spikes" parent="." index="7" instance=ExtResource("5_lspmu")]
 position = Vector2(376, 321)
 scale = Vector2(1.17839, 1.17839)

@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="LevelList" load_steps=5 format=3 uid="uid://s0lf0y30q2bo"]
+
+[ext_resource type="Script" uid="uid://bwfi30hwgpxyw" path="res://components/Levels/level_stats.gd" id="1_hlk1p"]
+[ext_resource type="PackedScene" uid="uid://ctdeiushfrs0n" path="res://components/Levels/tests/test_components/test_crates.tscn" id="2_btm7k"]
+[ext_resource type="Script" uid="uid://chd48lfhqi25b" path="res://components/Levels/level_list.gd" id="2_wdu7r"]
+
+[sub_resource type="Resource" id="Resource_0ofyc"]
+script = ExtResource("1_hlk1p")
+name = "Crates"
+level = ExtResource("2_btm7k")
+metadata/_custom_type_script = ExtResource("1_hlk1p")
+
+[resource]
+script = ExtResource("2_wdu7r")
+levels = Array[ExtResource("1_hlk1p")]([SubResource("Resource_0ofyc")])
+metadata/_custom_type_script = ExtResource("2_wdu7r")

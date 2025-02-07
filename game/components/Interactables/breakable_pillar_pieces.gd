@@ -1,5 +1,7 @@
 extends Node2D
 
+# Todo: utilty fade out children 
+
 func _ready() -> void:
 	_add_force(Vector2(100, -50))
 	$ImpactPlayer.play()

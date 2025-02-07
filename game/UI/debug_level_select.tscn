@@ -41,3 +41,18 @@ text = "This is where utility buttons would go
 
 ie. spawn certain items, unlock exit door etc"
 autowrap_mode = 2
+
+[node name="TestMaps" type="ItemList" parent="Utilities"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 119.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/outline_size = 0
+theme_override_constants/v_separation = 10
+theme_override_constants/line_separation = 10
+theme_override_font_sizes/font_size = 20
+max_text_lines = 2
+same_column_width = true

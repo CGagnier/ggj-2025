@@ -22,6 +22,5 @@ debug_color = Color(0.867345, 0.335751, 0.301572, 0.42)
 scale = Vector2(-1, 1)
 freeze = true
 item_scene = ExtResource("3_minfa")
-break_velocity = 5
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

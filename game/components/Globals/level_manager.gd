@@ -92,6 +92,16 @@ func go_to(level_index: int):
 	
 	go_to_level(_next_level, _final)
 
+func go_to_test_map(map:PackedScene):
+	var map_instance = map.instantiate()
+	if current_level:
+		current_level.name = "DiscardedLevel"
+		current_level.queue_free()
+	
+	current_level = map_instance
+	add_sibling(map_instance)
+	
+
 func go_to_level(level: LevelStat, _is_final: bool):
 	if level:
 		var _next_level_scene = level.level.instantiate()

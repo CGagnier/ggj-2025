@@ -96,7 +96,6 @@ one_way_collision = true
 [node name="Crate-canon" parent="Obstacles" instance=ExtResource("4_pbnod")]
 position = Vector2(525, 310)
 item_scene = ExtResource("5_cw52b")
-break_velocity = 100
 
 [node name="Crate-exit" parent="Obstacles" instance=ExtResource("6_n28lh")]
 position = Vector2(305, 152)

@@ -43,7 +43,6 @@ position = Vector2(167, 311)
 scale = Vector2(-1, 1)
 collision_layer = 48
 item_scene = ExtResource("6_efoxy")
-break_velocity = 5
 
 [node name="MovingObject" parent="." instance=ExtResource("7_j4yrq")]
 position = Vector2(164, 104)
