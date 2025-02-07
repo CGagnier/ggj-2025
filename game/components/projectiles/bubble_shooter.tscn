@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://dxljrfefydguf"]
+[gd_scene load_steps=14 format=3 uid="uid://dxljrfefydguf"]
 
 [ext_resource type="Script" uid="uid://esvn0ixir3ih" path="res://components/projectiles/bubble_shooter_proto.gd" id="1_aeswd"]
 [ext_resource type="PackedScene" uid="uid://cx05cla7f21ru" path="res://components/projectiles/Bubble.tscn" id="2_bl0qu"]
@@ -10,6 +10,7 @@
 [ext_resource type="AudioStream" uid="uid://dmgj0lydopl3e" path="res://assets/Sounds/Spit.wav" id="7_aeswd"]
 [ext_resource type="AudioStream" uid="uid://vvvshv7crppb" path="res://assets/Sounds/Boing.wav" id="8_c18lt"]
 [ext_resource type="AudioStream" uid="uid://bkvivcjgubds8" path="res://assets/Sounds/warning-chime.wav" id="10_8s3vh"]
+[ext_resource type="PackedScene" uid="uid://dwlvbaepcdeim" path="res://components/Player/shooter_spring_arm.tscn" id="11_ei10r"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_c18lt"]
 random_pitch = 1.4
@@ -49,3 +50,5 @@ volume_db = -3.0
 [node name="WarningPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_8s3vh")
 volume_db = -30.0
+
+[node name="ShooterOffset" parent="." instance=ExtResource("11_ei10r")]

@@ -176,15 +176,6 @@ func get_input_to_dir(input) -> Vector2:
 	
 	return Vector2.RIGHT
 
-#func has_input_shooting():
-	#if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
-		#return Input.is_action_just_pressed(shoot_dir) and not current_projectile
-#
-#func is_shoot_action_just_pressed():
-		#if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
-			#return Input.is_action_just_pressed(shoot_dir)
-
-
 var current_shoot_dir = Vector2.RIGHT
 
 var release_time := 0.0
@@ -201,15 +192,17 @@ func _ready():
 
 func _process(delta: float) -> void:
 	var projectile_offset = current_projectile.scale if current_projectile else Vector2.ONE
-	var offset = 10 * current_shoot_dir * projectile_offset * 1.5
+	var offset = 10 * get_input_to_dir(_last_pressed_input) * projectile_offset * 1.5
 	if current_shoot_dir.y == 0:
-		# Move bubble donw when you're aiming horizontally to make it easier to jump on bubble.
+		# Move bubble down when you're aiming horizontally to make it easier to jump on bubble.
 		offset.y += 2 * projectile_offset.length()
 	
 	inflate_state_machine.process(delta)
+	$ShooterOffset.target_position = to_global(offset)
 	
 	if current_projectile:
-		current_projectile.position = offset
+		# Move the bubble towards our 'spring arm' so that we can't spawn bubbles in walls 
+		current_projectile.global_position = $ShooterOffset.corrected_position
 		current_projectile.dir = current_shoot_dir
 		current_projectile.inflate_percent = current_projectile.global_scale.length() / max_scale.length()		
 	
@@ -236,7 +229,7 @@ func _process_currently_shooting_static(delta):
 		#current_projectile.global_scale = lerp(start_scale, max_scale, _grow_time / time_to_full_bubble)
 	
 	if not current_projectile and num_bullets > 0:
-		# Player holding down after projectile was shot
+		# Player holding down shoot button after projectile was shot
 		_create_bubble()
 	
 	_grow_time += delta
@@ -328,7 +321,7 @@ func _create_bubble() -> void:
 		current_projectile.shooter = self if shooter_ref == null else shooter_ref
 		current_projectile.can_absorb = bubbles_can_absorb
 		_grow_time = 0.0
-		add_child(current_projectile)
+		$ShooterOffset.add_child(current_projectile)
 		bubble_created.emit()
 
 func _on_bounce(proj):
@@ -371,12 +364,11 @@ func pop_bubble() -> void:
 	_time_with_full_bubble = 0.0
 	bubble_popped.emit()
 	_can_create_bubble = false
-	inflate_state_machine.reset()
 	
 	if is_inside_tree():
-		# todo fix this somehow, causes an error
-		if get_tree():
-			get_tree().create_timer(shoot_delay).timeout.connect(func(): _can_create_bubble=true)
+		inflate_state_machine.reset()
+		
+		get_tree().create_timer(shoot_delay).timeout.connect(func(): _can_create_bubble=true)
 		# todo: play pop animation
 		current_projectile.queue_free()
 		$PopAudioPlayer.play()
