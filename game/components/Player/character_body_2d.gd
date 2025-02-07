@@ -26,6 +26,9 @@ var current_state = null
 
 var _last_velocities = []
 var _running_average_length := 5
+var _last_grounded_time := 0.0
+## How many frames after being grounded can the player jump (Helps jumping upon leaving platforms)
+const frames_to_jump_after_grounded = 7
 
 func mean(accum, number):
 	return accum + number / _running_average_length
@@ -61,14 +64,18 @@ func add_impulse(impulse: Vector2, damp = 0.95):
 
 #region Statess
 func _enter_state(new_state):
-	
-	if (current_state != new_state):
-		_leave_state(current_state)
-		current_state = new_state
+	if new_state == current_state:
+		return
+		
+	_leave_state(current_state)
+	current_state = new_state
 
 	if(new_state == state.run):
 		animated_sprite.play("run")
 	if(new_state == state.jump):
+		is_ground_pounding = false
+		velocity.y = JUMP_VELOCITY
+		$JumpSound.play(0.1)
 		animated_sprite.play("jump")
 	if new_state == state.idle:
 		animated_sprite.play("idle")
@@ -142,6 +149,9 @@ func _process_impulses(delta):
 	return applied_force
 
 func _physics_process(delta: float) -> void:
+	if is_on_floor():
+		_last_grounded_time = Time.get_ticks_msec()
+	
 	# Add the gravity.
 	if not is_on_floor():
 		var input_down := Vector2(0,Input.get_action_strength("move_down")*SPEED_JUMPDOWN)
@@ -166,10 +176,7 @@ func _physics_process(delta: float) -> void:
 	
 	if alive:
 		# Handle jump.
-		if InputBuffer.is_action_press_buffered("jump") and is_on_floor():
-			is_ground_pounding = false
-			velocity.y = JUMP_VELOCITY
-			$JumpSound.play(0.1)
+		if InputBuffer.is_action_press_buffered("jump") and _was_on_floor():
 			_enter_state(state.jump)
 		
 		# Get the input direction and handle the movement/deceleration.
@@ -220,3 +227,10 @@ func _dying() -> void:
 
 func _on_bubble_popped():
 	$ExpressionHolder/Expression.play_wtf()
+
+func _was_on_floor():
+	var time_now = Time.get_ticks_msec()
+	var delta = time_now - _last_grounded_time
+	var num_frames = delta / 16.66666
+	return num_frames <= frames_to_jump_after_grounded
+	
