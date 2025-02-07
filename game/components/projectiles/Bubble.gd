@@ -350,11 +350,14 @@ func _notification(what):
 		
 func play_bounce_sound():
 	if is_static:
-		var boing_player = $BoingPlayer
-		if boing_player:
-			boing_player.reparent(LevelManager.current_level)
-			boing_player.finished.connect(boing_player.queue_free)
-			boing_player.play()
+		if destroy_on_bounce:
+			var boing_player = $BoingPlayer
+			if boing_player:
+				boing_player.reparent(LevelManager.current_level)
+				boing_player.finished.connect(boing_player.queue_free)
+				boing_player.play()
+		else:
+			$BoingPlayer.play()
 	else:
 		on_bounce.emit()
 		

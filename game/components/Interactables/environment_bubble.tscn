@@ -5,6 +5,7 @@
 [node name="EnvironmentBubble" instance=ExtResource("1_xh8ea")]
 collision_mask = 28
 is_static = true
+destroy_on_bounce = false
 
 [node name="JumpPad" parent="." index="2"]
 linear_damp = 0.5
