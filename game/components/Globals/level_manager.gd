@@ -31,7 +31,9 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		clear_nodes()
 		if launched_from_main:
-			_load_current_level(1)
+			_reset_camera_settings()
+			var _current_level_stat  = LEVEL_LIST.levels[next_level_index-1]
+			go_to_level(_current_level_stat, false)
 			timer_should_run = true
 		else:
 			_reload_current_level()
@@ -49,23 +51,6 @@ func clear_nodes():
 	for node in get_parent().get_children():
 		if not ProjectSettings.has_setting("autoload/%s" % node.name):
 			node.queue_free()
-
-## Level Index Modifier used to NOT increase 
-func _load_current_level(level_index_modifier=0) -> void:
-	
-	var _next_level
-	
-	_next_level = LEVEL_LIST.levels[next_level_index-level_index_modifier]
-	_reset_camera_settings()
-	var _next_level_scene = _next_level.level.instantiate()
-	_next_level_scene.name = _next_level.name if _next_level.name.length() else "EmptyNameLevel"
-
-	var _overlay: OverlayTitle = overlay.instantiate()
-	_overlay.title = _next_level.name
-
-	add_sibling(_next_level_scene)
-	_next_level_scene.add_child(_overlay)
-	current_level = _next_level_scene
 
 func go_to_next_level():
 	go_to(next_level_index)
@@ -107,18 +92,19 @@ func go_to_level(level: LevelStat, _is_final: bool):
 		var _next_level_scene = level.level.instantiate()
 		if level.name.length():
 			_next_level_scene.name = level.name
-	
-		## TODO: Overlay should always be loaded. 
+
+		## TODO: Overlay should always be loaded ? 
 		var _overlay: OverlayTitle = overlay.instantiate()
 		_overlay.title = level.name
 		UI = _overlay
 		UI.current_deaths = death_count
+
+		add_sibling(_next_level_scene)
+		_next_level_scene.add_child(_overlay)
 		
 		if _is_final:
 			UI.hide_overlays()
-	
-		add_sibling(_next_level_scene)
-		_next_level_scene.add_child(_overlay)
+
 		if current_level:
 			current_level.name = "DiscardedLevel"
 			current_level.queue_free()
@@ -169,8 +155,8 @@ func get_formatted_total_time() -> String:
 ## NOTE: Only to be used when running a single scene
 func _reload_current_level():
 	var scene_path = current_level.scene_file_path
-	#var scene = load(scene_path)
 	var level_stat:LevelStat = LevelStat.new()
+	
 	level_stat.level = load(scene_path)
 	total_time = 0.0
 	
