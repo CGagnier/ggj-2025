@@ -175,9 +175,22 @@ func _physics_process(delta: float) -> void:
 				
 				if is_static: return # Don't kill environment bubbles
 				
-				if collided is not Player or shooter is not Player:
-					if (collision.get_normal() * dir).length() > 0:
+				if collided is not Player or shooter is not Player and not has_collided:
+					var collision_angle = fposmod((collision.get_position() - global_position).angle(), 2*PI)
+					var left_margin = fposmod(dir.angle() + deg_to_rad(45), 2*PI)
+					var right_margin = fposmod(dir.angle() - deg_to_rad(45), 2*PI)
+					
+					## This between_angle shit is to ensure that we only stop the bubble on collision if it's hitting in the opossite side of the bubble's direction.
+					var between_angles = false
+					if left_margin < right_margin:
+						between_angles = left_margin <= collision_angle and collision_angle <= right_margin
+					else:
+						between_angles = collision_angle >= left_margin or collision_angle <= right_margin
+					
+					if (collision.get_normal() * dir).length() > 0 and not between_angles:
+						has_collided = true
 						play_hit_wall_sound()
+						_speed_multiplier = 0
 						_delay_die()
 				
 func _snap_vector(vector: Vector2) -> Vector2:
@@ -193,7 +206,6 @@ func _snap_vector(vector: Vector2) -> Vector2:
 	
 func _delay_die() -> void: 
 	if _should_die_after_delay or not _completed_absorb: return #no-op if already scheduled to die
-	_speed_multiplier = 0
 	_should_die_after_delay = true
 	var _real_disapear_time = disappear_time if not absorbed_entity else 0.0
 	await get_tree().create_timer(_real_disapear_time).timeout

@@ -270,15 +270,13 @@ func _process_currently_shooting(delta):
 		if Input.is_action_pressed("shoot"):
 			released = false
 			is_inflating = true
-			for move_dir in move_dirs:
-				if Input.is_action_pressed(move_dir):
-					current_shoot_dir = get_input_to_dir(move_dir)
 	else:
 		for shoot_dir in shoot_dirs:
 			if Input.is_action_pressed(shoot_dir):
 				released = false
 				is_inflating = true
-				current_shoot_dir = get_input_to_dir(shoot_dir)
+	
+	current_shoot_dir = get_input_to_dir(_last_pressed_input) 
 	
 	if is_inflating:
 		_grow_time += delta
