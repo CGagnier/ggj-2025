@@ -315,17 +315,11 @@ func _create_bubble() -> void:
 		_new_bubble.scale = start_scale
 		current_projectile = _new_bubble
 		current_projectile.on_disappear.connect(on_bubble_disappear, CONNECT_ONE_SHOT)
-		current_projectile.on_bounce.connect(_on_bounce.bind(current_projectile))
 		current_projectile.shooter = self if shooter_ref == null else shooter_ref
 		current_projectile.can_absorb = bubbles_can_absorb
 		_grow_time = 0.0
 		$ShooterOffset.add_child(current_projectile)
 		bubble_created.emit()
-
-func _on_bounce(proj):
-	if proj:
-		$BoingPlayer.pitch_scale = 1.2 - (proj.inflate_percent*0.2)
-		$BoingPlayer.play()
 
 func _let_go() -> void:
 	# released is for debouncing key pressses when using the arrow keys to shoot

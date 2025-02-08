@@ -3,12 +3,12 @@ extends CharacterBody2D
 class_name Bubble
 
 signal on_disappear(bubble)
-signal on_bounce
 
 @export var is_static = false
 ## How high will the player bounce when jumping on it.
 @export var bounce_force = 270
 @export var can_absorb = true
+@export var super_bounce_sound: AudioStream
 
 @export_category("Static Bubble")
 @export var sine_intensity: float = 0.0
@@ -373,17 +373,24 @@ func bounce(entity, bounce_dir):
 	
 	var bounce_sign = sign(bounce_dir[component])
 	var final_bubble_position = -bounce_dir * 5
-	
+
 	# Handle bubble movement
 	tween.tween_property($Sprite2D, "position", final_bubble_position, 0.05).set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property($Sprite2D, "position", Vector2.ZERO, 0.05).set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_callback(play_bounce_sound)
+	tween.tween_callback(play_bounce_sound.bind($BoingPlayer))
 	
 	var dir_bounce_force = jump_force * bounce_dir
-	
+
 	tween.set_parallel()
+		
 	tween.tween_callback(_set_entity_velocity.bind(dir_bounce_force, entity))
 	tween.tween_callback(func() :_entities_to_info[entity].bounce_state = BounceState.FinishedBounce).set_delay(0.5)
+	
+	var is_super_jump = InputBuffer.is_action_press_buffered("jump", 150) and entity is Player
+	
+	if is_super_jump:
+		tween.tween_callback(_set_entity_velocity.bind(dir_bounce_force * 1.2, entity))
+		tween.tween_callback(play_bounce_sound.bind($SuperBoingPlayer))
 	
 	if destroy_on_bounce:
 		tween.tween_callback(queue_free)
@@ -415,18 +422,18 @@ func _notification(what):
 			on_disappear.emit(self)
 			_release_absorbed_entity()
 		
-func play_bounce_sound():
-	if is_static:
-		if destroy_on_bounce:
-			var boing_player = $BoingPlayer
-			if boing_player:
-				boing_player.reparent(LevelManager.current_level)
-				boing_player.finished.connect(boing_player.queue_free)
-				boing_player.play()
-		else:
-			$BoingPlayer.play()
+func play_bounce_sound(audio_player: AudioStreamPlayer2D):
+	if is_dynamic:
+		audio_player.pitch_scale = 1.2 - (inflate_percent*0.2)
+
+	if destroy_on_bounce:
+		var boing_player = audio_player
+		if boing_player:
+			boing_player.reparent(LevelManager.current_level)
+			boing_player.finished.connect(boing_player.queue_free)
+			boing_player.play()
 	else:
-		on_bounce.emit()
+		audio_player.play()
 		
 func play_hit_wall_sound():
 	if _can_play_wall_sound:
