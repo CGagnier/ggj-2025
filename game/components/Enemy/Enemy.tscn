@@ -1,7 +1,46 @@
-[gd_scene load_steps=24 format=3 uid="uid://bnwqdrj7c70xu"]
+[gd_scene load_steps=36 format=3 uid="uid://bnwqdrj7c70xu"]
 
 [ext_resource type="Texture2D" uid="uid://b1uj4162nim52" path="res://assets/Kings and Pigs/Sprites/01-King Human/Idle (78x58).png" id="1_nfux3"]
+[ext_resource type="Texture2D" uid="uid://dx343c3dhyhpi" path="res://assets/Kings and Pigs/Sprites/01-King Human/Attack (78x58).png" id="1_rk8d0"]
 [ext_resource type="Texture2D" uid="uid://cr6gyp2vgbyf" path="res://assets/Kings and Pigs/Sprites/01-King Human/Run (78x58).png" id="2_2td30"]
+[ext_resource type="Texture2D" uid="uid://cvrej54syqwec" path="res://assets/Kings and Pigs/Sprites/01-King Human/Dead (78x58).png" id="2_5u1ym"]
+[ext_resource type="Texture2D" uid="uid://uumxk5rj8lyk" path="res://assets/Kings and Pigs/Sprites/01-King Human/Hit (78x58).png" id="3_1lhj6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3ojgh"]
+atlas = ExtResource("1_rk8d0")
+region = Rect2(0, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_el2yq"]
+atlas = ExtResource("1_rk8d0")
+region = Rect2(78, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kplvn"]
+atlas = ExtResource("1_rk8d0")
+region = Rect2(156, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_psfbu"]
+atlas = ExtResource("2_5u1ym")
+region = Rect2(0, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_isg3v"]
+atlas = ExtResource("2_5u1ym")
+region = Rect2(78, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0886q"]
+atlas = ExtResource("2_5u1ym")
+region = Rect2(156, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_trcoy"]
+atlas = ExtResource("2_5u1ym")
+region = Rect2(234, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gjkkj"]
+atlas = ExtResource("3_1lhj6")
+region = Rect2(0, 0, 78, 58)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b11js"]
+atlas = ExtResource("3_1lhj6")
+region = Rect2(78, 0, 78, 58)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_icpjj"]
 atlas = ExtResource("1_nfux3")
@@ -83,6 +122,48 @@ region = Rect2(546, 0, 78, 58)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_3ojgh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_el2yq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kplvn")
+}],
+"loop": true,
+"name": &"attack",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_psfbu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_isg3v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0886q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_trcoy")
+}],
+"loop": false,
+"name": &"die",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gjkkj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b11js")
+}],
+"loop": true,
+"name": &"hit",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_icpjj")
 }, {
 "duration": 1.0,
@@ -159,9 +240,8 @@ collision_mask = 3
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_3ojgh")
-animation = &"walk"
+animation = &"idle"
 autoplay = "idle"
-frame_progress = 0.744859
 centered = false
 offset = Vector2(-32, -32)
 
