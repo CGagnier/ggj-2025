@@ -12,7 +12,6 @@ const JUMP_VELOCITY = -360.0
 @export var max_upwards_velocity = 1000
 
 
-var will_die = false
 var alive = true
 var is_ground_pounding = false
 
@@ -23,6 +22,7 @@ var current_state = null
 @onready var animated_sprite = $AnimatedSprite2D
 @onready var shooter = $Shooter
 @onready var collisionshape = $CollisionShape2D
+
 
 var _last_velocities = []
 var _running_average_length := 5
@@ -114,10 +114,7 @@ func _leave_state(_old_state):
 
 func _process_falling():
 	if is_on_floor():
-		if will_die:
-			_dying()
-		else:
-			_enter_state(state.landing)
+		_enter_state(state.landing)
 	
 
 func _process_jumping():
@@ -128,7 +125,6 @@ func _process_jumping():
 
 func _ready() -> void:
 	alive = true
-	will_die = false
 	_enter_state(state.idle)
 	$Shooter.bubble_popped.connect(_on_bubble_popped)
 	
@@ -151,7 +147,7 @@ func _process_impulses(delta):
 func _physics_process(delta: float) -> void:
 	if is_on_floor():
 		_last_grounded_time = Time.get_ticks_msec()
-	
+
 	# Add the gravity.
 	if not is_on_floor():
 		var input_down := Vector2(0,Input.get_action_strength("move_down")*SPEED_JUMPDOWN)
@@ -160,16 +156,13 @@ func _physics_process(delta: float) -> void:
 			# Only allow ground pound if you're at the apex of your jump
 			input_down = Vector2.ZERO
 		
-		if not can_ground_pound: input_down	 = Vector2.ZERO
+		if not can_ground_pound: input_down = Vector2.ZERO
 		if input_down.length() > 0:
 			is_ground_pounding = true
 		
 		velocity += get_gravity() * delta + input_down
 		#velocity.y = clampf(velocity.y, -max_upwards_velocity, max_downwards_velocity)
 		
-		# TODO: Remove dying trigger
-		if velocity.y > 2000:
-			will_die = true
 		# Not falling in the context of a jump
 		if alive:
 			_try_change_state(state.falling)
@@ -201,10 +194,12 @@ func _physics_process(delta: float) -> void:
 				_try_change_state(state.idle)
 
 		_process_states()
-		move_and_slide()
 		
 		_last_velocities.push_back(velocity)
 		if _last_velocities.size() > _running_average_length: _last_velocities.pop_front()
+	
+	if not collisionshape.disabled:
+		move_and_slide()
 
 
 func _on_animated_sprite_2d_animation_finished() -> void:
@@ -218,13 +213,15 @@ func _dying() -> void:
 	_enter_state(state.die)
 	$ExpressionHolder/Expression.play_wtf()
 	alive = false
-	collisionshape.set_deferred("disabled", true)
 	$BubbleIndicator.hide()
 	if shooter:
 		shooter.queue_free()
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)
-
+	# Should give enough time to reach final velocity, otherwise could move to process velocity check
+	_tween.connect("finished",func(): collisionshape.set_deferred("disabled", true))
+	
+	
 func _on_bubble_popped():
 	$ExpressionHolder/Expression.play_wtf()
 
