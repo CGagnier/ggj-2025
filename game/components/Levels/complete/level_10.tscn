@@ -11,6 +11,7 @@ tile_map_data = PackedByteArray("AAD9/wUAAAACAAIAAAD9/wcAAAACAAIAAAD9/wYAAAACAAI
 
 [node name="Crate" parent="." index="6" instance=ExtResource("2_ya1iy")]
 position = Vector2(426, 56)
+lock_rotation = false
 max_contacts_reported = 2
 
 [node name="Bubble" parent="." index="7" instance=ExtResource("3_w3vdk")]

@@ -14,4 +14,3 @@ tile_map_data = PackedByteArray("AAALAA4AAQAEAAYAAAALAA8AAQAEAAcAAAALABAAAQAEAAg
 [node name="Crate" parent="." index="6" instance=ExtResource("2_s0lnu")]
 position = Vector2(496, 310)
 physics_material_override = null
-lock_rotation = true

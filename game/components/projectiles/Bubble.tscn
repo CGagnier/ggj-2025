@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://cx05cla7f21ru"]
+[gd_scene load_steps=12 format=3 uid="uid://cx05cla7f21ru"]
 
 [ext_resource type="Script" uid="uid://bqfspwrggxekc" path="res://components/projectiles/Bubble.gd" id="1_07ejg"]
 [ext_resource type="Texture2D" uid="uid://xuldn814bgbq" path="res://components/projectiles/bubble.png" id="2_03aeg"]
+[ext_resource type="AudioStream" uid="uid://dq6k6bowlbif" path="res://assets/Sounds/478342__joao_janz__bouncing-power-up-1_5.wav" id="2_12ofa"]
 [ext_resource type="AudioStream" uid="uid://vvvshv7crppb" path="res://assets/Sounds/Boing.wav" id="3_03aeg"]
 [ext_resource type="PackedScene" uid="uid://bamt508k1od6e" path="res://components/projectiles/bubble_particules.tscn" id="4_64jfj"]
 
@@ -29,6 +30,7 @@ z_index = 1
 collision_layer = 8
 collision_mask = 285
 script = ExtResource("1_07ejg")
+super_bounce_sound = ExtResource("2_12ofa")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 self_modulate = Color(1, 1, 1, 0.74902)
@@ -133,6 +135,10 @@ collision_mask = 257
 
 [node name="BoingPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_64jfj")
+volume_db = -3.0
+
+[node name="SuperBoingPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("2_12ofa")
 volume_db = -3.0
 
 [node name="HitWall" type="AudioStreamPlayer2D" parent="."]

@@ -67,7 +67,7 @@ func _input(event: InputEvent) -> void:
 
 
 # Returns whether any of the keyboard keys or joypad buttons in the given action were pressed within the buffer window.
-func is_action_press_buffered(action: String) -> bool:
+func is_action_press_buffered(action: String, buffer_window = BUFFER_WINDOW) -> bool:
 	# Get the inputs associated with the action. If any one of them was pressed in the last BUFFER_WINDOW milliseconds,
 	# the action is buffered.
 	for event in InputMap.action_get_events(action):
@@ -77,7 +77,7 @@ func is_action_press_buffered(action: String) -> bool:
 			var scancode: int = event.get_physical_keycode_with_modifiers()
 			
 			if keyboard_timestamps.has(scancode):
-				if Time.get_ticks_msec() - keyboard_timestamps[scancode] <= BUFFER_WINDOW:
+				if Time.get_ticks_msec() - keyboard_timestamps[scancode] <= buffer_window:
 					# Prevent this method from returning true repeatedly and registering duplicate actions.
 					_invalidate_action(action)
 					
@@ -86,7 +86,7 @@ func is_action_press_buffered(action: String) -> bool:
 			var button_index: int = event.button_index
 			if joypad_timestamps.has(button_index):
 				var delta = Time.get_ticks_msec() - joypad_timestamps[button_index]
-				if delta <= BUFFER_WINDOW:
+				if delta <= buffer_window:
 					_invalidate_action(action)
 					return true
 		elif event is InputEventJoypadMotion:
@@ -95,7 +95,7 @@ func is_action_press_buffered(action: String) -> bool:
 			var axis_code: String = str(event.axis) + "_" + str(sign(event.axis_value))
 			if joypad_timestamps.has(axis_code):
 				var delta = Time.get_ticks_msec() - joypad_timestamps[axis_code]
-				if delta <= BUFFER_WINDOW:
+				if delta <= buffer_window:
 					_invalidate_action(action)
 					return true
 	# If there's ever a third type of buffer-able action (mouse clicks maybe?), it'd probably be worth it to generalize
