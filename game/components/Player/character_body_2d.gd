@@ -198,6 +198,11 @@ func _physics_process(delta: float) -> void:
 		_last_velocities.push_back(velocity)
 		if _last_velocities.size() > _running_average_length: _last_velocities.pop_front()
 	
+	# Allow the Player to reach it's final rest in peace <3
+	elif not collisionshape.disabled:
+		if round(velocity.y) == 0:
+			collisionshape.set_deferred("disabled", true)
+		
 	if not collisionshape.disabled:
 		move_and_slide()
 
@@ -218,10 +223,8 @@ func _dying() -> void:
 		shooter.queue_free()
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)
-	# Should give enough time to reach final velocity, otherwise could move to process velocity check
-	_tween.connect("finished",func(): collisionshape.set_deferred("disabled", true))
 	
-	
+
 func _on_bubble_popped():
 	$ExpressionHolder/Expression.play_wtf()
 
