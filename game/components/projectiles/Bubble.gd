@@ -57,6 +57,7 @@ var _min_velocity_to_bounce = 20
 
 var _absorbed_entity_sprite = null
 var _absorbed_entity_parent = null
+var _is_bouncing = false
 
 var jump_force:
 	#todo: Scale this according to the current stage of the bubble
@@ -354,6 +355,7 @@ func should_bounce_in_dir(entity, bounce_dir: Vector2):
 	return can_bounce_in_dir
 
 func bounce(entity, bounce_dir):
+	_is_bouncing = true
 	speed = 0
 	
 	if absorbed_entity:
@@ -444,7 +446,7 @@ func play_hit_wall_sound():
 ### Destroy a bubble if it was left alive for too long
 ### Note, we're not destroying bubbles with shit inside of it.
 func safety_destroy():
-	if not absorbed_entity:
+	if not absorbed_entity and not _is_bouncing:
 		queue_free()
 	
 func _process_bouncing(_delta: float):

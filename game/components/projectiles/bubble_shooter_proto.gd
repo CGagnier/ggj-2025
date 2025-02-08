@@ -46,7 +46,25 @@ var last_pressed_timestamps = [0.0, 0.0, 0.0, 0.0]
 var last_pressed_timestamp = -1
 var _time_with_full_bubble := 0.0
 var _can_create_bubble = true
-var _last_pressed_input = Vector2.RIGHT
+
+var _cached_last_input = "move_right"
+var _last_pressed_input:
+	get:
+		return get_last_input_dir()
+
+func get_last_input_dir():
+	#print(last_pressed_inputs)
+	
+	if last_pressed_inputs.size():
+		return last_pressed_inputs.back()
+	return _cached_last_input
+
+var last_pressed_inputs = []:
+	set(val):
+		if last_pressed_inputs.size() == 1 and val.size() == 0:
+			_cached_last_input = last_pressed_inputs[0]
+			
+		last_pressed_inputs = val
 
 const BUBBLE_BLINK_ALPHA = 0.5
 
@@ -240,7 +258,8 @@ func _process_start_shoot(delta):
 		for move_dir in move_dirs:
 			if Input.is_action_just_pressed(move_dir):
 				_any_dir_set = true
-				_last_pressed_input = move_dir
+				#_last_pressed_input = move_dir
+				last_pressed_inputs.push_back(move_dir)
 		
 		if Input.is_action_just_pressed("shoot") and not current_projectile and num_bullets > 0:
 			if not _any_dir_set:
@@ -290,6 +309,11 @@ func _process_release_shoot(delta):
 	if Settings.control_scheme == GameSettings.ControlScheme.WasdAndSpaceToShoot:
 		if Input.is_action_just_released("shoot"):
 			_let_go()
+			
+		for move_dir in move_dirs:
+			if Input.is_action_just_released(move_dir):
+				last_pressed_inputs = last_pressed_inputs.filter(func(val): return val != move_dir)
+		
 	else:
 		for shoot_dir in shoot_dirs:
 			if get_input_to_dir(shoot_dir) == current_shoot_dir and Input.is_action_just_released(shoot_dir):
