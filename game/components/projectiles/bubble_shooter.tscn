@@ -24,7 +24,7 @@ stream_2/stream = ExtResource("5_aeswd")
 streams_count = 1
 stream_0/stream = ExtResource("8_c18lt")
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D2" type="Node2D"]
 z_index = 1
 script = ExtResource("1_aeswd")
 ProjectileScene = ExtResource("2_bl0qu")

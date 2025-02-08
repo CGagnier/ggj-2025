@@ -24,7 +24,18 @@ signal on_bounce
 @export var impact_give_bullet_back_delay := 0.7
 
 @export var base_speed := 2.0
-@export var absorbed_entity: Node2D = null
+@export var absorbed_entity: Node2D = null:
+	set(val):
+		absorbed_entity = val
+		if val:
+			_absorbed_entity_parent = absorbed_entity.get_parent() if absorbed_entity.get_parent() != self else LevelManager.current_level
+		else:
+			if _absorbed_entity_sprite:
+				_absorbed_entity_sprite.queue_free()
+				
+			_absorbed_entity_parent = null
+			_absorbed_entity_sprite = null
+		
 @export var destroy_on_bounce: bool = true
 
 ## What shooter created this bubble
@@ -43,6 +54,9 @@ var give_bullet_back_delay := 0.0
 
 var _speed_multiplier = 1
 var _min_velocity_to_bounce = 20
+
+var _absorbed_entity_sprite = null
+var _absorbed_entity_parent = null
 
 var jump_force:
 	#todo: Scale this according to the current stage of the bubble
@@ -68,7 +82,7 @@ class BounceInfo extends RefCounted:
 var _entities_to_info: Dictionary[Node2D, BounceInfo]
 
 # For not detecting collision after absorb
-var _can_die = true
+var _completed_absorb = true
 var _should_die_after_delay = false
 
 var _can_play_wall_sound = true
@@ -101,7 +115,6 @@ func collides_in_dir(collide_dir: Vector2):
 var collision_pos := Vector2.ZERO
 
 func _ready():
-	
 	if absorbed_entity:
 		absorb(absorbed_entity)
 	
@@ -122,11 +135,14 @@ func _process(delta: float):
 	if is_static:
 		sine_t += delta
 		global_position.y += sin(sine_t) * sine_intensity / 300
+	
+	if _absorbed_entity_sprite and _completed_absorb:
+		_absorbed_entity_sprite.rotation += delta / 5.0
 
 func _physics_process(delta: float) -> void:
 	_process_bouncing(delta)
-	if absorbed_entity:
-		absorbed_entity.global_position = lerp(absorbed_entity.global_position, global_position, 0.8)
+	if _absorbed_entity_sprite and _completed_absorb:
+		_absorbed_entity_sprite.global_position = lerp(_absorbed_entity_sprite.global_position, global_position, delta * 30)
 	
 	if launched:
 		t += delta * 2
@@ -176,7 +192,7 @@ func _snap_vector(vector: Vector2) -> Vector2:
 	return Vector2.RIGHT.rotated(deg_to_rad(snapped_angle)) 
 	
 func _delay_die() -> void: 
-	if _should_die_after_delay or not _can_die: return #no-op if already scheduled to die
+	if _should_die_after_delay or not _completed_absorb: return #no-op if already scheduled to die
 	_speed_multiplier = 0
 	_should_die_after_delay = true
 	var _real_disapear_time = disappear_time if not absorbed_entity else 0.0
@@ -194,25 +210,55 @@ func release() -> void:
 	$SafetyDestroyTimer.start()
 	
 func absorb(interactable: Interactable):
-	_can_die = false
+	_completed_absorb = false
 	_should_die_after_delay = false
 	
 	absorbed_entity = interactable
 	
-	# Disable collision with objects while item is inside.
-	set_collision_mask_value(5, 0)
+	## Duplicate the interactable's sprite and add it to the bubble. 
+	var sprite = NodeUtilities.get_child_of_type(absorbed_entity, Sprite2D)
+	assert(sprite)
+	_absorbed_entity_sprite = sprite.duplicate()
 	
+	var entity_position = absorbed_entity.global_position
+	absorbed_entity.get_parent().remove_child(absorbed_entity)
+	LevelManager.current_level.add_child(_absorbed_entity_sprite)
+	
+	_absorbed_entity_sprite.global_position = entity_position
+	#_absorbed_entity_sprite.self_modulate.a = 0.5
+	_absorbed_entity_sprite.global_scale = Vector2.ONE	
+	# todo: Scale down sprite until it fits in the bubble
+	
+	_speed_multiplier = 0
+	
+	await get_tree().create_timer(0.1).timeout
 	var tween = get_tree().create_tween()
 	
-	interactable.freeze = true
-	interactable.z_index = 0
-	interactable.z_as_relative = false
+	$Sprite2D.self_modulate.a = 0.7
 	
-	$Sprite2D.self_modulate *= 0.7
+	var target_position_delta = entity_position - global_position
+	var target_position = global_position + target_position_delta / 2
 	
-	tween.tween_property(self, "position", interactable.global_position, 0.2)#.set_delay(0.1)
-	tween.tween_property(self, "_speed_multiplier", 2.5,  0.6).from(0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
-	tween.tween_callback(func(): _can_die = true)
+	var start_scale = $Sprite2D.scale
+	
+	tween.set_parallel()
+	tween.tween_property(self, "global_position", target_position, 0.2).set_delay(0.1).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_absorbed_entity_sprite, "global_position", target_position, 0.1).set_delay(0.1).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	tween.tween_property($Sprite2D, "scale", start_scale * 1.1, 0.1).set_delay(0.1).set_trans(Tween.TRANS_SPRING)
+	tween.set_parallel(false)
+	
+	tween.tween_property($Sprite2D, "scale", start_scale, 0.0).set_trans(Tween.TRANS_SPRING)
+	#tween.tween_property($Sprite2D, "scale", start_scale, 0.05)
+	
+	#tween.tween_property(_absorbed_entity_sprite, "global_position", self.global_position, 0.1)
+	#tween.tween_property(self, "_speed_multiplier", 1.5,  0.6).from(0.2).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_IN)
+	var on_finish = func():
+		_completed_absorb = true
+		if launched:
+			_speed_multiplier = 0.8
+		
+	tween.tween_callback(on_finish).set_delay(0.4)
+	
 
 func _handle_bubble_collision(other_bubble: Bubble):
 	var scene:PackedScene = load(scene_file_path)
@@ -270,15 +316,14 @@ func _jump_pad_exited(node: Node2D, bounce_dir: Vector2):
 		# Don't remove entities that are in the process of bouncing
 		_entities_to_info.erase(node)
 
-func _release_item():
+func _release_absorbed_entity():
 	if absorbed_entity:
 		if is_inside_tree():
-			# Make sure to reparent our absorbed entity if were going to die and theyre a child
-			if absorbed_entity.get_parent() == self:
-				absorbed_entity.reparent(LevelManager.current_level)
-			absorbed_entity.freeze = false
-			absorbed_entity.z_as_relative = true
+			# Make sure to reparent our absorbed entitybsorbed_entity.get_parent() == self:
+			absorbed_entity.global_position = global_position
+			_absorbed_entity_parent.add_child(absorbed_entity)
 			absorbed_entity = null
+			_absorbed_entity_parent = null
 
 func should_bounce_in_dir(entity, bounce_dir: Vector2):
 	# Bounce dir UP means the player will go up
@@ -298,6 +343,15 @@ func should_bounce_in_dir(entity, bounce_dir: Vector2):
 
 func bounce(entity, bounce_dir):
 	speed = 0
+	
+	if absorbed_entity:
+		entity.add_collision_exception_with(absorbed_entity)
+		var _reenable_collision_with_absorbed = func():
+			if absorbed_entity:
+				entity.remove_collision_exception_with(absorbed_entity)
+				
+		get_tree().create_timer(0.5).timeout.connect(_reenable_collision_with_absorbed)
+		
 	var tween = get_tree().create_tween().bind_node(self)
 	
 	var component = "x" if bounce_dir == Vector2.LEFT or bounce_dir == Vector2.RIGHT else "y"
@@ -321,6 +375,7 @@ func bounce(entity, bounce_dir):
 	
 	if destroy_on_bounce:
 		tween.tween_callback(queue_free)
+	
 
 func _set_entity_velocity(_velocity, entity):
 	if entity is RigidBody2D:
@@ -346,7 +401,7 @@ func _notification(what):
 		NOTIFICATION_PREDELETE:
 			_particles()
 			on_disappear.emit(self)
-			_release_item()
+			_release_absorbed_entity()
 		
 func play_bounce_sound():
 	if is_static:
@@ -367,8 +422,11 @@ func play_hit_wall_sound():
 		get_tree().create_timer(0.2).timeout.connect(func():_can_play_wall_sound = false)
 		$HitWall.play()
 
+### Destroy a bubble if it was left alive for too long
+### Note, we're not destroying bubbles with shit inside of it.
 func safety_destroy():
-	queue_free()
+	if not absorbed_entity:
+		queue_free()
 	
 func _process_bouncing(_delta: float):
 	# Move PreBounce to Bouncing

@@ -10,7 +10,6 @@ friction = 0.3
 physics_material_override = SubResource("PhysicsMaterial_h37ia")
 sleeping = false
 item_scene = ExtResource("2_88ttr")
-break_velocity = 20
 
 [node name="ItemSpawnPoint" parent="." index="4"]
 position = Vector2(0, 8)
