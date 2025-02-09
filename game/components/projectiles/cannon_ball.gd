@@ -59,7 +59,6 @@ func _on_body_entered(body: Node) -> void:
 				var bubble: Bubble = body
 				
 				if not bubble.launched:
-					print(bubble.get_parent())
 					bubble.get_parent()._let_go.call_deferred()
 					
 				# todo: if collision is on the side that makes sense for it to pop, then boucne it back, otherwise just push it out of the way

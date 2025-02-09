@@ -1,0 +1,69 @@
+[gd_scene load_steps=9 format=3 uid="uid://0k2c7ptfq242"]
+
+[ext_resource type="Texture2D" uid="uid://c1p4lskw37cok" path="res://assets/DjeurMade/Bouton-Sheet.png" id="1_5bekb"]
+[ext_resource type="Script" uid="uid://6f0msy1wu1v1" path="res://components/Interactables/button.gd" id="1_gujb8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gujb8"]
+size = Vector2(26, 17)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1rhrc"]
+size = Vector2(26, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1rhrc"]
+atlas = ExtResource("1_5bekb")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5p41"]
+atlas = ExtResource("1_5bekb")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_guo6y"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1rhrc")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n5p41")
+}],
+"loop": false,
+"name": &"pushed",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5bekb"]
+size = Vector2(16, 13)
+
+[node name="Button" type="StaticBody2D"]
+script = ExtResource("1_gujb8")
+push_animation_length = 0.2
+free_player_delay = 1.0
+
+[node name="InitialCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 7.5)
+shape = SubResource("RectangleShape2D_gujb8")
+
+[node name="PushedCollisionShape" type="CollisionShape2D" parent="."]
+position = Vector2(0, 12)
+shape = SubResource("RectangleShape2D_1rhrc")
+disabled = true
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_guo6y")
+
+[node name="PushArea" type="Area2D" parent="."]
+position = Vector2(0, -11)
+collision_layer = 0
+collision_mask = 26
+monitorable = false
+priority = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PushArea"]
+position = Vector2(0, 8)
+shape = SubResource("RectangleShape2D_5bekb")
+debug_color = Color(0.689023, 0.444109, 0.606777, 0.42)

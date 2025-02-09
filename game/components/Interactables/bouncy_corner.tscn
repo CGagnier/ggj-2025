@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dsp2kti0ef3su"]
+
+[ext_resource type="Script" uid="uid://4wddgcnmrsyc" path="res://components/Interactables/bouncy_surface.gd" id="1_ryso7"]
+[ext_resource type="Texture2D" uid="uid://dgfyg3abt4yk5" path="res://assets/DjeurMade/BouncyTile.png" id="2_ryso7"]
+
+[node name="Node2D" type="StaticBody2D"]
+collision_priority = 2.0
+script = ExtResource("1_ryso7")
+
+[node name="Tile34" type="Sprite2D" parent="."]
+position = Vector2(16, 16)
+texture = ExtResource("2_ryso7")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
+polygon = PackedVector2Array(0, 0, 32, 0, 0, 32)

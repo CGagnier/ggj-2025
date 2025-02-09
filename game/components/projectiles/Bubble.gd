@@ -118,7 +118,8 @@ var collision_pos := Vector2.ZERO
 
 func _ready():
 	if absorbed_entity:
-		absorb(absorbed_entity)
+		# Calling deferred to ensure the current level is set when launching through 'Run scene'
+		absorb.call_deferred(absorbed_entity)
 	
 	if is_static:
 		set_collision_mask_value(1, 0)
@@ -178,6 +179,9 @@ func _physics_process(delta: float) -> void:
 			elif collided is Interactable:
 				if not absorbed_entity:
 					_handle_interactable_collision.call_deferred(collided as Interactable)
+			elif collided is BouncySurface:
+				dir = dir.bounce(collision.get_normal())
+				dir =_snap_vector(dir)
 			else:
 				# re-enable to bounce, this code handles killing the bubble if it contacts something
 				#dir = dir.bounce(collision.get_normal())
@@ -235,6 +239,7 @@ func absorb(interactable: Interactable):
 	_should_die_after_delay = false
 	
 	absorbed_entity = interactable
+	absorbed_entity.absorbed.emit()
 	
 	absorbed.emit(absorbed_entity)
 	
@@ -353,6 +358,7 @@ func _release_absorbed_entity():
 			_absorbed_entity_parent.add_child(absorbed_entity)
 			absorbed_entity.linear_velocity *= -1.4
 			absorbed_entity.global_position = global_position
+			absorbed_entity.released.emit()
 			absorbed_entity = null
 			_absorbed_entity_parent = null
 

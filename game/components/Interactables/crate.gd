@@ -34,6 +34,8 @@ func _ready():
 	get_tree().create_timer(2).timeout.connect(func(): contact_monitor = true)
 	if not $GroundRaycast.is_colliding():
 		started_in_air = true
+		# Only check this at the beginning to detect if it`s in the air 
+		$GroundRaycast.hit_from_inside = false
 	
 
 
@@ -110,18 +112,23 @@ func _spawn_item():
 	
 func _detect_ground_collision():
 	if $GroundRaycast.is_colliding() and not broken:
-		
 		if not _contact_position: _contact_position = global_position
 		if can_break and _will_break_on_impact:
 			broken = true
 			set_collision_layer_value(5, 0)
 			set_collision_mask_value(5, 0)
 			
-			_spawn_broken_crate()
-			get_tree().create_timer(0.2).timeout.connect(_spawn_item)
+			get_tree().create_timer(0.05).timeout.connect(_break_deferred)
 		else:
 			falling_initial_pos = null
 			fallen_distance = 0.0
+			
+
+func _break_deferred():
+	set_collision_layer_value(5, 0)
+	set_collision_mask_value(5, 0)
+	_spawn_broken_crate()
+	get_tree().create_timer(0.2).timeout.connect(_spawn_item)
 
 func _spawn_broken_crate():
 	if broken_crate:
