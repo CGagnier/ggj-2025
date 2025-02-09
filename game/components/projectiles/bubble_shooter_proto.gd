@@ -3,6 +3,7 @@ extends Node2D
 signal bubble_popped
 signal bubble_created
 signal bubble_shot
+signal bubble_absorbed(absorbed_entity)
 
 @export_category("General")
 @export var projectile_speed := 0.0
@@ -53,8 +54,6 @@ var _last_pressed_input:
 		return get_last_input_dir()
 
 func get_last_input_dir():
-	#print(last_pressed_inputs)
-	
 	if last_pressed_inputs.size():
 		return last_pressed_inputs.back()
 	return _cached_last_input
@@ -223,6 +222,7 @@ func _process(delta: float) -> void:
 		current_projectile.global_position = $ShooterOffset.corrected_position
 		current_projectile.dir = current_shoot_dir
 		current_projectile.inflate_percent = current_projectile.global_scale.length() / max_scale.length()		
+		current_projectile.can_absorb = bubbles_can_absorb and inflate_state_machine.get_current_bubble_state().can_absorb
 	
 func _physics_process(delta: float) -> void:
 	if released:
@@ -341,6 +341,8 @@ func _create_bubble() -> void:
 		current_projectile.on_disappear.connect(on_bubble_disappear, CONNECT_ONE_SHOT)
 		current_projectile.shooter = self if shooter_ref == null else shooter_ref
 		current_projectile.can_absorb = bubbles_can_absorb
+		current_projectile.absorbed.connect(bubble_absorbed.emit)
+
 		_grow_time = 0.0
 		$ShooterOffset.add_child(current_projectile)
 		bubble_created.emit()

@@ -3,6 +3,7 @@ extends CharacterBody2D
 class_name Bubble
 
 signal on_disappear(bubble)
+signal absorbed(absorbed_entity)
 
 @export var is_static = false
 ## How high will the player bounce when jumping on it.
@@ -145,6 +146,13 @@ func _physics_process(delta: float) -> void:
 	if _absorbed_entity_sprite and _completed_absorb:
 		_absorbed_entity_sprite.global_position = lerp(_absorbed_entity_sprite.global_position, global_position, delta * 30)
 	
+	if not launched:
+		var collision_result = null
+		var test_collision = test_move(transform, Vector2(1,0), collision_result)
+		if collision_result is Interactable:
+			if not absorbed_entity and can_absorb:
+				_handle_interactable_collision.call_deferred(test_collision as Interactable)
+	
 	if launched:
 		t += delta * 2
 		t = min(t, 1.0)
@@ -228,8 +236,14 @@ func absorb(interactable: Interactable):
 	
 	absorbed_entity = interactable
 	
+	absorbed.emit(absorbed_entity)
+	
 	## Duplicate the interactable's sprite and add it to the bubble. 
 	var sprite = NodeUtilities.get_child_of_type(absorbed_entity, Sprite2D)
+	if not sprite:
+		sprite = NodeUtilities.get_child_of_type(absorbed_entity, AnimatedSprite2D)
+		#sprite = animated_sprite.sprite_frames.get_frame_texture(animated_sprite.animation, animated_sprite.frame)
+		
 	assert(sprite)
 	_absorbed_entity_sprite = sprite.duplicate()
 	
@@ -242,7 +256,8 @@ func absorb(interactable: Interactable):
 	_absorbed_entity_sprite.global_scale = Vector2.ONE	
 	# todo: Scale down sprite until it fits in the bubble
 	
-	_speed_multiplier = 0
+	if launched:
+		_speed_multiplier = 0
 	
 	await get_tree().create_timer(0.1).timeout
 	var tween = get_tree().create_tween()
@@ -255,8 +270,9 @@ func absorb(interactable: Interactable):
 	var start_scale = $Sprite2D.scale
 	
 	tween.set_parallel()
-	tween.tween_property(self, "global_position", target_position, 0.2).set_delay(0.1).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
-	tween.tween_property(_absorbed_entity_sprite, "global_position", target_position, 0.1).set_delay(0.1).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+	if launched:
+		tween.tween_property(self, "global_position", target_position, 0.2).set_delay(0.1).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
+		tween.tween_property(_absorbed_entity_sprite, "global_position", target_position, 0.1).set_delay(0.1).set_trans(Tween.TRANS_SPRING).set_ease(Tween.EASE_OUT)
 	tween.tween_property($Sprite2D, "scale", start_scale * 1.1, 0.1).set_delay(0.1).set_trans(Tween.TRANS_SPRING)
 	tween.set_parallel(false)
 	
@@ -333,8 +349,10 @@ func _release_absorbed_entity():
 	if absorbed_entity:
 		if is_inside_tree():
 			# Make sure to reparent our absorbed entitybsorbed_entity.get_parent() == self:
-			absorbed_entity.global_position = global_position
+			#entity.add_collision_exception_with(absorbed_entity)
 			_absorbed_entity_parent.add_child(absorbed_entity)
+			absorbed_entity.linear_velocity *= -1.4
+			absorbed_entity.global_position = global_position
 			absorbed_entity = null
 			_absorbed_entity_parent = null
 
@@ -358,13 +376,13 @@ func bounce(entity, bounce_dir):
 	_is_bouncing = true
 	speed = 0
 	
+	var _reenable_collision_with_absorbed = func(other):
+		if other:
+			entity.remove_collision_exception_with(other)
+	
 	if absorbed_entity:
 		entity.add_collision_exception_with(absorbed_entity)
-		var _reenable_collision_with_absorbed = func():
-			if absorbed_entity:
-				entity.remove_collision_exception_with(absorbed_entity)
-				
-		get_tree().create_timer(0.5).timeout.connect(_reenable_collision_with_absorbed)
+		get_tree().create_timer(0.5).timeout.connect(_reenable_collision_with_absorbed.bind(absorbed_entity))
 		
 	var tween = get_tree().create_tween().bind_node(self)
 	
@@ -393,6 +411,7 @@ func bounce(entity, bounce_dir):
 	if is_super_jump:
 		tween.tween_callback(_set_entity_velocity.bind(dir_bounce_force * 1.2, entity))
 		tween.tween_callback(play_bounce_sound.bind($SuperBoingPlayer))
+		tween.tween_callback(_reenable_collision_with_absorbed.bind(absorbed_entity))
 	
 	if destroy_on_bounce:
 		tween.tween_callback(queue_free)
@@ -462,3 +481,9 @@ func _process_bouncing(_delta: float):
 		var info = _entities_to_info[entity]
 		if info.bounce_state == BounceState.FinishedBounce:
 			_entities_to_info.erase(entity)
+
+
+func _on_absorb_hitbox_body_entered(body: Node2D) -> void:
+	if not launched and body is Interactable and can_absorb:
+		absorb(body)
+		_completed_absorb = true

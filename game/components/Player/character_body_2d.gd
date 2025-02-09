@@ -127,6 +127,7 @@ func _ready() -> void:
 	alive = true
 	_enter_state(state.idle)
 	$Shooter.bubble_popped.connect(_on_bubble_popped)
+	$Shooter.bubble_absorbed.connect(_on_entity_absorbed)
 	
 func _process_impulses(delta):
 	var applied_force := Vector2.ZERO
@@ -234,3 +235,5 @@ func _was_on_floor():
 	var num_frames = delta / 16.66666
 	return num_frames <= frames_to_jump_after_grounded
 	
+func _on_entity_absorbed(entity):
+	add_collision_exception_with(entity)

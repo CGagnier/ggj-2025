@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c2pi8ieenh3w6"]
+[gd_scene load_steps=11 format=3 uid="uid://c2pi8ieenh3w6"]
 
 [ext_resource type="Script" uid="uid://b46md7ax17r55" path="res://components/Interactables/interactable.gd" id="1_10nmr"]
 [ext_resource type="Texture2D" uid="uid://1cljsqxdkwx4" path="res://assets/Kings and Pigs/Sprites/08-Box/Idle.png" id="1_gn25t"]
@@ -17,7 +17,10 @@ streams_count = 1
 stream_0/stream = ExtResource("5_ksvp3")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gtapc"]
-size = Vector2(21, 16)
+size = Vector2(21, 15)
+
+[sub_resource type="SeparationRayShape2D" id="SeparationRayShape2D_ksvp3"]
+length = 9.0
 
 [node name="Crate" type="RigidBody2D"]
 collision_layer = 16
@@ -35,6 +38,7 @@ distance_to_break = 100.0
 metadata/_custom_type_script = ExtResource("1_10nmr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, 1)
 texture = ExtResource("1_gn25t")
 
 [node name="ContactStreamPlayer" type="AudioStreamPlayer2D" parent="."]
@@ -45,7 +49,7 @@ pitch_scale = 0.8
 bus = &"SFX"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, 0)
+position = Vector2(-0.5, 0.5)
 shape = SubResource("RectangleShape2D_gtapc")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
@@ -57,5 +61,8 @@ stream = ExtResource("4_01r31")
 target_position = Vector2(0, 18.74)
 collision_mask = 337
 hit_from_inside = true
+
+[node name="SeparationRay(UsedToSlide))" type="CollisionShape2D" parent="."]
+shape = SubResource("SeparationRayShape2D_ksvp3")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]

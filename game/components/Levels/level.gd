@@ -1,5 +1,6 @@
 extends Node2D
 
+class_name Level
 
 func _ready():
 	## Initialize current level in level_manager

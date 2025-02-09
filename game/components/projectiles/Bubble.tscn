@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://cx05cla7f21ru"]
+[gd_scene load_steps=13 format=3 uid="uid://cx05cla7f21ru"]
 
 [ext_resource type="Script" uid="uid://bqfspwrggxekc" path="res://components/projectiles/Bubble.gd" id="1_07ejg"]
 [ext_resource type="Texture2D" uid="uid://xuldn814bgbq" path="res://components/projectiles/bubble.png" id="2_03aeg"]
@@ -24,6 +24,9 @@ size = Vector2(11.3419, 9.72466)
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_64jfj"]
 streams_count = 1
 stream_0/stream = ExtResource("3_03aeg")
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_12ofa"]
+radius = 12.6021
 
 [node name="Bubble" type="CharacterBody2D"]
 z_index = 1
@@ -152,6 +155,15 @@ one_shot = true
 
 [node name="CPUParticles2D" parent="." instance=ExtResource("4_64jfj")]
 
+[node name="AbsorbHitbox" type="Area2D" parent="."]
+scale = Vector2(0.793521, 0.793521)
+collision_layer = 0
+collision_mask = 16
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AbsorbHitbox"]
+shape = SubResource("CircleShape2D_12ofa")
+debug_color = Color(0.868944, 0.248988, 0.628894, 0.42)
+
 [connection signal="area_entered" from="JumpPad" to="." method="_on_jump_pad_area_entered" binds= [Vector2(0, -1)]]
 [connection signal="area_exited" from="JumpPad" to="." method="_on_jump_pad_area_exited" binds= [Vector2(0, -1)]]
 [connection signal="body_entered" from="JumpPad" to="." method="_on_jump_pad_body_entered" binds= [Vector2(0, -1)]]
@@ -168,3 +180,4 @@ one_shot = true
 [connection signal="area_exited" from="DownJumpPad" to="." method="_on_jump_pad_area_exited" binds= [Vector2(0, 1)]]
 [connection signal="body_entered" from="DownJumpPad" to="." method="_on_jump_pad_body_entered" binds= [Vector2(0, 1)]]
 [connection signal="body_exited" from="DownJumpPad" to="." method="_on_jump_pad_body_exited" binds= [Vector2(0, 1)]]
+[connection signal="body_entered" from="AbsorbHitbox" to="." method="_on_absorb_hitbox_body_entered"]

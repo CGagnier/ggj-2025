@@ -23,7 +23,6 @@ absorbed_entity = NodePath("Crate")
 position = Vector2(1.69722, 0)
 scale = Vector2(0.848614, 0.848614)
 item_scene = ExtResource("4_kp115")
-break_velocity = 1
 
 [node name="Spikes" parent="." index="7" instance=ExtResource("5_lspmu")]
 position = Vector2(376, 321)

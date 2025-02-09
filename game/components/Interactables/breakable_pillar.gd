@@ -2,12 +2,15 @@ extends RigidBody2D
 
 class_name BreakablePillar
 
+signal broke
+
 @export var pieces_scene: PackedScene
 
 func destroy():
 	var pieces = pieces_scene.instantiate()
 	pieces.global_position = global_position
 	add_sibling.call_deferred(pieces)
+	broke.emit()
 	queue_free()
 	
 	#var tween = get_tree().create_tween()
