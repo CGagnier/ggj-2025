@@ -29,3 +29,5 @@ position = Vector2(-1, 181)
 
 [node name="Door" parent="." instance=ExtResource("4_khggs")]
 position = Vector2(97, 291)
+
+[node name="PersistentEntities" type="Node" parent="."]

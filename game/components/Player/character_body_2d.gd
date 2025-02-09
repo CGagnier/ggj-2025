@@ -85,7 +85,7 @@ func _enter_state(new_state):
 	if new_state == state.landing:
 		animated_sprite.play("landing")
 	if new_state == state.die:
-		_enter_dead_state()
+		_enter_dead_state.call_deferred()
 		animated_sprite.play("die")
 
 # The good, the bad and the ugly
@@ -222,8 +222,12 @@ func _dying() -> void:
 
 func _enter_dead_state():
 	$DieSound.play()
+	
+	var level_persistent_entities = LevelManager.current_level.get_node("PersistentEntities")
+	
+	reparent(level_persistent_entities)
 	var ghost = ghost_scene.instantiate()
-	LevelManager.current_level.add_child(ghost)
+	level_persistent_entities.add_child(ghost)
 	ghost.global_position = global_position - Vector2(2, 10)
 	
 	set_collision_layer_value(2, 0)
