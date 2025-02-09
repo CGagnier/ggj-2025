@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://bghv221ix0b32"]
+
+[ext_resource type="Texture2D" uid="uid://c436u8y71syj6" path="res://assets/tiny-ghost-green.png" id="1_y0hue"]
+[ext_resource type="Script" uid="uid://b1b6iemnr4hh1" path="res://components/Player/ghost.gd" id="2_07lxu"]
+
+[node name="Ghost" type="Sprite2D"]
+self_modulate = Color(1, 1, 1, 0.364706)
+z_index = 10
+z_as_relative = false
+position = Vector2(0, 2)
+texture = ExtResource("1_y0hue")
+script = ExtResource("2_07lxu")

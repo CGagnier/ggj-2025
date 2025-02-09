@@ -10,6 +10,7 @@ const JUMP_VELOCITY = -360.0
 
 @export var max_downwards_velocity = 400
 @export var max_upwards_velocity = 1000
+@export var ghost_scene: PackedScene
 
 
 var alive = true
@@ -84,6 +85,7 @@ func _enter_state(new_state):
 	if new_state == state.landing:
 		animated_sprite.play("landing")
 	if new_state == state.die:
+		_enter_dead_state()
 		animated_sprite.play("die")
 
 # The good, the bad and the ugly
@@ -215,8 +217,18 @@ func _on_animated_sprite_2d_animation_finished() -> void:
 		died.emit()
 
 func _dying() -> void:
-	$DieSound.play()
 	_enter_state(state.die)
+	
+
+func _enter_dead_state():
+	$DieSound.play()
+	var ghost = ghost_scene.instantiate()
+	LevelManager.current_level.add_child(ghost)
+	ghost.global_position = global_position - Vector2(2, 10)
+	
+	set_collision_layer_value(2, 0)
+	set_collision_mask_value(2, 0)
+	
 	$ExpressionHolder/Expression.play_wtf()
 	alive = false
 	$BubbleIndicator.hide()
@@ -224,7 +236,6 @@ func _dying() -> void:
 		shooter.queue_free()
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)
-	
 
 func _on_bubble_popped():
 	$ExpressionHolder/Expression.play_wtf()
