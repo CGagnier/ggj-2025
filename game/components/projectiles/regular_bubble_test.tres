@@ -6,7 +6,7 @@
 [sub_resource type="Resource" id="Resource_t7wj6"]
 script = ExtResource("1_t7wj6")
 max_scale = 0.5
-state_time = 0.7
+state_time = 0.4
 speed = 5.0
 can_absorb = false
 impact_force = 100.0

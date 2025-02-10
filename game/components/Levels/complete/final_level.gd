@@ -1,7 +1,8 @@
-extends Node2D
+extends Level
 
 
 func _ready():
+	super._ready()
 	$Timer.timeout.connect(emit_particle)
 	
 	# Get total time

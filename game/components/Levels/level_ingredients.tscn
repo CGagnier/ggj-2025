@@ -27,6 +27,7 @@ position = Vector2(131, 31)
 
 [node name="Door2" parent="." instance=ExtResource("4_lkdsx")]
 position = Vector2(193, 30)
+time_to_respawn = 0.6
 
 [node name="Label" type="Label" parent="Door2"]
 offset_left = -6.0

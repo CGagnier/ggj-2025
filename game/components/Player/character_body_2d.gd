@@ -222,7 +222,6 @@ func _dying() -> void:
 
 func _enter_dead_state():
 	$DieSound.play()
-	
 	var level_persistent_entities = LevelManager.current_level.get_node("PersistentEntities")
 	
 	reparent(level_persistent_entities)
@@ -240,6 +239,7 @@ func _enter_dead_state():
 		shooter.queue_free()
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(animated_sprite, "self_modulate:a", 0.7, 0.5)
+	remove_from_group("Player")
 
 func _on_bubble_popped():
 	$ExpressionHolder/Expression.play_wtf()

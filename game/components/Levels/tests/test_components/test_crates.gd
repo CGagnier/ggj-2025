@@ -1,4 +1,4 @@
-extends Node2D
+extends Level
 
 @onready var initial_shouldnt_break_count = get_tree().get_nodes_in_group("ShouldntBreak").size()
 

@@ -13,3 +13,6 @@ item_scene = ExtResource("2_f8h4b")
 
 [node name="ItemSpawnPoint" parent="." index="4"]
 position = Vector2(0, 8)
+
+[node name="GroundRaycast" parent="." index="5"]
+hit_from_inside = false

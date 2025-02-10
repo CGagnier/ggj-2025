@@ -23,7 +23,6 @@ var UI: OverlayTitle = null
 @onready var play_music = Settings.play_music
 
 func _ready() -> void:
-	_reset_camera_settings()
 	if play_music:
 		$MusicPlayer.play()
 
@@ -31,7 +30,6 @@ func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("reset"):
 		clear_nodes()
 		if launched_from_main:
-			_reset_camera_settings()
 			var _current_level_stat  = LEVEL_LIST.levels[next_level_index-1]
 			go_to_level(_current_level_stat, false)
 			timer_should_run = true
@@ -61,7 +59,6 @@ func go_to_next_level():
 
 func go_to(level_index: int):
 	level_death = 0
-	_reset_camera_settings()
 	
 	var _next_level
 	var _final = false
@@ -113,32 +110,6 @@ func go_to_level(level: LevelStat, _is_final: bool):
 	else:
 		print("Level data not valid, can't go to next level if it's not valid, please stop being a noob!")
 
-#region Camera globals
-func set_current_camera_limits(left, top, right, bottom) -> void:
-
-	if not level_limit_set:
-		limits.left = left
-		limits.right = right
-		limits.top = top
-		limits.bottom = bottom
-		level_limit_set = true
-	else:
-		print("limits already set, try again next time?")
-
-func get_current_camera_limits() -> Array:
-	return [limits.left, limits.top, limits.right, limits.bottom]
-
-func set_camera_smoothing_speed(speed) -> void:
-	position_smoothing_speed = speed
-
-func get_camera_smoothing_speed() -> float:
-	return position_smoothing_speed
-
-func _reset_camera_settings() -> void:
-	level_limit_set = false
-	position_smoothing_speed = 5.0 # Default
-#endregion
-	
 func increase_deaths() -> void:
 	death_count += 1
 	level_death += 1

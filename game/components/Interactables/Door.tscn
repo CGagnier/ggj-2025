@@ -106,6 +106,7 @@ sprite_frames = SubResource("SpriteFrames_tsqb8")
 animation = &"close"
 autoplay = "default"
 script = ExtResource("4_3su2g")
+time_to_respawn = 0.7
 PLAYER_SCENE = ExtResource("5_lqepo")
 
 [node name="Area2D" type="Area2D" parent="."]

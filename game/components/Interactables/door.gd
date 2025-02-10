@@ -13,6 +13,9 @@ var player_in: Player = null
 @export var PLAYER_SCENE: PackedScene
 
 func _ready():
+	if not is_exit:
+		add_to_group("Door")
+	
 	if can_open:
 		get_tree().create_timer(door_open_delay).timeout.connect(open)
 	animation_finished.connect(anim_finished)
@@ -52,7 +55,9 @@ func spawn() -> void:
 	var player: Player = PLAYER_SCENE.instantiate()
 	add_sibling(player)
 	player.global_position = global_position
-	player.connect("died",_player_death)
+	player.died.connect(_player_death)
+	player.died.connect(LevelManager.current_level.player_died.emit)
+	LevelManager.current_level.player_spawned.emit()
 	get_tree().create_timer(time_to_respawn).timeout.connect(close)
 	
 func go_to_next_level(body: Node2D) -> void:

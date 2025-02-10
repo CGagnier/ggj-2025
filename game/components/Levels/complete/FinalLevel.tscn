@@ -4,12 +4,12 @@
 [ext_resource type="TileSet" uid="uid://cuivxl7wqd17e" path="res://components/Tilemaps/TerrainBricksAndWood.tres" id="1_dip4m"]
 [ext_resource type="TileSet" uid="uid://d13mowsb5pyyf" path="res://components/Tilemaps/WallsTileset.tres" id="2_ga1vx"]
 [ext_resource type="PackedScene" uid="uid://yqmpe7c351s5" path="res://components/Interactables/Door.tscn" id="4_71w65"]
-[ext_resource type="PackedScene" uid="uid://byk4tk4nfjdke" path="res://components/Player/player_camera.tscn" id="4_ud3le"]
 [ext_resource type="PackedScene" uid="uid://bnwqdrj7c70xu" path="res://components/Enemy/Enemy.tscn" id="5_83jok"]
 [ext_resource type="AudioStream" uid="uid://g2a4osinbwl" path="res://assets/Sounds/466133__humanoide9000__victory-fanfare (2).wav" id="6_jueqn"]
 [ext_resource type="AudioStream" uid="uid://dbmwfovmr58me" path="res://assets/Sounds/firework.wav" id="7_bb2t0"]
 [ext_resource type="PackedScene" uid="uid://bamt508k1od6e" path="res://components/projectiles/bubble_particules.tscn" id="7_ko68t"]
 [ext_resource type="FontFile" uid="uid://dxf7kllshf24s" path="res://assets/Pixel Adventure/fonts/m3x6.ttf" id="8_48vr5"]
+[ext_resource type="Script" uid="uid://fktfemfowjry" path="res://addons/smartcamera2D/SmartCamera2D.gd" id="11_n3v3o"]
 
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_48vr5"]
 random_pitch = 1.2
@@ -48,13 +48,6 @@ tile_set = ExtResource("1_dip4m")
 
 [node name="Door" parent="." instance=ExtResource("4_71w65")]
 position = Vector2(196, 293)
-
-[node name="PlayerCamera" parent="." instance=ExtResource("4_ud3le")]
-position = Vector2(361, 224)
-limit_left = 40
-limit_top = 5
-limit_right = 825
-limit_bottom = 340
 
 [node name="Enemy" parent="." instance=ExtResource("5_83jok")]
 position = Vector2(761, 278)
@@ -192,3 +185,12 @@ color = Color(1, 1, 1, 1)
 hue_variation_min = -1.0
 hue_variation_max = 1.0
 hue_variation_curve = SubResource("Curve_48vr5")
+
+[node name="SmartCamera2D" type="Camera2D" parent="."]
+limit_left = 20
+limit_top = 0
+limit_right = 840
+limit_bottom = 360
+editor_draw_limits = true
+script = ExtResource("11_n3v3o")
+metadata/_custom_type_script = ExtResource("11_n3v3o")

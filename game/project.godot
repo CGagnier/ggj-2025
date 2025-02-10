@@ -20,6 +20,7 @@ config/icon="res://icon.svg"
 LevelManager="*res://components/Globals/level_manager.tscn"
 Settings="*res://components/Globals/settings.gd"
 InputBuffer="*res://Utils/input_buffer.gd"
+CameraControl="*res://addons/smartcamera2D/CameraControl.gd"
 
 [display]
 
@@ -31,7 +32,7 @@ window/stretch/mode="canvas_items"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/file_open_addon/plugin.cfg")
+enabled=PackedStringArray("res://addons/file_open_addon/plugin.cfg", "res://addons/smartcamera2D/plugin.cfg")
 
 [file_customization]
 
@@ -40,6 +41,11 @@ folder_colors={
 "res://assets/": "purple",
 "res://components/": "orange"
 }
+
+[global_group]
+
+Player=""
+Door=""
 
 [gui]
 
