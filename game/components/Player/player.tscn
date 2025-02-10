@@ -1,4 +1,4 @@
-[gd_scene load_steps=45 format=3 uid="uid://bhfifqorg0fi4"]
+[gd_scene load_steps=46 format=3 uid="uid://bhfifqorg0fi4"]
 
 [ext_resource type="Script" uid="uid://da4p4pjxbwehj" path="res://components/Player/character_body_2d.gd" id="1_ph1f6"]
 [ext_resource type="PackedScene" uid="uid://bghv221ix0b32" path="res://components/Player/ghost.tscn" id="2_5g86m"]
@@ -9,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://cwg3k3tqd0gaj" path="res://assets/Sounds/Impact.wav" id="7_hmxcw"]
 [ext_resource type="AudioStream" uid="uid://wygib6x00pjm" path="res://assets/Sounds/364929__jofae__game-die.wav" id="8_5g86m"]
 [ext_resource type="AudioStream" uid="uid://bgyrt2se7bnp1" path="res://assets/Sounds/386625__jalastram__sfx_jump_31.wav" id="8_ijsib"]
+[ext_resource type="AudioStream" uid="uid://c8quyx8uw1237" path="res://assets/Sounds/steptest.wav" id="11_gsbt5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
 atlas = ExtResource("3_mpawu")
@@ -346,5 +347,10 @@ pitch_scale = 2.0
 [node name="JumpSound" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("8_ijsib")
 volume_db = -15.0
+
+[node name="Footstep2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("11_gsbt5")
+volume_db = -80.0
+pitch_scale = 0.9
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="." method="_on_animated_sprite_2d_animation_finished"]

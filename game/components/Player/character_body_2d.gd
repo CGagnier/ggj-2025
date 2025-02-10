@@ -12,7 +12,6 @@ const JUMP_VELOCITY = -360.0
 @export var max_upwards_velocity = 1000
 @export var ghost_scene: PackedScene
 
-
 var alive = true
 var is_ground_pounding = false
 
@@ -73,6 +72,8 @@ func _enter_state(new_state):
 
 	if(new_state == state.run):
 		animated_sprite.play("run")
+		if not $Footstep2.playing:
+			$Footstep2.play()
 	if(new_state == state.jump):
 		is_ground_pounding = false
 		velocity.y = JUMP_VELOCITY
@@ -83,6 +84,7 @@ func _enter_state(new_state):
 	if new_state == state.falling:
 		animated_sprite.play("falling")
 	if new_state == state.landing:
+		#$Footstep2.play()
 		animated_sprite.play("landing")
 	if new_state == state.die:
 		_enter_dead_state.call_deferred()
@@ -113,7 +115,7 @@ func _process_states():
 
 func _leave_state(_old_state):
 	pass
-
+	
 func _process_falling():
 	if is_on_floor():
 		_enter_state(state.landing)
@@ -130,7 +132,14 @@ func _ready() -> void:
 	_enter_state(state.idle)
 	$Shooter.bubble_popped.connect(_on_bubble_popped)
 	$Shooter.bubble_absorbed.connect(_on_entity_absorbed)
-	
+	$Footstep2.finished.connect(_finished_sound)
+
+func _finished_sound():
+	if current_state != state.run:
+		$Footstep2.stop()
+	else:
+		$Footstep2.play()
+
 func _process_impulses(delta):
 	var applied_force := Vector2.ZERO
 	
