@@ -9,10 +9,6 @@ var launched_from_main = false
 
 var final_level = false
 
-var level_limit_set
-var limits = {"left": 0, "right": 0, "top": 0, "bottom": 0}
-var position_smoothing_speed
-
 var death_count: int = 0
 var level_death: int = 0
 
@@ -84,21 +80,22 @@ func go_to_test_map(map:PackedScene):
 	add_sibling(map_instance)
 	
 
-func go_to_level(level: LevelStat, _is_final: bool):
+func go_to_level(level: LevelStat, _is_final: bool, show_overlay: bool = true):
 	if level:
 		var _next_level_scene = level.level.instantiate()
 		if level.name.length():
 			_next_level_scene.name = level.name
 
+		add_sibling(_next_level_scene)
+		
 		## TODO: Overlay should always be loaded ? 
 		var _overlay: OverlayTitle = overlay.instantiate()
 		_overlay.title = level.name
 		UI = _overlay
 		UI.current_deaths = death_count
-
-		add_sibling(_next_level_scene)
+		UI.visible = show_overlay
 		_next_level_scene.add_child(_overlay)
-		
+
 		if _is_final:
 			UI.hide_overlays()
 
@@ -122,6 +119,24 @@ func get_formatted_total_time() -> String:
 		return UI.format_time(total_time)
 	else: # Not loaded using level manager
 		return "00:00:00" 
+
+func reset_level_state():
+	var persistent_entities  = current_level.get_node("PersistentEntities")
+	current_level.remove_child(persistent_entities)
+	
+	var scene_path = current_level.scene_file_path
+	var level_stat:LevelStat = LevelStat.new()
+	
+	level_stat.level = load(scene_path)
+	
+	go_to_level(level_stat, false, false)
+	
+	var new_persistent_entities = current_level.get_node("PersistentEntities")
+	for child in persistent_entities.get_children():
+		child.reparent(new_persistent_entities)
+	
+	persistent_entities.queue_free()
+
 
 ## NOTE: Only to be used when running a single scene
 func _reload_current_level():

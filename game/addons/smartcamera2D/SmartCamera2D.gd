@@ -39,6 +39,9 @@ var extra_position = Vector2.ZERO
 @onready var canvas_layer = CanvasLayer.new()
 @onready var camera_flash: ColorRect
 
+var position_delta := 0.0
+var distance_to_target = 0.0
+
 func _ready():
 	if Engine.is_editor_hint():
 		return
@@ -86,6 +89,7 @@ func apply_camera_flash(color: Color, duration = 0.3):
 	camera_flash.visible = false
 
 func _process(delta):
+	var last_position = global_position
 	if not Engine.is_editor_hint():
 		_sanitize_targets()
 		if target_mode == TARGET_MODE.PARENT:
@@ -97,6 +101,8 @@ func _process(delta):
 		elif target_mode == TARGET_MODE.GROUP:
 			_process_target_group(delta)
 		position = position + extra_position
+	
+	position_delta = (global_position - last_position).length()
 	
 func _process_target_single(delta):
 	if not target_node:
@@ -130,6 +136,7 @@ func adjust_camera_zoom():
 		return
 	if target_nodes.size() == 1:
 		zoom = default_zoom
+		distance_to_target = global_position.distance_to(target_nodes[0].global_position)
 		global_position = target_nodes[0].global_position
 		return
 	var screen_size = get_viewport_rect().size
@@ -144,6 +151,8 @@ func adjust_camera_zoom():
 	var zoom_safe = clamp(min(zoom_x, zoom_y) / adjust_zoom_margin, adjust_zoom_min, adjust_zoom_max)
 	zoom = Vector2(zoom_safe, zoom_safe)
 	var center_position = (min_pos + max_pos) / 2.0
+	
+	distance_to_target = global_position.distance_to(center_position)
 	global_position = center_position
 	
 	var priority_i = adjust_zoom_priority_node_index
