@@ -4,6 +4,8 @@ var current_level: Node = null
 var next_level_index = 0
 const LEVEL_LIST = preload("res://components/Levels/complete/level_flow.tres")
 const LEVEL_SELECT_SCENE = preload("res://UI/debug_level_select.tscn")
+const PLAYER_EXIT_LEVEL = preload("res://components/Player/player_exit_level.tscn")
+
 var overlay = preload("res://UI/overlay.tscn")
 var launched_from_main = false
 
@@ -48,10 +50,6 @@ func clear_nodes():
 
 func go_to_next_level():
 	go_to(next_level_index)
-	
-	# Don't play chime when you enter the game
-	if next_level_index != 1:
-		$AudioStreamPlayer2D.play()
 
 func go_to(level_index: int):
 	level_death = 0
@@ -138,6 +136,16 @@ func reset_level_state():
 		child.reparent(new_persistent_entities)
 	
 	persistent_entities.queue_free()
+
+func exit_current_level(player):
+	var exit_anim = PLAYER_EXIT_LEVEL.instantiate()
+	exit_anim.z_index = player.z_index
+	player.add_sibling(exit_anim)
+	exit_anim.global_transform = player.global_transform
+	exit_anim.scale.x *= -1 if player.get_node("AnimatedSprite2D").flip_h else 1
+	player.queue_free()
+	var anim_player = exit_anim.get_node("AnimationPlayer")
+	anim_player.animation_finished.connect(LevelManager.go_to_next_level.unbind(1))
 
 
 ## NOTE: Only to be used when running a single scene

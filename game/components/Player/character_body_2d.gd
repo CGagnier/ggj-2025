@@ -16,7 +16,7 @@ var alive = true
 var is_ground_pounding = false
 
 ## State Machine
-enum state {idle, run, jump, falling, landing, hit, die}
+enum state {idle, run, jump, falling, landing, hit, die, exiting_level}
 var current_state = null
 
 @onready var animated_sprite = $AnimatedSprite2D
@@ -29,6 +29,9 @@ var _running_average_length := 5
 var _last_grounded_time := 0.0
 ## How many frames after being grounded can the player jump (Helps jumping upon leaving platforms)
 const frames_to_jump_after_grounded = 7
+
+var _is_exiting_level = false
+var _exiting_door: Door = null
 
 func mean(accum, number):
 	return accum + number / _running_average_length
@@ -67,6 +70,9 @@ func _enter_state(new_state):
 	if new_state == current_state:
 		return
 	
+	if current_state == state.exiting_level:
+		return
+	
 	if current_state == state.die:
 		if Settings.debug:
 			print("Can't enter state %s since player is dying" % state.keys()[new_state])
@@ -98,6 +104,13 @@ func _enter_state(new_state):
 	if new_state == state.die:
 		animated_sprite.play("die")
 		_enter_dead_state.call_deferred()
+	if new_state == state.exiting_level:
+		velocity.x = 0
+		$ExitChime.play()
+		# Reparent since player is getting destroyed.
+		$ExitChime.reparent(get_parent())
+		$Shooter.queue_free()
+		
 
 # The good, the bad and the ugly
 func _try_change_state(new_state):
@@ -182,13 +195,21 @@ func _physics_process(delta: float) -> void:
 			is_ground_pounding = true
 		
 		velocity += get_gravity() * delta + input_down
+		
+		if current_state == state.exiting_level:
+			# Get that lil guy to the ground.
+			if velocity.y > 0:
+				velocity.y += 2000 * delta
+			else:
+				velocity *= 0.5
+			
 		#velocity.y = clampf(velocity.y, -max_upwards_velocity, max_downwards_velocity)
 		
 		# Not falling in the context of a jump
 		if alive:
 			_try_change_state(state.falling)
 	
-	if alive:
+	if alive and current_state != state.exiting_level:
 		# Handle jump.
 		if InputBuffer.is_action_press_buffered("jump") and _was_on_floor():
 			_enter_state(state.jump)
@@ -226,7 +247,20 @@ func _physics_process(delta: float) -> void:
 		
 	if not collisionshape.disabled:
 		move_and_slide()
-
+	
+	
+	# When exiting level, make sure to start the animation when the player is grounded.
+	if current_state == state.exiting_level and is_on_floor() and not _is_exiting_level:
+		_is_exiting_level = true
+		
+		# Turn the player to face the door's center
+		if _exiting_door.global_position.x < global_position.x:
+			$AnimatedSprite2D.flip_h = false
+		else:
+			$AnimatedSprite2D.flip_h = true
+		
+		LevelManager.exit_current_level(self)
+	
 
 func _on_animated_sprite_2d_animation_finished() -> void:
 	if animated_sprite.animation == "landing":
@@ -271,3 +305,9 @@ func _was_on_floor():
 	
 func _on_entity_absorbed(entity):
 	add_collision_exception_with(entity)
+
+
+func _on_player_feet_area_entered(area: Area2D) -> void:
+	if area.owner is Door and area.owner.is_exit:
+		_exiting_door = area.owner
+		_enter_state(state.exiting_level)

@@ -143,6 +143,7 @@ shoot={
 2d_physics/layer_7="MovingPlatform"
 2d_physics/layer_8="Decorations"
 2d_physics/layer_9="Breakable Terrain"
+2d_physics/layer_10="Exit Door"
 
 [rendering]
 
