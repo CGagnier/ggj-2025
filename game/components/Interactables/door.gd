@@ -5,6 +5,8 @@ extends AnimatedSprite2D
 @export var door_open_delay := 0.3
 @export var time_to_respawn := 0.6
 
+const PLAYER_EXIT_LEVEL = preload("res://components/Player/player_exit_level.tscn")
+
 var has_exited = false
 var is_open = false
 var player_in: Player = null
@@ -41,6 +43,7 @@ func anim_finished():
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	# Body should be the player because collision mask
 	player_in = body 
+	
 	if is_open and is_exit and not has_exited:
 		go_to_next_level(body)
 
@@ -63,5 +66,13 @@ func spawn() -> void:
 	
 func go_to_next_level(body: Node2D) -> void:
 	has_exited = true
+	var exit_anim = PLAYER_EXIT_LEVEL.instantiate()
+	exit_anim.z_index = body.z_index
+	body.add_sibling(exit_anim)
+	exit_anim.global_transform = body.global_transform
+	exit_anim.scale.x *= -1 if body.get_node("AnimatedSprite2D").flip_h else 1
+	#exit_anim.flip_h = body.get_node("AnimatedSprite2D").flip_h
 	body.queue_free()
-	LevelManager.go_to_next_level.call_deferred()
+	var anim_player = exit_anim.get_node("AnimationPlayer")
+	anim_player.animation_finished.connect(LevelManager.go_to_next_level.unbind(1))
+	#anim_player.play("exit")
