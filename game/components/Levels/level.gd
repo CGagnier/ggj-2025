@@ -26,10 +26,6 @@ func _ready():
 	player_spawned.connect(_on_player_spawned)
 	player_died.connect(_on_player_died)
 	
-	# Prototype to autodetermine limits, doesnt work great.
-	#_set_level_limits()
-	
-	
 func _process(delta: float) -> void:
 	if _waiting_for_movement:
 		if camera.distance_to_target <= 0.1:

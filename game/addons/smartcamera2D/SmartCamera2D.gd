@@ -39,7 +39,6 @@ var extra_position = Vector2.ZERO
 @onready var canvas_layer = CanvasLayer.new()
 @onready var camera_flash: ColorRect
 
-var position_delta := 0.0
 var distance_to_target = 0.0
 
 func _ready():
@@ -89,7 +88,6 @@ func apply_camera_flash(color: Color, duration = 0.3):
 	camera_flash.visible = false
 
 func _process(delta):
-	var last_position = global_position
 	if not Engine.is_editor_hint():
 		_sanitize_targets()
 		if target_mode == TARGET_MODE.PARENT:
@@ -101,8 +99,6 @@ func _process(delta):
 		elif target_mode == TARGET_MODE.GROUP:
 			_process_target_group(delta)
 		position = position + extra_position
-	
-	position_delta = (global_position - last_position).length()
 	
 func _process_target_single(delta):
 	if not target_node:

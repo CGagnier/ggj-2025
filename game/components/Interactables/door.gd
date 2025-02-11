@@ -51,10 +51,6 @@ func _player_death() -> void:
 	LevelManager.increase_deaths()
 	await LevelManager.current_level.finished_move
 	LevelManager.reset_level_state()
-	
-	#get_tree().create_timer()
-	
-	#open()
 
 func spawn() -> void:
 	var player: Player = PLAYER_SCENE.instantiate()

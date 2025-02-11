@@ -120,6 +120,7 @@ func get_formatted_total_time() -> String:
 	else: # Not loaded using level manager
 		return "00:00:00" 
 
+## Resets level state while keeping corpses / ghosts
 func reset_level_state():
 	var persistent_entities  = current_level.get_node("PersistentEntities")
 	current_level.remove_child(persistent_entities)
@@ -132,6 +133,7 @@ func reset_level_state():
 	go_to_level(level_stat, false, false)
 	
 	var new_persistent_entities = current_level.get_node("PersistentEntities")
+	
 	for child in persistent_entities.get_children():
 		child.reparent(new_persistent_entities)
 	

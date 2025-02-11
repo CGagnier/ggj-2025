@@ -66,15 +66,24 @@ func add_impulse(impulse: Vector2, damp = 0.95):
 func _enter_state(new_state):
 	if new_state == current_state:
 		return
+	
+	if current_state == state.die:
+		if Settings.debug:
+			print("Can't enter state %s since player is dying" % state.keys()[new_state])
+		return
+	
+	if Settings.debug:
+		print('Entering state %s' % state.keys()[new_state])
 		
 	_leave_state(current_state)
+	var last_state = current_state
 	current_state = new_state
-
-	if(new_state == state.run):
+	
+	if new_state == state.run:
 		animated_sprite.play("run")
 		if not $Footstep2.playing:
 			$Footstep2.play()
-	if(new_state == state.jump):
+	if new_state == state.jump:
 		is_ground_pounding = false
 		velocity.y = JUMP_VELOCITY
 		$JumpSound.play(0.1)
@@ -87,8 +96,8 @@ func _enter_state(new_state):
 		#$Footstep2.play()
 		animated_sprite.play("landing")
 	if new_state == state.die:
-		_enter_dead_state.call_deferred()
 		animated_sprite.play("die")
+		_enter_dead_state.call_deferred()
 
 # The good, the bad and the ugly
 func _try_change_state(new_state):
@@ -230,6 +239,8 @@ func _dying() -> void:
 	
 
 func _enter_dead_state():
+	alive = false
+	
 	$DieSound.play()
 	var level_persistent_entities = LevelManager.current_level.get_node("PersistentEntities")
 	
@@ -242,7 +253,6 @@ func _enter_dead_state():
 	set_collision_mask_value(2, 0)
 	
 	$ExpressionHolder/Expression.play_wtf()
-	alive = false
 	$BubbleIndicator.hide()
 	if shooter:
 		shooter.queue_free()
