@@ -10,3 +10,4 @@ is_exit = true
 
 [node name="Area2D" parent="." index="0"]
 position = Vector2(0, -28)
+collision_layer = 512

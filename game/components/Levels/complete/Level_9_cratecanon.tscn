@@ -127,10 +127,10 @@ tile_set = ExtResource("1_7ck7l")
 position = Vector2(204, 292)
 
 [node name="SmartCamera2D" type="Camera2D" parent="."]
-limit_left = 54
-limit_top = -64
-limit_right = 698
-limit_bottom = 390
+limit_left = 84
+limit_top = -5
+limit_right = 662
+limit_bottom = 369
 editor_draw_limits = true
 script = ExtResource("10_vgbco")
 metadata/_custom_type_script = ExtResource("10_vgbco")
