@@ -91,11 +91,14 @@ func go_to_level(level: LevelStat, _is_final: bool, show_overlay: bool = true):
 		_overlay.title = level.name
 		UI = _overlay
 		UI.current_deaths = death_count
-		UI.visible = show_overlay
-		_next_level_scene.add_child(_overlay)
 
-		if _is_final:
+		if not show_overlay:
+			UI.hide_title()
+			
+		if _is_final or not launched_from_main:
 			UI.hide_overlays()
+
+		_next_level_scene.add_child(_overlay)
 
 		if current_level:
 			current_level.name = "DiscardedLevel"
@@ -123,12 +126,18 @@ func reset_level_state():
 	var persistent_entities  = current_level.get_node("PersistentEntities")
 	current_level.remove_child(persistent_entities)
 	
-	var scene_path = current_level.scene_file_path
-	var level_stat:LevelStat = LevelStat.new()
+	var _current_level_stat = null
 	
-	level_stat.level = load(scene_path)
+	if launched_from_main:
+		_current_level_stat  = LEVEL_LIST.levels[next_level_index-1]
+	else: 
+		var scene_path = current_level.scene_file_path
+		var level_stat:LevelStat = LevelStat.new()
+
+		level_stat.level = load(scene_path)
+		_current_level_stat = level_stat
 	
-	go_to_level(level_stat, false, false)
+	go_to_level(_current_level_stat, false, false)
 	
 	var new_persistent_entities = current_level.get_node("PersistentEntities")
 	

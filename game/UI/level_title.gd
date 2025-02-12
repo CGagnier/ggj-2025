@@ -7,6 +7,7 @@ class_name OverlayTitle
 @onready var label = $LevelTitle/CenterContainer/Label
 
 var should_be_visible = true
+var level_title_visible = true
 
 @onready var timer_label:Label = $MarginContainer/Label
 @onready var death_count: = $DeathContainer
@@ -18,6 +19,8 @@ func _ready() -> void:
 	death_count.visible = should_be_visible
 	label.text = title
 	death_count_label.text = str(current_deaths)
+	
+	level_title.visible = level_title_visible
 	
 	var _tween = get_tree().create_tween()
 	_tween.tween_property(level_title, "modulate:a", 0.0, 2).set_ease(Tween.EASE_IN_OUT).set_delay(1)
@@ -39,3 +42,6 @@ func update_death_count(deaths: int) -> void:
 
 func hide_overlays() -> void:
 	should_be_visible = false
+
+func hide_title() -> void:
+	level_title_visible = false
