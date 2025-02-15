@@ -49,9 +49,14 @@ var t := 0.0
 var is_dynamic: 
 	get: return not is_static
 
+var stage = 0
+
 var has_collided = false
 var body_started_in_bubble = false
 var give_bullet_back_delay := 0.0
+
+## Override this to prevent this from dying (ie. when the player is bouncing on it)
+var can_die = true
 
 var _speed_multiplier = 1
 var _min_velocity_to_bounce = 20
@@ -188,7 +193,7 @@ func _physics_process(delta: float) -> void:
 				
 				if is_static: return # Don't kill environment bubbles
 				
-				if collided is not Player or shooter is not Player and not has_collided:
+				if collided is not Player or (shooter is not Player and not has_collided):
 					var collision_angle = fposmod((collision.get_position() - global_position).angle(), 2*PI)
 					var left_margin = fposmod(dir.angle() + deg_to_rad(45), 2*PI)
 					var right_margin = fposmod(dir.angle() - deg_to_rad(45), 2*PI)
@@ -218,14 +223,17 @@ func _snap_vector(vector: Vector2) -> Vector2:
 	return Vector2.RIGHT.rotated(deg_to_rad(snapped_angle)) 
 	
 func _delay_die() -> void: 
-	if _should_die_after_delay or not _completed_absorb: return #no-op if already scheduled to die
+	if _should_die_after_delay or not _completed_absorb:
+		 #no-op if already scheduled to die or can't die because its being bounced upon
+		return
+		
 	_should_die_after_delay = true
 	var _real_disapear_time = disappear_time if not absorbed_entity else 0.0
 	await get_tree().create_timer(_real_disapear_time).timeout
 	
 	# Possible to be overriden by absorbing an entity
-	if _should_die_after_delay:
-		queue_free()
+	if _should_die_after_delay and can_die:
+		destroy()
 
 func release() -> void:
 	launched = true
@@ -298,8 +306,8 @@ func _handle_bubble_collision(other_bubble: Bubble):
 	var scene:PackedScene = load(scene_file_path)
 	var new_instance = scene.instantiate()
 	other_bubble.has_collided = true # prevent other bubble from detecting same collision
-	other_bubble.queue_free()
-	queue_free()
+	other_bubble.destroy()
+	destroy()
 	
 	add_sibling(new_instance)
 	
@@ -325,7 +333,7 @@ func _handle_interactable_collision(interactable: Interactable):
 			has_pushed = true
 			interactable.apply_impulse(dir * impact_force)
 			give_bullet_back_delay = 0.5
-			queue_free()
+			destroy()
 
 func _on_jump_pad_body_entered(body: Node2D, jump_pad_side: Vector2) -> void:
 	_jump_pad_entered(body, jump_pad_side)
@@ -371,10 +379,16 @@ func should_bounce_in_dir(entity, bounce_dir: Vector2):
 	if is_dynamic:
 		if launched:
 			# This is to ensure that the player can't fly by just launching downward bubble
-			can_bounce_in_dir = can_bounce_in_dir and (dir != -bounce_dir if speed > 0.1 else true)
+			if not collides_in_dir(Vector2.DOWN):
+				can_bounce_in_dir = can_bounce_in_dir and (dir != -bounce_dir if speed > 0.1 else true)
 		else:
+			if entity is Player and collides_in_dir(Vector2.DOWN):
+				# This is to ensure the player has to aim down to do the pogo stick
+				can_bounce_in_dir = can_bounce_in_dir and (Input.is_action_pressed("move_down") or dir == Vector2.DOWN)
+				
 			# Note: We check bubble_is_grounded to allow the player to boing on wall
 			can_bounce_in_dir = can_bounce_in_dir and collides_in_dir(-bounce_dir)
+	
 	
 	return can_bounce_in_dir
 
@@ -389,39 +403,38 @@ func bounce(entity, bounce_dir):
 	if absorbed_entity:
 		entity.add_collision_exception_with(absorbed_entity)
 		get_tree().create_timer(0.5).timeout.connect(_reenable_collision_with_absorbed.bind(absorbed_entity))
-		
+	
+	if entity is Player:
+		(entity as Player).bounce(self)
+	else:
+		_set_entity_velocity(Vector2(0,0), entity)
+	
 	var tween = get_tree().create_tween().bind_node(self)
 	
-	var component = "x" if bounce_dir == Vector2.LEFT or bounce_dir == Vector2.RIGHT else "y"
-	var other_component = "y" if component == "x" else "x"
-	
-	_set_entity_velocity(Vector2(0,0), entity)
-	
-	var bounce_sign = sign(bounce_dir[component])
-	var final_bubble_position = -bounce_dir * 5
-
 	# Handle bubble movement
-	tween.tween_property($Sprite2D, "position", final_bubble_position, 0.05).set_trans(Tween.TRANS_BOUNCE)
+	tween.tween_property($Sprite2D, "position", -bounce_dir * 5, 0.05).set_trans(Tween.TRANS_BOUNCE)
 	tween.tween_property($Sprite2D, "position", Vector2.ZERO, 0.05).set_trans(Tween.TRANS_BOUNCE)
-	tween.tween_callback(play_bounce_sound.bind($BoingPlayer))
 	
-	var dir_bounce_force = jump_force * bounce_dir
-
-	tween.set_parallel()
+	if entity is not Player:
+		tween.tween_callback(play_bounce_sound.bind($BoingPlayer))
 		
-	tween.tween_callback(_set_entity_velocity.bind(dir_bounce_force, entity))
-	tween.tween_callback(func() :_entities_to_info[entity].bounce_state = BounceState.FinishedBounce).set_delay(0.5)
-	
-	var is_super_jump = InputBuffer.is_action_press_buffered("jump", 150) and entity is Player
-	
-	if is_super_jump:
-		tween.tween_callback(_set_entity_velocity.bind(dir_bounce_force * 1.2, entity))
-		tween.tween_callback(play_bounce_sound.bind($SuperBoingPlayer))
-		tween.tween_callback(_reenable_collision_with_absorbed.bind(absorbed_entity))
-	
+		var dir_bounce_force = jump_force * bounce_dir
+
+		tween.set_parallel()
+		
+		# Set initial entity velocity
+		tween.tween_callback(_set_entity_velocity.bind(dir_bounce_force, entity))
+		tween.tween_callback(func() :_entities_to_info[entity].bounce_state = BounceState.FinishedBounce).set_delay(0.5)
+		
+		if destroy_on_bounce:
+			tween.tween_callback(destroy)
+
+func finish_bouncing(entity):
+	_entities_to_info[entity].bounce_state = BounceState.FinishedBounce
+	_is_bouncing = false
 	if destroy_on_bounce:
-		tween.tween_callback(queue_free)
-	
+		destroy(true)
+
 
 func _set_entity_velocity(_velocity, entity):
 	if entity is RigidBody2D:
@@ -468,20 +481,30 @@ func play_hit_wall_sound():
 		get_tree().create_timer(0.2).timeout.connect(func():_can_play_wall_sound = false)
 		$HitWall.play()
 
+func destroy(force: bool = false):
+	if can_die or force:
+		queue_free()
+
 ### Destroy a bubble if it was left alive for too long
 ### Note, we're not destroying bubbles with shit inside of it.
 func safety_destroy():
 	if not absorbed_entity and not _is_bouncing:
-		queue_free()
+		destroy()
 	
 func _process_bouncing(_delta: float):
 	# Move PreBounce to Bouncing
+	var deleted_entities = []
 	for entity in _entities_to_info:
-		var info = _entities_to_info[entity]
-		if info.bounce_state == BounceState.AwaitingBounce and should_bounce_in_dir(entity, info.last_detected_dir):
-			info.bounce_state = BounceState.Bouncing
-			bounce(entity, info.last_detected_dir)
-					
+		if not entity:
+			deleted_entities.push_back(entity)
+		else:
+			var info = _entities_to_info[entity]
+			if info.bounce_state == BounceState.AwaitingBounce and should_bounce_in_dir(entity, info.last_detected_dir):
+				info.bounce_state = BounceState.Bouncing
+				bounce(entity, info.last_detected_dir)
+	
+	for entity in deleted_entities:
+		_entities_to_info.erase(entity)
 			# Move Bouncing to Bounced
 	for entity in _entities_to_info.keys():
 		var info = _entities_to_info[entity]
