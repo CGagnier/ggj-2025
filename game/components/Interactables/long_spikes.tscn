@@ -1,0 +1,19 @@
+[gd_scene load_steps=2 format=3 uid="uid://cfu6rmn6354aa"]
+
+[ext_resource type="PackedScene" uid="uid://dkxwdswxo0la4" path="res://components/Enemy/spikes.tscn" id="1_drl4l"]
+
+[node name="LongSpikes" type="Node2D"]
+
+[node name="Spikes" parent="." instance=ExtResource("1_drl4l")]
+
+[node name="Spikes2" parent="." instance=ExtResource("1_drl4l")]
+position = Vector2(-15, 0)
+
+[node name="Spikes3" parent="." instance=ExtResource("1_drl4l")]
+position = Vector2(14, 0)
+
+[node name="Spikes4" parent="." instance=ExtResource("1_drl4l")]
+position = Vector2(-30, 0)
+
+[node name="Spikes5" parent="." instance=ExtResource("1_drl4l")]
+position = Vector2(29, 0)
