@@ -247,10 +247,12 @@ func _process_pre_bounce(delta: float):
 		bounce_info._frames_holding_right += 1
 	
 	bounce_info._frames_in_state += 1
-	velocity = Vector2.ZERO
+	velocity.y = 0
 	
 	if bounce_info.bubble:
 		global_position.x = bounce_info.bubble.global_position.x - bounce_info._bubble_offset
+		var direction := Input.get_axis("move_left", "move_right")
+		velocity.x = direction * SPEED
 	
 	position.y += 0.5
 	
@@ -277,7 +279,6 @@ func _process_exiting_level(delta: float):
 			var door_position = _exiting_door.global_position.y + 20
 			global_position.y = move_toward(global_position.y, door_position, 1)
 			if abs(door_position - global_position.y) < 5:
-				print('force-exit')
 				force_exit_level = true
 				
 			velocity.y = 0
