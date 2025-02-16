@@ -3,9 +3,10 @@ class_name Player
 
 signal died()
 
+<<<<<<< HEAD
 @export_category("Movement")
 @export var SPEED_JUMPDOWN = 400.0
-const JUMP_VELOCITY = -360.0
+@export var JUMP_VELOCITY = -360.0
 @export var can_ground_pound = false
 @export var GROUND_FRICTION := 15.0
 @export var SPEED = 160.0
@@ -13,7 +14,19 @@ const JUMP_VELOCITY = -360.0
 @export_category("Air movement")
 @export var AIR_RESISTANCE := 10.0
 @export var AIR_SPEED_INFLUENCE := 5.0
+=======
+@export var SPEED = 160.0
+@export var AIR_SPEED_INFLUENCE := 5.0
+@export var SPEED_JUMPDOWN = 400.0
+const JUMP_VELOCITY = -360.0
+@export var can_ground_pound = false
+@export var AIR_RESISTANCE := 10.0
+@export var GROUND_FRICTION := 15.0
+
+>>>>>>> origin/new_movement
 @export var MAX_AIR_SPEED_INFLUENCE = 5.0
+@export var AIR_TIME = 0.8
+@export var FLOAT_GRAVITY_MULT = 0.2
 
 @export var max_downwards_velocity = 400
 @export var max_upwards_velocity = 1000
@@ -144,7 +157,7 @@ func _enter_state(new_state):
 		animated_sprite.play("idle")
 	if new_state == state.falling:
 		# Note: This wil be accelerated in the process
-		air_gravity_multiplier = 0.15
+		#air_gravity_multiplier = FLOAT_GRAVITY_MULT
 		animated_sprite.play("falling")
 	if new_state == state.landing:
 		#$Footstep2.play()
@@ -232,7 +245,7 @@ func _leave_state(_old_state):
 		air_gravity_multiplier = 1.0
 	
 func _process_falling():
-	air_gravity_multiplier = move_toward(air_gravity_multiplier, 1.2, 0.8)
+	air_gravity_multiplier = move_toward(air_gravity_multiplier, 1.2, AIR_TIME)
 	if is_on_floor():
 		_enter_state(state.landing)
 	
@@ -247,12 +260,19 @@ func _process_pre_bounce(delta: float):
 		bounce_info._frames_holding_right += 1
 	
 	bounce_info._frames_in_state += 1
+<<<<<<< HEAD
 	velocity.y = 0
 	
 	if bounce_info.bubble:
 		global_position.x = bounce_info.bubble.global_position.x - bounce_info._bubble_offset
 		var direction := Input.get_axis("move_left", "move_right")
 		velocity.x = direction * SPEED
+=======
+	velocity = Vector2.ZERO
+	
+	if bounce_info.bubble:
+		global_position.x = bounce_info.bubble.global_position.x - bounce_info._bubble_offset
+>>>>>>> origin/new_movement
 	
 	position.y += 0.5
 	
@@ -275,10 +295,22 @@ func _process_exiting_level(delta: float):
 	if not is_on_floor():
 		# if the player comes from below the door, make sure he can't fall while doing the animation
 		if global_position.y > _exiting_door.global_position.y:
+<<<<<<< Updated upstream
 			air_gravity_multiplier = 0.
+<<<<<<< HEAD
+=======
+			air_gravity_multiplier = 0
+>>>>>>> Stashed changes
 			var door_position = _exiting_door.global_position.y + 20
 			global_position.y = move_toward(global_position.y, door_position, 1)
 			if abs(door_position - global_position.y) < 5:
+=======
+			var door_position = _exiting_door.global_position.y
+			
+			global_position.y = move_toward(global_position.y, door_position, 1)
+			if abs(door_position - global_position.y) < 5:
+				print('force-exit')
+>>>>>>> origin/new_movement
 				force_exit_level = true
 				
 			velocity.y = 0
